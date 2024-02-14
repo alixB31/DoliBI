@@ -3,7 +3,7 @@
 ## Description :
 
 Nous sommes un groupe d'étudiants réalisant un projet dans le cadre de notre deuxième année de BUT informatique.  
-Ce projet a pour but de créer une application Web destinée à améliorer la plateforme Dolibarr. Dans notre projet, les utilisateurs se sont aperçus de manuqes dans le logiciel Dolibarr. Grâce à un cahier des charges fournit pas les utilisateurs, nous allons concevoir une solution qui répondront aux exigences des utilisateurs. 
+Ce projet a pour but de créer une application Web destinée à améliorer la plateforme Dolibarr. Dans notre projet, les utilisateurs se sont aperçus de manuqes dans le logiciel Dolibarr. Grâce au cahier des charges fournit pas les utilisateurs, nous allons concevoir une solution qui répondront aux exigences des utilisateurs. 
 
 ## Equipe & Rôles :
 
