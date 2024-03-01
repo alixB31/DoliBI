@@ -36,3 +36,8 @@ Equipe de developpement : Nael Briot, Alix Brugier, Rayan Ibrahime
 ## Liens : 
 Lien github : https://github.com/alixB31/SAE_S4_DoliBI.git
 Lien Google Drive : https://drive.google.com/drive/u/1/folders/0ADwnN94XsF_3Uk9PVA
+
+## Commandes Docker
+docker-compose up -d
+docker-compose exec SAE_S4_DoliBI composer update
+
