@@ -1,0 +1,79 @@
+body {  
+    background: linear-gradient(white, black);
+    color :black;
+}
+
+.textenoir {
+    color :black;
+}
+
+.titre {
+    font-family: 'Kiwi Maru', serif;
+    font-size: 40px;
+}
+
+.contact {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto 
+}
+
+header {
+    padding: 5px;
+    background-color: black;
+    margin-bottom: 10px;
+    color :white;
+}
+
+.cadre {
+    border : solid;
+    margin: 2px;
+    padding: 5px;
+    padding-left: 25px;
+    color :white;
+}
+
+footer {
+    bottom: 0;
+    clear: both;
+    position: relative;
+    width: 100%;
+    color:white;
+    height: auto;
+}
+
+.btn-modif {
+    font-size: 15px;
+    min-height: 50px;
+    height: fit-content;
+    width: 200px;
+    max-width: 100%;
+}
+
+.btn-blanc {
+    background-color: #ffffff;
+    border: 1px;
+    border-style: solid;
+    border-radius: 5px;
+}
+
+
+.btn-deco {
+    font-family: 'Kiwi Maru', serif;
+    font-size: 15px;
+    background-color: #ffffff;
+    border: 1px;
+    border-style: solid;
+    border-radius: 5px;
+    width: 150px;
+    height: 55px;
+}
+
+.btn-deco-rond {
+    background-color: #ffffff;
+    height: 76px;
+    width: 76px;
+    border: 1px;
+    border-style: solid;
+    border-radius: 38px;
+}
