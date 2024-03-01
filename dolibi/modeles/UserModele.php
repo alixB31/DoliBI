@@ -6,7 +6,7 @@ namespace modeles;
 class UserModele
 {
 
-    function appelAPI($apiUrl,$apiKey) {
+    function appelAPI($apiUrl,$apiKey,$iut) {
 		// Interrogation de l'API
 		// Retourne le résultat en format JSON
 		$curl = curl_init();									// Initialisation
@@ -17,9 +17,11 @@ class UserModele
 		curl_setopt($curl, CURLOPT_FAILONERROR, true);
 		
 		// A utiliser sur le réseau des PC IUT, pas en WIFI, pas sur une autre connexion
-		$proxy="http://cache.iut-rodez.fr:8080";
-		curl_setopt($curl, CURLOPT_HTTPPROXYTUNNEL, true);
-		curl_setopt($curl, CURLOPT_PROXY,$proxy ) ;
+		if ($iut) {
+			$proxy="http://cache.iut-rodez.fr:8080";
+			curl_setopt($curl, CURLOPT_HTTPPROXYTUNNEL, true);
+			curl_setopt($curl, CURLOPT_PROXY,$proxy ) ;
+		}
 		///////////////////////////////////////////////////////////////////////////////
 		$result = curl_exec($curl);								// Exécution
 		$http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);	// Récupération statut 
@@ -34,9 +36,10 @@ class UserModele
 		}
 	}
 
-    function connexion($login,$mdp,$url) {
-
-		$apiKey = appelAPI("http://dolibarr.iut-rodez.fr/G2023-42/htdocs/api/index.php/login?login="+$login"&password="+$mdp,null)
+    function connexion($login,$mdp,$url,$iut) {
+		// Test avec http://dolibarr.iut-rodez.fr/G2023-42
+		$apiKey = appelAPI($url+"/index.php/login?login="+$login"&password="+$mdp,null,$iut);
+		return $apiKey;
     }
     
 }
