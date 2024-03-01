@@ -16,17 +16,23 @@
                 <h1>Bienvenue sur Doli-BI</h1>
                 <h2>Veuillez vous identifier pour continuer</h2>
             </div>
+<<<<<<< Updated upstream
             <form class =>
                 <div class="cadre mx-auto offset-md-3 col-md-4 col-12">
                     URL de connexion :
                     <br/>
                     <input type="URLco" class="form-control" name="urlc" placeholder="Entrez l'URL de connexion"/>
                      Identifiant :
+=======
+            <form action="index.php" method="post">
+                <div class="cadre mx-auto offset-3 col-4">
+                    Identifiant :
+>>>>>>> Stashed changes
                     <br/>
                     <input type="text" class="form-control" name="identifiant" placeholder="Entrez votre identifiant">
                     Mot de passe :
                     <br/>
-                    <input type="password" class="form-control" name="pswd" placeholder="Entrez votre mot de passe"/>
+                    <input type="password" class="form-control" name="mdp" placeholder="Entrez votre mot de passe"/>
                 </div>
                 <br />
                 <div class="col-12 text-center">

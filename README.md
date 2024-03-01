@@ -41,3 +41,6 @@ Lien Google Drive : https://drive.google.com/drive/u/1/folders/0ADwnN94XsF_3Uk9P
 docker-compose up -d
 docker-compose exec SAE_S4_DoliBI composer update
 
+## Liens du site
+http://localhost:8080/dolibi/
+
