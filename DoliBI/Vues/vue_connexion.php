@@ -1,58 +1,53 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-    <meta charset="utf-8">
-    <title>Page de Connexion</title>
-    <link href="festiplan/static/bootstrap-4.6.2-dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="festiplan/static/css/index.css"/>
-    <link href="festiplan/static/fontawesome-free-6.2.1-web/css/all.min.css" rel="stylesheet">
-</head>
-<body>
-    <div class="container centreVertical">
-        <div class="cadreUtilisateur connexion">
-            <form action="index.php" method="post">
-                <img src="festiplan/static/images/logo_blanc.png" alt="Festiplan Logo">
-                <br><br>
-                <h2 class="grand">Connexion</h2>
-                <br>
-                <?php
-                    echo (!$loginOuMdpOk) ? '<p id="invalide">Erreur : Le mot de passe ou le login est invalide.</p>' : '';
-                ?>
-                <br>
-                
-                <input type="hidden" name="controller" value="UtilisateurCompte">
-                <input type="hidden" name="action" value="connexion">
-
-                <div class="form-group texteGauche">
-                    <div class="input-group">
-                        <input name="login" type="text" class="form-control" placeholder="NOM D'UTILISATEUR" required>
-                        <div class="input-group-append">
-                            <span class="input-group-text"><span class="fas fa-solid fa-user"></span></span>
-                        </div>
-                    </div>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="static\bootstrap-4.6.2-dist\css\bootstrap.css">
+        <link rel="stylesheet" href="static\css\common.css">
+        <link rel="stylesheet" href="static\fontawesome-free-6.2.1-web/css/all.css">
+        <title>Connexion</title>
+    </head>
+    <header>
+        <hspan class="titre">Doli-BI</hspan>
+    </header>
+    <body>
+        <div class="fond_degrade_noir">
+            <div class="col-12 text-center">
+                <h1>Bienvenue sur Doli-BI</h1>
+                <h2>Veuillez vous identifier pour continuer</h2>
+            </div>
+            <form class =>
+                <div class="cadre mx-auto offset-3 col-4">
+                    Identifiant :
+                    <br/>
+                    <input type="text" class="form-control" name="identifiant" placeholder="Entrez votre identifiant">
+                    <br/>
+                    Mot de passe :
+                    <br/>
+                    <input type="password" class="form-control" name="pswd" placeholder="Entrez votre mot de passe"/>
                 </div>
-                <div class="form-group texteGauche">
-                    <div class="input-group">
-                        <input name="mdp" type="password" class="form-control" placeholder="MOT DE PASSE" required>
-                        <div class="input-group-append">
-                            <span class="input-group-text"><span class="fas fa-solid fa-lock"></span></span>
-                        </div>
-                    </div>
+                <br />
+                <div class="col-12 text-center">
+                    <input class="btn-blanc btn-modif" type="submit" value="Se connecter">
                 </div>
-                <!-- 
-                <div class="form-check texteGauche">
-                    <input type="checkbox" class="form-check-input" id="resterConnecte">
-                    <label class="form-check-label" for="resterConnecte">Rester connecté</label> 
-                </div>
-                -->
-                <br><br>
-                <div class="texteCentre">
-                    <button type="submit" class="btn btn-primary boutonFleche"><span class="fas fa-arrow-right"></span></button>
-                </div>
-                <br><br>
             </form>
-            <p class="petit">Vous n'avez pas de compte ?  <a class="petit" href="?controller=UtilisateurCompte&action=pageInscription">CREER UN COMPTE</a></p>
         </div>
-    </div>
-</body>
+        <footer>
+            <div class="container-fluid">
+                <div class="row">
+                    <br/>
+                    Réalisé par :
+                    <div class="col-6 contenue_droite">
+                        <img src="static/images/logo-iut.png" width="150" height="90" class="logo" id="logoIUT" alt="Logo IUT" href="http://www.iut-rodez.fr"
+                            target="_blank" />
+                    </div>
+                    <br>
+                    <a class="col-3 offset-2 btn btn-blanc btn-block textenoir" href="pages/contact.html">
+                        <br/>
+                        Nous contacter <span class="fa fa-envelope"></span>
+                    </a>
+                </div>
+            </div>
+        </footer>
+    </body>
 </html>
