@@ -1,0 +1,27 @@
+{
+    "name": "yasmf/dolibi",
+    "config": {
+      "vendor-dir": "DoliBI/lib/vendor"
+    },
+    "repositories": [
+      {
+        "type": "vcs",
+        "url": "https://github.com/the-yasmf-project/yasmf"
+      }
+    ],
+    "autoload": {
+      "psr-4": {
+        "controleurs\\": "DoliBI/controleurs",
+        "modeles\\": "DoliBI/modeles",
+        "application\\": "DoliBI/application"
+      }
+    },
+    "require": {
+      "php": ">=8.1",
+      "phpunit/phpunit": "10.0.*",
+      "phpstan/phpstan": "1.10.*",
+      "ext-pdo": "*",
+      "yasmf/yasmf": ">=1.6.1"
+    }
+  }
+  

@@ -1,3 +1,10 @@
+/.metadata/
+Bin
+.classpath
+.project
+.settings
 .DS_Store
-/static/bootstrap-4.6.2-dist/
-/static/fontawesome-free-6.2.1-web/
+/dolibi/static/bootstrap-4.6.2-dist/
+/dolibi/static/fontawesome-free-6.2.1-web/
+/bin/
+vendor

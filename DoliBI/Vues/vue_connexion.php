@@ -1,11 +1,11 @@
-<?php
-?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="utf-8">
     <title>Page de Connexion</title>
+    <link href="festiplan/static/bootstrap-4.6.2-dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="festiplan/static/css/index.css"/>
+    <link href="festiplan/static/fontawesome-free-6.2.1-web/css/all.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="container centreVertical">
@@ -39,6 +39,12 @@
                         </div>
                     </div>
                 </div>
+                <!-- 
+                <div class="form-check texteGauche">
+                    <input type="checkbox" class="form-check-input" id="resterConnecte">
+                    <label class="form-check-label" for="resterConnecte">Rester connecté</label> 
+                </div>
+                -->
                 <br><br>
                 <div class="texteCentre">
                     <button type="submit" class="btn btn-primary boutonFleche"><span class="fas fa-arrow-right"></span></button>
