@@ -16,20 +16,20 @@
                 <h1>Bienvenue sur Doli-BI</h1>
                 <h2>Veuillez vous identifier pour continuer</h2>
             </div>
-            <form class =>
+            <form action="index.php" method="post">
                 <div class="cadre mx-auto offset-md-3 col-md-4 col-12">
                     <input type ="checkbox" name="coIUT">
                     Connexion depuis l'IUT ? 
                     <br/>
                     URL de connexion :
                     <br/>
-                    <input type="URLco" class="form-control" name="urlc" placeholder="Entrez l'URL de connexion"/>
+                    <input type="URLco" class="form-control" name="url" placeholder="Entrez l'URL de connexion"/>
                      Identifiant :
                     <br/>
                     <input type="text" class="form-control" name="identifiant" placeholder="Entrez votre identifiant">
                     Mot de passe :
                     <br/>
-                    <input type="password" class="form-control" name="pswd" placeholder="Entrez votre mot de passe"/>
+                    <input type="password" class="form-control" name="mdp" placeholder="Entrez votre mot de passe"/>
                 </div>
                 <br />
                 <div class="col-12 text-center">
