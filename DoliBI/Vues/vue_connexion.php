@@ -11,11 +11,6 @@
         <hspan class="titre">Doli-BI</hspan>
     </header>
     <body>
-<<<<<<< Updated upstream
-        <div class="col-12 text-center">
-            <h1>Bienvenue sur Doli-BI</h1>
-            <h2>Veuillez vous identifier pour continuer</h2>
-=======
         <div class="fond_degrade_noir">
             <div class="col-12 text-center">
                 <h1>Bienvenue sur Doli-BI</h1>
@@ -43,7 +38,6 @@
                         <input class="btn-blanc btn-modif" type="submit" value="Se connecter">
                     </div>
             </form>
->>>>>>> Stashed changes
         </div>
         <form action="index.php" method="post">
             <div class="cadre mx-auto offset-md-3 col-md-4 col-12">
