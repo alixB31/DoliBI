@@ -18,6 +18,9 @@
             </div>
             <form class =>
                 <div class="cadre mx-auto offset-md-3 col-md-4 col-12">
+                    <input type ="checkbox" name="coIUT">
+                    Connexion depuis l'IUT ? 
+                    <br/>
                     URL de connexion :
                     <br/>
                     <input type="URLco" class="form-control" name="urlc" placeholder="Entrez l'URL de connexion"/>
