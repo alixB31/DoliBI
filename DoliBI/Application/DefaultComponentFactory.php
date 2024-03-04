@@ -4,6 +4,7 @@ namespace application;
 
 use controleurs\HomeController;
 use modeles\UserModele;
+use controleurs\UtilisateurCompteControleur;   
 use yasmf\ComponentFactory;
 use yasmf\NoControllerAvailableForNameException;
 use yasmf\NoServiceAvailableForNameException;
@@ -34,9 +35,9 @@ class DefaultComponentFactory implements ComponentFactory
         return new HomeController();
     }
 
-    private function buildUtilisateurCompteController(): UtilisateurCompteController
+    private function buildUtilisateurCompteController(): UtilisateurCompteControleur
     {
-        return new UtilisateurCompteController($this->buildServiceByName("User"));
+        return new UtilisateurCompteControleur($this->buildServiceByName("User"));
     }
 
     private function buildUserModele() : UserModele

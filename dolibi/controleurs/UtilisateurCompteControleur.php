@@ -22,19 +22,21 @@ class UtilisateurCompteControleur
         return $vue;
     }
 
-    public function connexion() 
+    public function connexion(): View
     {
         $idendtifiant = HttpHelper::getParam('identifiant');
+        $checkBoxIut = HttpHelper::getParam('coIUT');
         $mdp = HttpHelper::getParam('mdp');
         $url = HttpHelper::getParam('url');
-        $searchStmt = $this->userModele->;
-        $user = $searchStmt->fetch();
-        if (!$user) {
-            return new View("vues/vue_connexion");
+        
+        $apiKey = $this->userModele->connexion($idendtifiant,$mdp,$url,$checkBoxIut);
+        //var_dump($apiKey);
+        if ($apiKey == []) {
+            $vue = new View("vues/vue_connexion");
         } else {
-            session_start();
+            //session_start();
             $vue = new View("vues/vue_accueil");
         }
-            return $vue;
+        return $vue;
     }
 }

@@ -17,7 +17,7 @@ class UserModele
 		curl_setopt($curl, CURLOPT_FAILONERROR, true);
 		
 		// A utiliser sur le réseau des PC IUT, pas en WIFI, pas sur une autre connexion
-		if ($iut) {
+		if ($iut == "on") {
 			$proxy="http://cache.iut-rodez.fr:8080";
 			curl_setopt($curl, CURLOPT_HTTPPROXYTUNNEL, true);
 			curl_setopt($curl, CURLOPT_PROXY,$proxy ) ;
@@ -37,8 +37,9 @@ class UserModele
 	}
 
     function connexion($login,$mdp,$url,$iut) {
-		// Test avec http://dolibarr.iut-rodez.fr/G2023-42
-		$apiKey = appelAPI($url+"/index.php/login?login="+$login"&password="+$mdp,null,$iut);
+		$urlConnexion = $url."api/index.php/login?login=".$login."&password=".$mdp;
+		var_dump($urlConnexion);
+		$apiKey = self::appelAPI($urlConnexion,null,$iut);
 		return $apiKey;
     }
     
