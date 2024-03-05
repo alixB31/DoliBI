@@ -24,18 +24,19 @@ class UtilisateurCompteControleur
 
     public function connexion(): View
     {
-        $idendtifiant = HttpHelper::getParam('identifiant');
+        $identifiant = htmlspecialchars(HttpHelper::getParam('identifiant'));
         $checkBoxIut = HttpHelper::getParam('coIUT');
-        $mdp = HttpHelper::getParam('mdp');
-        $url = HttpHelper::getParam('url');
+        $mdp = htmlspecialchars(HttpHelper::getParam('mdp'));
+        $url = htmlspecialchars(HttpHelper::getParam('url'));
         
-        $apiKey = $this->userModele->connexion($idendtifiant,$mdp,$url,$checkBoxIut);
+        
+        $apiKey = $this->userModele->connexion($identifiant,$mdp,$url,$checkBoxIut);
         //var_dump($apiKey);
         if ($apiKey == []) {
             $vue = new View("vues/vue_connexion");
         } else {
             //session_start();
-            $vue = new View("vues/vue_accueil");
+            $vue = new View("vues/vue_dashboard_stock");
         }
         return $vue;
     }

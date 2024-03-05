@@ -5,7 +5,7 @@
         <link rel="stylesheet" href="static\bootstrap-4.6.2-dist\css\bootstrap.css">
         <link rel="stylesheet" href="static\css\common.css">
         <link rel="stylesheet" href="static\fontawesome-free-6.2.1-web/css/all.css">
-        <title>Connexion</title>
+        <title>Gestion stock</title>
     </head>
     <header>
         <div class ="row">
@@ -27,6 +27,6 @@
         </div>
     </header>
     <body>
-
+        
     </body>
 </html>
