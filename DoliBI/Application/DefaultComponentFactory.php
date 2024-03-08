@@ -7,7 +7,7 @@ use modeles\UserModele;
 use controleurs\UtilisateurCompteControleur;   
 use controleurs\BanqueControleur;
 use modeles\BanqueModele;
-use controleurs\StockControleur
+use controleurs\StockControleur;
 use modeles\StockModele;
 use yasmf\ComponentFactory;
 use yasmf\NoControllerAvailableForNameException;
@@ -17,6 +17,12 @@ class DefaultComponentFactory implements ComponentFactory
 {
 
     private ?UserModele $userModele = null;
+
+    private ?BanqueModele $banqueModele = null;
+
+    private ?StockModele $stockModele = null;
+
+
 
     public function buildControllerByName(string $controller_name): mixed {
         return match ($controller_name) {
@@ -64,24 +70,25 @@ class DefaultComponentFactory implements ComponentFactory
     
     private function buildBanqueModele() : BanqueModele
     {
-        if ($this->userModele == null) {
-            $this->userModele = new BanqueModele();
+        if ($this->banqueModele == null) {
+            $this->banqueModele = new BanqueModele();
         }
-        return $this->userModele;
+        return $this->banqueModele;
     }
+
 
     private function buildStockController(): StockControleur
     {
         return new StockControleur($this->buildServiceByName("Stock"));
     }
 
-    
+
     private function buildStockModele() : StockModele
     {
-        if ($this->userModele == null) {
-            $this->userModele = new StockModele();
+        if ($this->stockModele == null) {
+            $this->stockModele = new StockModele();
         }
-        return $this->userModele;
+        return $this->stockModele;
     }
 
 }

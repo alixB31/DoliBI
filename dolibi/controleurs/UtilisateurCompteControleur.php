@@ -40,4 +40,11 @@ class UtilisateurCompteControleur
         }
         return $vue;
     }
+
+    public function deconnexion() : View
+    {
+        session_destroy();
+        $vue = new View("vues/vue_connexion");
+        return $vue;
+    } 
 }

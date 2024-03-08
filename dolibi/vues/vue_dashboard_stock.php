@@ -20,13 +20,9 @@
                     <i class="fa-solid fa-power-off"></i>
                     Déconnexion
                 </button>
-                <button name="deconnexion" class="btn-deco-rond d-md-none d-sm-none">
-                    <i class="fa-solid fa-power-off"></i>
-                </button>
             </div>
         </div>
     </header>
     <body>
-        
     </body>
 </html>

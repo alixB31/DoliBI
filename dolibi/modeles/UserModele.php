@@ -16,6 +16,11 @@ class UserModele
 		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false); 		// Désactive test certificat
 		curl_setopt($curl, CURLOPT_FAILONERROR, true);
 		
+		$httpheader [] = "Content-Type:application/json";
+		if($apiKey !=null) {
+			$httpheader = ['DOLAPIKEY: '.$apiKey];
+		}
+		curl_setopt($curl, CURLOPT_HTTPHEADER, $httpheader);
 		// A utiliser sur le réseau des PC IUT, pas en WIFI, pas sur une autre connexion
 		if ($iut == "on") {
 			$proxy="http://cache.iut-rodez.fr:8080";

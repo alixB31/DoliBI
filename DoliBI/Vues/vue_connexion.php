@@ -47,7 +47,7 @@
                     Réalisé par :
                     <div class="col-6 contenue_droite">
                         <img src="static/images/logo-iut.png" width="150" height="90" class="logo" id="logoIUT" alt="Logo IUT" href="http://www.iut-rodez.fr"
-                            target="_blank" />
+                            target="_blank"/>
                     </div>
                     <br>
                 </div>
