@@ -7,6 +7,8 @@ use modeles\UserModele;
 use controleurs\UtilisateurCompteControleur;   
 use controleurs\BanqueControleur;
 use modeles\BanqueModele;
+use controleurs\StockControleur
+use modeles\StockModele;
 use yasmf\ComponentFactory;
 use yasmf\NoControllerAvailableForNameException;
 use yasmf\NoServiceAvailableForNameException;
@@ -21,6 +23,7 @@ class DefaultComponentFactory implements ComponentFactory
             "Home" => $this->buildHomeController(),
             "UtilisateurCompte" => $this->buildUtilisateurCompteController(),
             "Banque" => $this->buildBanqueController(),
+            "Stock" => $this->buildStockController(),
             default => throw new NoControllerAvailableForNameException($controller_name)
         };
     }
@@ -30,6 +33,7 @@ class DefaultComponentFactory implements ComponentFactory
         return match ($service_name){
             "User" => $this->buildUserModele(),
             "Banque" => $this->buildBanqueModele(),
+            "Stock" => $this->buildStockModele(),
             default => throw new NoServiceAvailableForNameException($service_name)
         };
     }
@@ -62,6 +66,20 @@ class DefaultComponentFactory implements ComponentFactory
     {
         if ($this->userModele == null) {
             $this->userModele = new BanqueModele();
+        }
+        return $this->userModele;
+    }
+
+    private function buildStockController(): StockControleur
+    {
+        return new StockControleur($this->buildServiceByName("Stock"));
+    }
+
+    
+    private function buildStockModele() : StockModele
+    {
+        if ($this->userModele == null) {
+            $this->userModele = new StockModele();
         }
         return $this->userModele;
     }
