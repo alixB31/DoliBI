@@ -25,13 +25,16 @@ class HomeController {
 
     public function palmaresFournisseurs() : View
     {
-        $apiKey = $this->stockModele->
+        $apiKey = $_SESSION['apiKey'];
+        $url = $_SESSION['url'];
+        $dateDebut = HttpHelper::getParam('DateDebut');
+        $dateFin = HttpHelper::getParam('DateFin');
+        $palmaresFournisseurs = $this->stockModele->palmaresFournisseurs($url,$apiKey,$dateDebut;$dateFin);
 
         if ($apiKey == []) {
             $vue = new View("vues/vue_dashboard_stock");
             $vue->setVar("apiKey", $apiKey);
             return $vue;
-            var_dump($apiKey);
         } else {
             $vue = new View("vues/vue_dashboard_stock");
             return $vue;

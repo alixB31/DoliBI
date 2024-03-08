@@ -41,11 +41,16 @@ class UserModele
 		}
 	}
 
+	function convertirDateUnix($timestamp, $format = 'Y-m-d H:i:s') {
+		return date($format, $timestamp);
+	}
+
     function connexion($login,$mdp,$url,$iut) {
 		$urlConnexion = $url."api/index.php/login?login=".$login."&password=".$mdp;
 		// récupere l'apiKey de l'utilisateur qui se connecte
 		// Si récupere [] alors les identifiants sont mauvais
 		$apiKey = self::appelAPI($urlConnexion,null,$iut);
+		$apikey = $apiKey["sucess"]["token"]
 		return $apiKey;
     }
     
