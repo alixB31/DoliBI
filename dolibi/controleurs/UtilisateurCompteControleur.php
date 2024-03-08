@@ -21,7 +21,7 @@ class UtilisateurCompteControleur
         $vue = new View("vues/vue_connexion");
         return $vue;
     }
-
+    //
     public function connexion(): View
     {
         $identifiant = htmlspecialchars(HttpHelper::getParam('identifiant'));
@@ -31,11 +31,12 @@ class UtilisateurCompteControleur
         
         
         $apiKey = $this->userModele->connexion($identifiant,$mdp,$url,$checkBoxIut);
-        //var_dump($apiKey);
         if ($apiKey == []) {
             $vue = new View("vues/vue_connexion");
         } else {
-            //session_start();
+            session_start();
+            $_SESSION['url'] = $url;
+            $_SESSION['checkBox'] = $checkBoxIut;
             $vue = new View("vues/vue_dashboard_stock");
         }
         return $vue;

@@ -43,7 +43,8 @@ class UserModele
 
     function connexion($login,$mdp,$url,$iut) {
 		$urlConnexion = $url."api/index.php/login?login=".$login."&password=".$mdp;
-		var_dump($urlConnexion);
+		// récupere l'apiKey de l'utilisateur qui se connecte
+		// Si récupere [] alors les identifiants sont mauvais
 		$apiKey = self::appelAPI($urlConnexion,null,$iut);
 		return $apiKey;
     }

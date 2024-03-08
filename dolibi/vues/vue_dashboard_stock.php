@@ -24,5 +24,15 @@
         </div>
     </header>
     <body>
+        <?php
+            echo ($apiKey == []) ? '<p id="invalide">Erreur : API indisponible.</p>' : '';
+        ?>
+        <div class="container-fluid">
+            <div class="row">
+                <table>
+                    
+                </table>
+            </div>
+        </div>
     </body>
 </html>
