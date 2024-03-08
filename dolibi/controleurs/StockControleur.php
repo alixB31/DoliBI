@@ -7,7 +7,7 @@ use yasmf\View;
 use yasmf\HttpHelper;
 use modeles\StockModele;
 
-class HomeController {
+class StockControleur {
 
     private StockModele $stockModele;
 
@@ -19,7 +19,7 @@ class HomeController {
 
     public function index() : View
     {
-        $vue = new View("vues/vue_dashboard_stock")
+        $vue = new View("vues/vue_dashboard_stock");
         return $vue;
     }
 
@@ -27,17 +27,20 @@ class HomeController {
     {
         $apiKey = $_SESSION['apiKey'];
         $url = $_SESSION['url'];
-        $dateDebut = HttpHelper::getParam('DateDebut');
-        $dateFin = HttpHelper::getParam('DateFin');
-        $palmaresFournisseurs = $this->stockModele->palmaresFournisseurs($url,$apiKey,$dateDebut;$dateFin);
+        $dateDebut = HttpHelper::getParam('dateDebut');
+        $dateFin = HttpHelper::getParam('dateFin');
+        $Top = HttpHelper::getParam('TopX');
+        $palmaresFournisseurs = $this->stockModele->palmaresFournisseurs($url,$apiKey,$dateDebut,$dateFin);
 
-        if ($apiKey == []) {
+        if ($palmaresFournisseurs == []) {
             $vue = new View("vues/vue_dashboard_stock");
             $vue->setVar("apiKey", $apiKey);
             return $vue;
+            var_dump($palmaresFournisseurs);
         } else {
             $vue = new View("vues/vue_dashboard_stock");
             return $vue;
+            var_dump($palmaresFournisseurs);
         }
     }
 }

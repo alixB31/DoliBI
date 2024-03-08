@@ -24,14 +24,41 @@
         </div>
     </header>
     <body>
-        <?php
-            echo ($apiKey == []) ? '<p id="invalide">Erreur : API indisponible.</p>' : '';
-        ?>
         <div class="container-fluid">
             <div class="row">
-                <table>
-                    
-                </table>
+                <form action="index.php" method= "post">
+                    <input type="hidden" name="controller" value="Stock">
+                    <input type="hidden" name="action" value="palmaresFournisseurs">
+                    Date début
+                    <input name="dateDebut" type="date">
+                    <br>
+                    Date fin
+                    <input name="dateFin" type="date">
+                    <br>
+                    <select id="TopX" name="TopX">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="30">30</option>
+                        <option value="40">40</option>
+                        <option value="50">50</option>
+                    </select>
+                    <br>
+                    <button type="submit">Test var_dump</button>
+                    <br>
+                    <table class="table table-striped table-bordered">
+                        <tr>
+                            <th>Nom Fournisseur</th>
+                            <th>Montant achetés HT</th>
+                            <th>Code Fournisseur</th>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </form>
             </div>
         </div>
     </body>
