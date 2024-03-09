@@ -30,10 +30,10 @@
                     <input type="hidden" name="controller" value="Stock">
                     <input type="hidden" name="action" value="palmaresFournisseurs">
                     Date début
-                    <input name="dateDebut" type="date">
+                    <input name="dateDebut" type="date" value="<?php if($dateDebut !=null){echo $dateDebut;}?>" >
                     <br>
                     Date fin
-                    <input name="dateFin" type="date">
+                    <input name="dateFin" type="date" value="<?php if($dateFin !=null){echo $dateFin;}?>" >
                     <br>
                     TOP :
                     <select id="TopX" name="TopX">
@@ -49,16 +49,31 @@
                     <br>
                     <table class="table table-striped table-bordered">
                         <tr>
+                            <th>Code Fournisseur</th>
                             <th>Nom Fournisseur</th>
                             <th>Montant achetés HT</th>
-                            <th>Code Fournisseur</th>
                         </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
+                        <?php
+                            $compteur = 0;
+                            foreach ($palmares as $element) {
+                                // Affiche le nombre de fournisseurs choisis par l'utilisateur
+                                if ($compteur <= $top) {
+                                    echo "<tr>
+                                            <td>".$element['code_fournisseur']."</td>
+                                            <td>".$element['nom']."</td>
+                                            <td>".$element['prixHT']."</td>
+                                        </tr>";
+                                    $compteur++;
+                                }
+                            }
+                        ?>
+  
                     </table>
+                    <?php
+                        if($palmares==[]) {
+                            echo "Aucune données ne correspond a vos parametres";
+                        }
+                    ?>
                 </form>
             </div>
         </div>

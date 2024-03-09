@@ -25,22 +25,23 @@ class StockControleur {
 
     public function palmaresFournisseurs() : View
     {
+        session_start();
+        // Recupere les variables de sessions utiles
         $apiKey = $_SESSION['apiKey'];
         $url = $_SESSION['url'];
+        // Recupere les parametres choisis par l'utilisateur
         $dateDebut = HttpHelper::getParam('dateDebut');
         $dateFin = HttpHelper::getParam('dateFin');
-        $Top = HttpHelper::getParam('TopX');
-        $palmaresFournisseurs = $this->stockModele->palmaresFournisseurs($url,$apiKey,$dateDebut,$dateFin);
+        $top = HttpHelper::getParam('TopX');
+        // Demande au modele de trouver le palmares fournisseur
+        $palmaresFournisseurs = $this->stockModele->palmaresFournisseurs($url,$apiKey,$dateDebut,$dateFin,$top);
+        
+        $vue = new View("vues/vue_dashboard_stock");
+        $vue->setVar("top", $top);
+        $vue->setVar("dateDebut", $dateDebut);
+        $vue->setVar("dateFin", $dateFin);
+        $vue->setVar("palmares", $palmaresFournisseurs);
+        return $vue;
 
-        if ($palmaresFournisseurs == []) {
-            $vue = new View("vues/vue_dashboard_stock");
-            $vue->setVar("apiKey", $apiKey);
-            return $vue;
-            var_dump($palmaresFournisseurs);
-        } else {
-            $vue = new View("vues/vue_dashboard_stock");
-            return $vue;
-            var_dump($palmaresFournisseurs);
-        }
     }
 }

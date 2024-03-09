@@ -37,7 +37,8 @@ class UtilisateurCompteControleur
             session_start();
             $_SESSION['url'] = $url;
             $_SESSION['checkBox'] = $checkBoxIut;
-            $_SESSION['apiKey'] = $checkBoxIut;
+            $_SESSION['apiKey'] = $apiKey;
+
             $vue = new View("vues/vue_dashboard_stock");
         }
         return $vue;

@@ -6,7 +6,7 @@ namespace modeles;
 class UserModele
 {
 
-    function appelAPI($apiUrl,$apiKey,$iut) {
+    static function appelAPI($apiUrl,$apiKey,$iut) {
 		// Interrogation de l'API
 		// Retourne le résultat en format JSON
 		$curl = curl_init();									// Initialisation
@@ -50,8 +50,7 @@ class UserModele
 		// récupere l'apiKey de l'utilisateur qui se connecte
 		// Si récupere [] alors les identifiants sont mauvais
 		$apiKey = self::appelAPI($urlConnexion,null,$iut);
-		//$apikey = $apiKey["sucess"]["token"];
-		return $apiKey;
+		return $apiKey['success']['token'];
     }
     
 }
