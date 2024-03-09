@@ -35,6 +35,7 @@
                     Date fin
                     <input name="dateFin" type="date">
                     <br>
+                    TOP :
                     <select id="TopX" name="TopX">
                         <option value="5">5</option>
                         <option value="10">10</option>
