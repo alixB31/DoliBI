@@ -5,6 +5,7 @@
         <link rel="stylesheet" href="static\bootstrap-4.6.2-dist\css\bootstrap.css">
         <link rel="stylesheet" href="static\css\common.css">
         <link rel="stylesheet" href="static\fontawesome-free-6.2.1-web/css/all.css">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <title>Gestion stock</title>
     </head>
     <header>
@@ -72,7 +73,21 @@
                         // if($palmares==[]) {
                         //     echo "Aucune données ne correspond a vos parametres";
                         // }
+                        if($palmares==[]) {
+                            echo "Aucune données ne correspond à vos paramètres";
+                        }
                     ?>
+                    <div>
+                        <select name="forunisseur" id="fournisseur">
+                            <?php
+                            foreach ($palmares as $element) {
+                                echo '<option value="'.$element['nom'].'">'.$element['nom'].'</option>';
+                            }
+                            ?>
+                        </select>
+                        <canvas id="myChart"></canvas>
+                    </div>
+                    <script src="js/script.js"></script>
                 </form>
             </div>
             <div>
