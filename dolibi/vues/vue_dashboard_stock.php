@@ -45,7 +45,7 @@
                         <option value="50">50</option>
                     </select>
                     <br>
-                    <button type="submit">Test var_dump</button>
+                    <button type="submit">Rechercher</button>
                     <br>
                     <table class="table table-striped table-bordered">
                         <tr>
@@ -54,26 +54,55 @@
                             <th>Montant achetés HT</th>
                         </tr>
                         <?php
-                            $compteur = 0;
-                            foreach ($palmares as $element) {
-                                // Affiche le nombre de fournisseurs choisis par l'utilisateur
-                                if ($compteur <= $top) {
-                                    echo "<tr>
-                                            <td>".$element['code_fournisseur']."</td>
-                                            <td>".$element['nom']."</td>
-                                            <td>".$element['prixHT']."</td>
-                                        </tr>";
-                                    $compteur++;
-                                }
-                            }
+                            // $compteur = 0;
+                            // foreach ($palmares as $element) {
+                            //     // Affiche le nombre de fournisseurs choisis par l'utilisateur
+                            //     if ($compteur <= $top) {
+                            //         echo "<tr>
+                            //                 <td>".$element['code_fournisseur']."</td>
+                            //                 <td>".$element['nom']."</td>
+                            //                 <td>".$element['prixHT']."</td>
+                            //             </tr>";
+                            //         $compteur++;
+                            //     }
+                            // }
                         ?>
-  
                     </table>
                     <?php
-                        if($palmares==[]) {
-                            echo "Aucune données ne correspond a vos parametres";
-                        }
+                        // if($palmares==[]) {
+                        //     echo "Aucune données ne correspond a vos parametres";
+                        // }
                     ?>
+                </form>
+            </div>
+            <div>
+                <form action="index.php" method= "post">
+                    <input type="hidden" name="controller" value="Stock">
+                    <input type="hidden" name="action" value="listeFournisseursLike">
+                    Nom du Fournisseur
+                    <input name="nom" type="texte" value="<?php if($rechercheFournisseur !=null){echo $rechercheFournisseur;}?>">
+                    <br>
+                    <button type="submit">Rechercher fournisseur</button>
+                </form>
+                <form action="index.php" method= "post">
+                    <input type="hidden" name="controller" value="Stock">
+                    <input type="hidden" name="action" value="montantEtQuantiteFournisseur">
+                    <input type="hidden" name="rechercheFournisseur" value="<?php if($rechercheFournisseur !=null){echo $rechercheFournisseur;}?>">
+                    <input type="hidden" name="listeFournisseurs" value="<?php echo $listeFournisseurs;?>">
+                    <?php var_dump($listeFournisseurs); ?>
+                    <select id="idFournisseur" name="idFournisseur">
+                        <?php
+                            foreach ($listeFournisseurs as $liste) {
+                                if($liste["id_fournisseur"]==$idChoisis) {
+                                    echo "<option value=".$liste["id_fournisseur"]." selected>".$liste["nom"]."</option>";
+                                } else {
+                                    echo "<option value=".$liste["id_fournisseur"].">".$liste["nom"]."</option>";
+                                }
+                                
+                            }
+                        ?>
+                    </select>
+                    <button type="submit">Valider</button> 
                 </form>
             </div>
         </div>
