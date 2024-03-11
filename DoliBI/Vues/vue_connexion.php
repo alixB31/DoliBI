@@ -23,6 +23,11 @@
                         <input type ="checkbox" name="coIUT">
                         Connexion depuis l'IUT ? 
                         <br/>
+                        <?php
+                        if(!$verifConnexion) {
+                            echo "Aucune données ne correspond à vos paramètres";
+                        }
+                        ?>
                         URL de connexion :
                         <br/>
                         <input type="URLco" class="form-control" name="url" placeholder="Entrez l'URL de connexion"/>

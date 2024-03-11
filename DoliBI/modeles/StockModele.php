@@ -17,11 +17,17 @@ class StockModele
 		return ($a['prixHT'] > $b['prixHT']) ? -1 : 1;
 	}
 
+	function comparerDates($a, $b) {
+		return strtotime($a['date']) - strtotime($b['date']);
+	}
+
+
     function palmaresFournisseurs($url,$apikey,$dateDebut,$dateFin) {		
 		$urlThirdParties = $url.'api/index.php/thirdparties?fields=id&sqlfilters=(t.fournisseur:LIKE:1)';
 		// Recupere la liste des fournisseurs
 		$listeFournisseurs = UserModele::appelAPI($urlThirdParties,$apikey,null);
 		// Parcoure tout les fournisseurs
+		// Initialise le palmares:
 		foreach($listeFournisseurs as $liste) {
 			$urlPalmares  = $url."api/index.php/supplierorders?sortfield=t.rowid&sortorder=ASC&limit=100&sqlfilters=(t.fk_soc%3A%3D%3A".$liste['id'].")";
 			$listeCommandefournisseur = UserModele::appelAPI($urlPalmares,$apikey,null);
@@ -29,7 +35,7 @@ class StockModele
 			$prixHT = 0;
 			foreach($listeCommandefournisseur as $listeCommande) {
 				// Regarde si la commande a était éffectué entre les dates voulus
-				if (($dateDebut==null && $dateFin==null) || (self::convertUnixToDate($listeCommande['date_valid'])>=$dateDebut && self::convertUnixToDate($listeCommande['date_valid']<=$dateFin))) {
+				if (($dateDebut==null && $dateFin=null) || (self::convertUnixToDate($listeCommande['date_valid'])>=$dateDebut && self::convertUnixToDate($listeCommande['date_valid']<=$dateFin))) {
 					$prixHT+= intval($listeCommande['total_ht']);
 				}
 			}
@@ -43,7 +49,7 @@ class StockModele
 			}
     	}
 		// Si il ya au moins 1 fournisseur correspondant aux parametres tri le tableau
-		if($palmares != []) {
+		if(isset($palmares)) {
 			usort($palmares, 'self::comparerPrixHT');
 		}
 		return $palmares;
@@ -84,26 +90,54 @@ class StockModele
 				);
 			}
 		}
+		
 		// Si il ya au moins une quantite factorise par date
 		if ($montantEtQuantite !=null) {
 			$sommeParDate = array();
 			// Parcours du tableau $montantEtQuantite pour calculer les sommes des quantités par date
 			foreach ($montantEtQuantite as $commande) {
+				
 				$date = $commande['date'];
 				$quantite = $commande['quantite'];
 				$montant = $commande['montant'];
-			
-				// Si la date existe déjà dans le tableau, ajoute la quantité et le montant à la somme existante
-				if (isset($sommeParDate[$date])) {
-					$sommeParDate[$date]['quantite'] += $quantite;
-					$sommeParDate[$date]['montant'] += $montant;
+				// Si l'utilisateur veut regrouper par jour 
+				if ($moisOuJour == 'jour') {
+					// Si la date existe déjà dans le tableau, ajoute la quantité et le montant à la somme existante
+					if (isset($sommeParDate[$date])) {
+						$sommeParDate[$date]['quantite'] += $quantite;
+						$sommeParDate[$date]['montant'] += $montant;
+					} else {
+						// Sinon initialise la date la somme et la quantité et au montant actuels
+						$sommeParDate[$date] = array('date' => $date, 'quantite' => $quantite, 'montant' => $montant);
+					}
+				// Si l'utilisateur veut regrouper par mois 
 				} else {
-					// Sinon, initialise la somme à la quantité et au montant actuels
-					$sommeParDate[$date] = array('quantite' => $quantite, 'montant' => $montant);
+					// Extraire le mois de la date
+					$mois = date('Y-m', strtotime($date));
+
+					// Si le mois existe déjà dans le tableau, ajoute la quantité et le montant à la somme existante
+					if (isset($sommeParDate[$mois])) {
+						$sommeParDate[$mois]['quantite'] += $quantite;
+						$sommeParDate[$mois]['montant'] += $montant;
+					} else {
+						// Sinon, initialise la somme à la quantité et au montant actuels
+						$sommeParDate[$mois] = array('date' => $mois, 'quantite' => $quantite, 'montant' => $montant);
+					}
 				}
+				
 			}
-			return $sommeParDate;
+			
 		}
-		
+		// Tri du tableau $sommeParDate par date croissante
+		uasort($sommeParDate, 'self::comparerDates');
+		$bonFormat[] = array();
+		$compteur = 0;
+		foreach ($sommeParDate as $somme) {
+			$bonFormat[$compteur]['date'] = $somme['date'];
+			$bonFormat[$compteur]['quantite'] = $somme['quantite'];
+			$bonFormat[$compteur]['montant'] = $somme['montant'];
+			$compteur++;
+		}
+		return $bonFormat;
 	}
 }

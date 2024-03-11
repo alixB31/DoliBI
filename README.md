@@ -44,3 +44,16 @@ docker-compose exec SAE_S4_DoliBI composer update
 ## Liens du site
 http://localhost:8080/dolibi/
 
+docker-compose exec SAE_S4_DoliBI bash
+
+PHPStan
+
+$ php ./dolibi/lib/vendor/bin/phpstan --xdebug analyse -c ./phpstan.neon
+
+tests (without coverage)
+
+$ php ./dolibi/lib/vendor/bin/phpunit
+
+tests with coverage
+
+$ php -d xdebug.mode=coverage ./dolibi/lib/vendor/bin/phpunit  --coverage-html='reports/coverage'

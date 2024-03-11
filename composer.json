@@ -1,7 +1,7 @@
 {
     "name": "yasmf/dolibi",
     "config": {
-      "vendor-dir": "DoliBI/lib/vendor"
+      "vendor-dir": "dolibi/lib/vendor"
     },
     "repositories": [
       {
@@ -11,9 +11,9 @@
     ],
     "autoload": {
       "psr-4": {
-        "controleurs\\": "DoliBI/controleurs",
-        "modeles\\": "DoliBI/modeles",
-        "application\\": "DoliBI/application"
+        "controleurs\\": "dolibi/controleurs",
+        "modeles\\": "dolibi/modeles",
+        "application\\": "dolibi/application"
       }
     },
     "require": {
@@ -24,4 +24,3 @@
       "yasmf/yasmf": ">=1.6.1"
     }
   }
-  

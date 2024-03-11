@@ -55,41 +55,28 @@
                             <th>Montant achetés HT</th>
                         </tr>
                         <?php
-                            // $compteur = 0;
-                            // foreach ($palmares as $element) {
-                            //     // Affiche le nombre de fournisseurs choisis par l'utilisateur
-                            //     if ($compteur <= $top) {
-                            //         echo "<tr>
-                            //                 <td>".$element['code_fournisseur']."</td>
-                            //                 <td>".$element['nom']."</td>
-                            //                 <td>".$element['prixHT']."</td>
-                            //             </tr>";
-                            //         $compteur++;
-                            //     }
-                            // }
+                            $compteur = 0;
+                            foreach ($palmares as $element) {
+                                // Affiche le nombre de fournisseurs choisis par l'utilisateur
+                                if ($compteur <= $top) {
+                                    echo "<tr>
+                                            <td>".$element['code_fournisseur']."</td>
+                                            <td>".$element['nom']."</td>
+                                            <td>".$element['prixHT']."</td>
+                                        </tr>";
+                                    $compteur++;
+                                }
+                            }
                         ?>
                     </table>
                     <?php
-                        // if($palmares==[]) {
-                        //     echo "Aucune données ne correspond a vos parametres";
-                        // }
                         if($palmares==[]) {
                             echo "Aucune données ne correspond à vos paramètres";
                         }
                     ?>
-                    <div>
-                        <select name="forunisseur" id="fournisseur">
-                            <?php
-                            foreach ($palmares as $element) {
-                                echo '<option value="'.$element['nom'].'">'.$element['nom'].'</option>';
-                            }
-                            ?>
-                        </select>
-                        <canvas id="myChart"></canvas>
-                    </div>
-                    <script src="js/script.js"></script>
                 </form>
             </div>
+            
             <div>
                 <form action="index.php" method= "post">
                     <input type="hidden" name="controller" value="Stock">
@@ -99,12 +86,12 @@
                     <br>
                     <button type="submit">Rechercher fournisseur</button>
                 </form>
+
                 <form action="index.php" method= "post">
                     <input type="hidden" name="controller" value="Stock">
                     <input type="hidden" name="action" value="montantEtQuantiteFournisseur">
                     <input type="hidden" name="rechercheFournisseur" value="<?php if($rechercheFournisseur !=null){echo $rechercheFournisseur;}?>">
-                    <input type="hidden" name="listeFournisseurs" value="<?php echo $listeFournisseurs;?>">
-                    <?php var_dump($listeFournisseurs); ?>
+                    Fournisseur
                     <select id="idFournisseur" name="idFournisseur">
                         <?php
                             foreach ($listeFournisseurs as $liste) {
@@ -112,13 +99,34 @@
                                     echo "<option value=".$liste["id_fournisseur"]." selected>".$liste["nom"]."</option>";
                                 } else {
                                     echo "<option value=".$liste["id_fournisseur"].">".$liste["nom"]."</option>";
-                                }
-                                
+                                } 
                             }
+                            
                         ?>
                     </select>
+                    <br>
+                    Date début
+                    <input name="dateDebut" type="date" value="<?php if($dateDebut !=null){echo $dateDebut;}?>" >
+                    <br>
+                    Date fin
+                    <input name="dateFin" type="date" value="<?php if($dateFin !=null){echo $dateFin;}?>" >
+                    <br>
+                    Par mois ou par jour
+                    <select id="moisOuJour" name="moisOuJour">
+                        <option value="mois">mois</option>
+                        <option value="jour">jour</option>
+                    </select>
+                    <br>
                     <button type="submit">Valider</button> 
                 </form>
+                <?php
+                    $donneesJSON = json_encode($montantEtQuantite);
+                ?>
+                <div>
+                    <canvas id="myChart"></canvas>
+                </div>
+                <span id="donnees"><?php echo $donneesJSON; ?></span>
+                <script src="js/script.js"></script>            
             </div>
         </div>
     </body>

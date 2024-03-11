@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  SAE_S3_DevWeb:
+  SAE_S4_DoliBI:
     image: webdevops/php-apache-dev:8.2-alpine
     container_name: SAE_S4_DoliBI_app
     working_dir: /app/

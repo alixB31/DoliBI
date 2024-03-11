@@ -33,9 +33,9 @@ class StockControleur {
         $dateDebut = HttpHelper::getParam('dateDebut');
         $dateFin = HttpHelper::getParam('dateFin');
         $top = HttpHelper::getParam('TopX');
+        var_dump($top);
         // Demande au modele de trouver le palmares fournisseur
         $palmaresFournisseurs = $this->stockModele->palmaresFournisseurs($url,$apiKey,$dateDebut,$dateFin,$top);
-        
         $vue = new View("vues/vue_dashboard_stock");
         $vue->setVar("top", $top);
         $vue->setVar("dateDebut", $dateDebut);
@@ -61,6 +61,7 @@ class StockControleur {
         return $vue;
     }
 
+
     public function montantEtQuantiteFournisseur() : View
     {
         session_start();
@@ -74,13 +75,18 @@ class StockControleur {
         $idFournisseur = HttpHelper::getParam('idFournisseur');
         $dateDebut = HttpHelper::getParam('dateDebut');
         $dateFin = HttpHelper::getParam('dateFin');
-        $MoisOuJour = HttpHelper::getParam('MoisOuJour');
+        $moisOuJour = HttpHelper::getParam('moisOuJour');
+        // Delande au modele de retrouver la liste des fournisseurs correspondant au nom
+        $listeFournisseurs = $this->stockModele->listeFournisseursLike($url,$apiKey,$rechercheFournisseur);
         // Demande au modele de trouver le palmares fournisseur
-        $montantEtQuantite = $this->stockModele->montantEtQuantite($url,$apiKey,$idFournisseur,$dateDebut,$dateFin,$MoisOuJour);
+        $montantEtQuantite = $this->stockModele->montantEtQuantite($url,$apiKey,$idFournisseur,$dateDebut,$dateFin,$moisOuJour);
         $vue = new View("vues/vue_dashboard_stock");
         $vue->setVar("rechercheFournisseur",$rechercheFournisseur);
         $vue->setVar("listeFournisseurs",$listeFournisseurs);
         $vue->setVar("idChoisis",$idFournisseur);
+        $vue->setVar("dateDebut", $dateDebut);
+        $vue->setVar("dateFin", $dateFin);
+        $vue->setVar("montantEtQuantite", $montantEtQuantite);
         return $vue;
     }
 }
