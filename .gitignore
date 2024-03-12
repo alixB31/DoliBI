@@ -8,3 +8,5 @@ Bin
 /dolibi/static/fontawesome-free-6.2.1-web/
 /bin/
 vendor
+.phpunit.result.cache
+reports

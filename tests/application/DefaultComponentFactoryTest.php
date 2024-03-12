@@ -20,6 +20,12 @@
 namespace application;
 
 use controleurs\HomeController;
+use modeles\UserModele;
+use controleurs\UtilisateurCompteControleur;   
+use controleurs\BanqueControleur;
+use modeles\BanqueModele;
+use controleurs\StockControleur;
+use modeles\StockModele;
 use PHPUnit\Framework\TestCase;
 use services\UsersService;
 use yasmf\NoControllerAvailableForNameException;
@@ -45,6 +51,22 @@ class DefaultComponentFactoryTest extends TestCase
         self::assertInstanceOf(HomeController::class,$controller);
     }
 
+    public function testBuildControllerByName_Banque()
+    {
+        // when ask for bank controller
+        $controller = $this->componentFactory->buildControllerByName("Banque");
+        // then the controller is banqueControleur instance
+        self::assertInstanceOf(BanqueControleur::class,$controller);
+    }
+
+    public function testBuildControllerByName_Stock()
+    {
+        // when ask for stock controller
+        $controller = $this->componentFactory->buildControllerByName("Stock");
+        // then the controller is StockControleur instance
+        self::assertInstanceOf(StockControleur::class,$controller);
+    }
+
     public function testBuildControllerByName_Other()
     {
         // expected exception when ask for a non-existant controller
@@ -55,9 +77,25 @@ class DefaultComponentFactoryTest extends TestCase
     public function testBuildServiceByName_Users()
     {
         // when ask for user service
-        $service = $this->componentFactory->buildServiceByName("Users");
-        // then the service is UsersService instance
-        self::assertInstanceOf(UsersService::class,$service);
+        $service = $this->componentFactory->buildServiceByName("User");
+        // then the service is UserModele instance
+        self::assertInstanceOf(UserModele::class,$service);
+    }
+
+    public function testBuildServiceByName_Banque()
+    {
+        // when ask for bank service
+        $service = $this->componentFactory->buildServiceByName("Banque");
+        // then the service is BanqueModele instance
+        self::assertInstanceOf(BanqueModele::class,$service);
+    }
+
+    public function testBuildServiceByName_Stock()
+    {
+        // when ask for stock service
+        $service = $this->componentFactory->buildServiceByName("Stock");
+        // then the service is StockModele instance
+        self::assertInstanceOf(StockModele::class,$service);
     }
 
     public function testBuildServiceByName_Other()

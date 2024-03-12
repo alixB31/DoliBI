@@ -24,7 +24,7 @@
                         Connexion depuis l'IUT ? 
                         <br/>
                         <?php
-                        if(!$verifConnexion) {
+                        if($verifConnexion == false) {
                             echo "Aucune données ne correspond à vos paramètres";
                         }
                         ?>

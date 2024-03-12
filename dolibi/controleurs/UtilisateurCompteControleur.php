@@ -19,6 +19,7 @@ class UtilisateurCompteControleur
     public function index() : View 
     {
         $vue = new View("vues/vue_connexion");
+        $verifConnexion = true;
         return $vue;
     }
 
@@ -33,7 +34,7 @@ class UtilisateurCompteControleur
         $apiKey = $this->userModele->connexion($identifiant,$mdp,$url,$checkBoxIut);
         if ($apiKey == []) {
             $vue = new View("vues/vue_connexion");
-            $verifConnexion = true;
+            $verifConnexion = false;
         } else {
             session_start();
             $_SESSION['url'] = $url;
