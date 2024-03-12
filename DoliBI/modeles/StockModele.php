@@ -25,12 +25,12 @@ class StockModele
     function palmaresFournisseurs($url,$apikey,$dateDebut,$dateFin) {		
 		$urlThirdParties = $url.'api/index.php/thirdparties?fields=id&sqlfilters=(t.fournisseur:LIKE:1)';
 		// Recupere la liste des fournisseurs
-		$listeFournisseurs = UserModele::appelAPI($urlThirdParties,$apikey,null);
+		$listeFournisseurs = UserModele::appelAPI($urlThirdParties,$apikey);
 		// Parcoure tout les fournisseurs
 		// Initialise le palmares:
 		foreach($listeFournisseurs as $liste) {
 			$urlPalmares  = $url."api/index.php/supplierorders?sortfield=t.rowid&sortorder=ASC&limit=100&sqlfilters=(t.fk_soc%3A%3D%3A".$liste['id'].")";
-			$listeCommandefournisseur = UserModele::appelAPI($urlPalmares,$apikey,null);
+			$listeCommandefournisseur = UserModele::appelAPI($urlPalmares,$apikey);
 			// Parcoure toutes les commandes effectués a ce fournisseurs et calcule le prix total
 			$prixHT = 0;
 			foreach($listeCommandefournisseur as $listeCommande) {
@@ -59,7 +59,7 @@ class StockModele
 	function listeFournisseursLike($url,$apikey,$nom) {
 		$urlThirdParties = $url.'api/index.php/thirdparties?fields=id&sqlfilters=&sqlfilters=(t.fournisseur:LIKE:1)%20and%20(t.nom:like:%'.$nom.'%)';
 		// Recupere la liste des fournisseurs
-		$listeFournisseurs = UserModele::appelAPI($urlThirdParties,$apikey,null);
+		$listeFournisseurs = UserModele::appelAPI($urlThirdParties,$apikey);
 		$listeFournisseur[] =null;
 		foreach($listeFournisseurs as $liste) {
 			$listeFournisseur[] = array(
@@ -73,7 +73,7 @@ class StockModele
 	function montantEtQuantite($url,$apikey,$id,$dateDebut,$dateFin,$moisOuJour) {
 		$urlCommande = $url."api/index.php/supplierorders?sortfield=t.rowid&sortorder=ASC&limit=100&sqlfilters=(t.fk_soc%3A%3D%3A".$id.")";
 		// Recupere la liste des fournisseurs
-		$commandes = UserModele::appelAPI($urlCommande,$apikey,null);
+		$commandes = UserModele::appelAPI($urlCommande,$apikey);
 		// Initialisation
 		$montantEtQuantite[] = null;
 		foreach($commandes as $commande) {

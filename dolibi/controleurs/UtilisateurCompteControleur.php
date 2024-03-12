@@ -18,8 +18,11 @@ class UtilisateurCompteControleur
 
     public function index() : View 
     {
-        $vue = new View("vues/vue_connexion");
+        $fichier_urls = "url.txt";
+        $listeUrl = $this->userModele->listeUrl($fichier_urls);
         $verifConnexion = true;
+        $vue = new View("vues/vue_connexion");
+        $vue->setVar("listeUrl", $listeUrl);
         return $vue;
     }
 
@@ -27,13 +30,15 @@ class UtilisateurCompteControleur
     public function connexion(): View
     {
         $identifiant = htmlspecialchars(HttpHelper::getParam('identifiant'));
-        $checkBoxIut = HttpHelper::getParam('coIUT');
         $mdp = htmlspecialchars(HttpHelper::getParam('mdp'));
-        $url = htmlspecialchars(HttpHelper::getParam('url'));
+        $url = HttpHelper::getParam('urlExistant');
 
-        $apiKey = $this->userModele->connexion($identifiant,$mdp,$url,$checkBoxIut);
+        $apiKey = $this->userModele->connexion($identifiant,$mdp,$url);
         if ($apiKey == []) {
+            $fichier_urls = "url.txt";
+            $listeUrl = $this->userModele->listeUrl($fichier_urls);
             $vue = new View("vues/vue_connexion");
+            $vue->setVar("listeUrl", $listeUrl);
             $verifConnexion = false;
         } else {
             session_start();
@@ -52,4 +57,25 @@ class UtilisateurCompteControleur
         $vue = new View("vues/vue_connexion");
         return $vue;
     } 
+
+    public function ajoutUrl() : View
+    {
+        // Définit le fichier où seront stockées les URL
+		$fichier_urls = "url.txt";
+        $url = htmlspecialchars(HttpHelper::getParam('urlSaisi'));
+        $urlExiste = $this->userModele->urlExiste($url, $fichier_urls);
+        if (!$urlExiste) {
+            $this->userModele->ajoutURL($url, $fichier_urls);
+            $listeUrl = $this->userModele->listeUrl($fichier_urls);
+            $vue = new View("vues/vue_connexion");
+            $vue->setVar("listeUrl", $listeUrl);
+            return $vue;
+        } else {
+            //$this->userModele->ajoutURL($url, $fichier_urls);
+            $listeUrl = $this->userModele->listeUrl($fichier_urls);
+            $vue = new View("vues/vue_connexion");
+            $vue->setVar("listeUrl", $listeUrl);
+            return $vue;
+        }
+    }
 }

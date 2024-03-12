@@ -1,7 +1,8 @@
-/*body {  
-    background: linear-gradient(white, black);
+body {  
+    background: linear-gradient(white, rgb(50, 61, 255));
     color :black;
-}*/
+    height: 100%;
+}
 
 .textenoir {
     color :black;
@@ -20,7 +21,7 @@
 
 header {
     padding: 5px;
-    background-color: black;
+    background-color: rgb(1, 39, 255);
     margin-bottom: 10px;
     color :white;
 }

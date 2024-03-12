@@ -6,7 +6,7 @@ namespace modeles;
 class UserModele
 {
 
-    static function appelAPI($apiUrl,$apiKey,$iut) {
+    static function appelAPI($apiUrl,$apiKey) {
 		// Interrogation de l'API
 		// Retourne le résultat en format JSON
 		$curl = curl_init();									// Initialisation
@@ -22,11 +22,11 @@ class UserModele
 		}
 		curl_setopt($curl, CURLOPT_HTTPHEADER, $httpheader);
 		// A utiliser sur le réseau des PC IUT, pas en WIFI, pas sur une autre connexion
-		if ($iut == "on") {
-			$proxy="http://cache.iut-rodez.fr:8080";
-			curl_setopt($curl, CURLOPT_HTTPPROXYTUNNEL, true);
-			curl_setopt($curl, CURLOPT_PROXY,$proxy ) ;
-		}
+		
+		// $proxy="http://cache.iut-rodez.fr:8080";
+		// curl_setopt($curl, CURLOPT_HTTPPROXYTUNNEL, true);
+		// curl_setopt($curl, CURLOPT_PROXY,$proxy ) ;
+		
 		///////////////////////////////////////////////////////////////////////////////
 		$result = curl_exec($curl);								// Exécution
 		$http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);	// Récupération statut 
@@ -45,12 +45,46 @@ class UserModele
 		return date($format, $timestamp);
 	}
 
-    function connexion($login,$mdp,$url,$iut) {
+    function connexion($login,$mdp,$url) {
 		$urlConnexion = $url."api/index.php/login?login=".$login."&password=".$mdp;
 		// récupere l'apiKey de l'utilisateur qui se connecte
 		// Si récupere [] alors les identifiants sont mauvais
-		$apiKey = self::appelAPI($urlConnexion,null,$iut);
+		$apiKey = self::appelAPI($urlConnexion,null);
 		return $apiKey['success']['token'];
     }
+
+	// Fonction pour ajouter une URL au fichier
+	function ajoutURL($url, $fichier) {
+    	// Ouvre le fichier en mode append (ajout à la fin)
+    	$handle = fopen($fichier, 'a');
     
+		// Écrit l'URL dans le fichier suivi d'un saut de ligne
+		fwrite($handle, $url . PHP_EOL);
+    
+		// Ferme le fichier
+		fclose($handle);
+	}
+	
+	function urlExiste($url, $fichier) {
+		// Vérifie si le fichier existe
+		if (file_exists($fichier)) {
+			// Lit le contenu du fichier dans un tableau, chaque ligne est un élément du tableau
+			$urls = file($fichier, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+			
+			// Parcourt le tableau pour vérifier si l'URL existe déjà
+			foreach ($urls as $existingUrl) {
+				if (trim($existingUrl) === trim($url)) {
+					return true; // L'URL existe déjà
+				}
+			}
+		}
+		return false; // L'URL n'existe pas dans le fichier ou le fichier n'existe pas
+	}
+	
+	//Fonction pour lire une URL du fichier
+	function listeUrl($fichier) {
+		// Lit le contenu du fichier 
+	 	$urls = file($fichier, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+	 	return $urls;
+	}
 }

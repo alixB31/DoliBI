@@ -46,7 +46,7 @@ class DefaultComponentFactory implements ComponentFactory
 
     private function buildHomeController(): HomeController
     {
-        return new HomeController();
+        return new HomeController($this->buildServiceByName("User"));
     }
 
     private function buildUtilisateurCompteController(): UtilisateurCompteControleur

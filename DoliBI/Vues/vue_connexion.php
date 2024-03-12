@@ -16,21 +16,31 @@
                 <h1>Bienvenue sur Doli-BI</h1>
                 <h2>Veuillez vous identifier pour continuer</h2>
             </div>
-            <form action="index.php" method="post">
-                <input type="hidden" name="controller" value="UtilisateurCompte">
-                <input type="hidden" name="action" value="connexion">
-                    <div class="cadre mx-auto offset-md-3 col-md-4 col-12">
-                        <input type ="checkbox" name="coIUT">
-                        Connexion depuis l'IUT ? 
+            <div class="cadre mx-auto offset-md-3 col-md-4 col-12">
+                <form action="index.php" method="post">
+            
+                    <input type="hidden" name="controller" value="UtilisateurCompte">
+                    <input type="hidden" name="action" value="ajoutURL">
+                    Ajouter un url de connexion
+                    <input type="text" class="form-control" name="urlSaisi" placeholder="URL de connexion"/>
+                    <input class="btn-blanc btn-modif" type="submit" value="Ajouter">
+
+                </form>
+                <form action="index.php" method="post">
+                    <input type="hidden" name="controller" value="UtilisateurCompte">
+                    <input type="hidden" name="action" value="connexion">
+                    
                         <br/>
-                        <?php
-                        if($verifConnexion == false) {
-                            echo "Aucune données ne correspond à vos paramètres";
-                        }
-                        ?>
+                        
                         URL de connexion :
+                        <select name="urlExistant" id="urlExistant">
+                            <?php
+                           foreach ($listeUrl as $Url) {
+                                echo "<option value=".$Url.">".$Url."</option>";
+                           }
+                            ?>
+                        </select>
                         <br/>
-                        <input type="URLco" class="form-control" name="url" placeholder="Entrez l'URL de connexion"/>
                         Identifiant :
                         <br/>
                         <input type="text" class="form-control" name="identifiant" placeholder="Entrez votre identifiant">
@@ -45,18 +55,11 @@
             </form>
         </div>
         <br/>
-        <footer>
-            <div class="container-fluid">
-                <div class="row">
-                    <br/>
-                    Réalisé par :
-                    <div class="col-6 contenue_droite">
-                        <img src="static/images/logo-iut.png" width="150" height="90" class="logo" id="logoIUT" alt="Logo IUT" href="http://www.iut-rodez.fr"
-                            target="_blank"/>
-                    </div>
-                    <br>
-                </div>
+        <br>
+            Réalisé par :
+            <div class="col-6 contenue_droite">
+                <img src="static/images/logo-iut.png" width="150" height="90" class="logo" id="logoIUT" alt="Logo IUT" href="http://www.iut-rodez.fr"
+                    target="_blank"/>
             </div>
-        </footer>
     </body>
 </html>
