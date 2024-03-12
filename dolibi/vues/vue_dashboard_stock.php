@@ -125,7 +125,7 @@
                 <div>
                     <canvas id="myChart"></canvas>
                 </div>
-                <span id="donnees"><?php echo $donneesJSON; ?></span>
+                <span id="donnees" class="invisible"><?php echo $donneesJSON; ?></span>
                 <script src="js/script.js"></script>            
             </div>
         </div>
