@@ -1,5 +1,5 @@
 body {  
-    background: linear-gradient(white, rgb(50, 61, 255));
+    background: linear-gradient(white, rgb(38, 60, 92));
     color :black;
     height: 100%;
 }
@@ -21,7 +21,7 @@ body {
 
 header {
     padding: 5px;
-    background-color: rgb(1, 39, 255);
+    background-color: rgb(38, 60, 92);
     margin-bottom: 10px;
     color :white;
 }
