@@ -20,7 +20,6 @@ class UtilisateurCompteControleur
     {
         $fichier_urls = "url.txt";
         $listeUrl = $this->userModele->listeUrl($fichier_urls);
-        $verifConnexion = true;
         $vue = new View("vues/vue_connexion");
         $vue->setVar("listeUrl", $listeUrl);
         return $vue;
@@ -39,13 +38,11 @@ class UtilisateurCompteControleur
             $listeUrl = $this->userModele->listeUrl($fichier_urls);
             $vue = new View("vues/vue_connexion");
             $vue->setVar("listeUrl", $listeUrl);
-            $verifConnexion = false;
         } else {
             session_start();
             $_SESSION['url'] = $url;
             $_SESSION['checkBox'] = $checkBoxIut;
             $_SESSION['apiKey'] = $apiKey;
-            $verifConnexion = true;
             $vue = new View("vues/vue_dashboard_stock");
         }
         return $vue;

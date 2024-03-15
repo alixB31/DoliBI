@@ -18,7 +18,6 @@ class HomeController {
     public function index() : View{
         $fichier_urls = "url.txt";
         $listeUrl = $this->userModele->listeUrl($fichier_urls);
-        $verifConnexion = true;
         $vue = new View("vues/vue_connexion");
         $vue->setVar("listeUrl", $listeUrl);
         return $vue;
