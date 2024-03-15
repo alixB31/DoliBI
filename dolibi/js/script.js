@@ -8,7 +8,7 @@ var dates = [];
 var quantites = [];
 var montants = [];
 
-for (var i = 1; i < donnees.length; i++) {
+for (var i = 0; i < donnees.length; i++) {
   dates.push(donnees[i].date);
   quantites.push(donnees[i].quantite);
   montants.push(donnees[i].montant);

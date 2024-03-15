@@ -143,3 +143,14 @@ body {
 .menu-list li a:hover {
     color: #ffcc00;
 }
+
+/* Lorsque qu'un champ est invalide affiche en rouge */
+#invalide {
+    color: rgb(245, 0, 0);
+    text-align: center;
+}
+
+/*!texte à droite*/
+.row-gauche {
+    margin-left: 220px;
+}

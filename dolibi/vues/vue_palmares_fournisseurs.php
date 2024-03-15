@@ -17,15 +17,31 @@
             <a href="?controller=Stock&action=voirDashboard"><h1>Gestion des Stocks</h1></a>
             </div>
             <div class="col-3">
-                <button name="deconnexion" class="btn-deco d-none d-md-block d-sm-block">
+            <button name="deconnexion" class="btn-deco d-none d-md-block d-sm-block">
                     <i class="fa-solid fa-power-off"></i>
-                    Déconnexion
+                    <a href="?controller=UtilisateurCompte&action=deconnexion">Déconnexion<a>
                 </button>
             </div>
     </header>
     <body>
         <div class="container-fluid">
             <div class="row">
+                <div class="menu">
+                    <button class="menu-button">Stock</button>
+                    <ul class="menu-list">
+                        <li class="rotate-text"><a href="?controller=Stock&action=voirPalmaresFournisseurs">Palmarès fournisseur</a></li>
+                        <li class="rotate-text"><a href="?controller=Stock&action=voirMontantEtQuantiteFourniseeurs">Montant et quantité fournisseur</a></li>
+                        <li class="rotate-text"><a href="?controller=Stock&action=voirEvolutionStockArticle">Évolution stock article</a></li>
+                    </ul>
+                    <button class="menu-button">Banque</button>
+                    <ul class="menu-list">
+                        <li class="rotate-text"><a href="?controller=&action=">Liste des soldes progressifs d'un ou plusieurs comptes bancaires</a></li>
+                        <li class="rotate-text"><a href="?controller=&action=">Graphique d'évolution des soldes des comptes bancaires</a></li>
+                        <li class="rotate-text"><a href="?controller=&action=">Diagramme sectoriel des comptes bancaires</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row row-gauche">
                 <form action="index.php" method= "post">
                     <input type="hidden" name="controller" value="Stock">
                     <input type="hidden" name="action" value="palmaresFournisseurs">
@@ -51,7 +67,8 @@
                         <tr>
                             <th>Code Fournisseur</th>
                             <th>Nom Fournisseur</th>
-                            <th>Montant achetés HT</th>
+                            <th>Montant facture HT</th>
+                            <th>Montant commande HT</th>
                         </tr>
                         <?php
                             $compteur = 0;
@@ -61,7 +78,8 @@
                                     echo "<tr>
                                             <td>".$element['code_fournisseur']."</td>
                                             <td>".$element['nom']."</td>
-                                            <td>".$element['prixHT']."</td>
+                                            <td>".$element['prixHT_Facture']."</td>
+                                            <td>".$element['prixHT_Commande']."</td>
                                         </tr>";
                                     $compteur++;
                                 }

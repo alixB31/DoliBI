@@ -51,6 +51,14 @@ class DefaultComponentFactoryTest extends TestCase
         self::assertInstanceOf(HomeController::class,$controller);
     }
 
+    public function testBuildControllerByName_UtilisateurCompte()
+    {
+        // when ask for UtilisateurCompte controller
+        $controller = $this->componentFactory->buildControllerByName("UtilisateurCompte");
+        // then the controller is UtilisateurCompte instance
+        self::assertInstanceOf(UtilisateurCompteControleur::class,$controller);
+    }
+
     public function testBuildControllerByName_Banque()
     {
         // when ask for bank controller

@@ -16,31 +16,58 @@
  *     You should have received a copy of the GNU Affero General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-
 namespace controleurs;
 
-use PDO;
-use PDOStatement;
 use PHPUnit\Framework\TestCase;
-use controleurs\HomeController;
+use modeles\UserModele;
+use yasmf\View;
 
 class HomeControllerTest extends TestCase
 {
-
     private HomeController $homeController;
-    public function setUp(): void
+    private UserModele $userModele;
+
+    protected function setUp(): void
     {
         parent::setUp();
-        //home controller
-        $this->homeController = new HomeController();
+
+        // Given a user modele
+        $this->userModele = $this->createStub(UserModele::class);
+
+        // HomeController
+        $this->homeController = new HomeController($this->userModele);
     }
 
-    public function testIndex()
+    public function testIndex(): void
     {
-        // when call to index
+        //Cas nominal
+        //When index est appelé avec une liste d'URL non vide
+        $this->userModele->method('listeUrl')->willReturn(['url1', 'url2']);
         $view = $this->homeController->index();
-        // then the view point to the expected view file
-        self::assertEquals("vues/vue_connexion", $view->getRelativePath());
-        // and the statement returned by the service is set as a variable in the view
+
+        //then on affiche la vue connexion
+        $this->assertEquals("vues/vue_connexion", $view->getRelativePath());
+        $this->assertEquals(['url1', 'url2'], $view->getVar("listeUrl"));
+        $this->assertTrue($view->getVar("verifLoginOuMdp"));
+
+        // When index est appelé avec un URL
+        $this->userModele->method('listeUrl')->willReturn(['url1']);
+        $viewOneUrl = $this->homeController->index();
+
+        //then on affiche la vue connexion
+        $this->assertEquals("vues/vue_connexion", $viewOneUrl->getRelativePath());
+        $this->assertEquals(['url1'], $view->getVar("listeUrl"));
+        $this->assertTrue($view->getVar("loginOuMDPOk"));
+        // Ajouter des assertions pour les variables définies dans la vue lorsque la liste contient une seule URL
+
+        // Cas limite
+         //When index est appelé avec une liste d'URL non vide
+        $this->userModele->method('listeUrl')->willReturn([]);
+        $viewEmptyUrls = $this->homeController->index();
+
+        //then on affiche la vue connexion
+        $this->assertEquals("vues/vue_connexion", $viewEmptyUrls->getRelativePath());
+        $this->assertEquals([], $view->getVar("listeUrl"));
+        $this->assertTrue($view->getVar("loginOuMDPOk"));
     }
 }

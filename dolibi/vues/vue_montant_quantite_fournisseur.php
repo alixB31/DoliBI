@@ -17,15 +17,31 @@
             <a href="?controller=Stock&action=voirDashboard"><h1>Gestion des Stocks</h1></a>
             </div>
             <div class="col-3">
-                <button name="deconnexion" class="btn-deco d-none d-md-block d-sm-block">
+            <button name="deconnexion" class="btn-deco d-none d-md-block d-sm-block">
                     <i class="fa-solid fa-power-off"></i>
-                    Déconnexion
+                    <a href="?controller=UtilisateurCompte&action=deconnexion">Déconnexion<a>
                 </button>
             </div>
     </header>
     <body>
         <div class="container-fluid">
             <div class="row">
+                <div class="menu">
+                    <button class="menu-button">Stock</button>
+                    <ul class="menu-list">
+                        <li class="rotate-text"><a href="?controller=Stock&action=voirPalmaresFournisseurs">Palmarès fournisseur</a></li>
+                        <li class="rotate-text"><a href="?controller=Stock&action=voirMontantEtQuantiteFourniseeurs">Montant et quantité fournisseur</a></li>
+                        <li class="rotate-text"><a href="?controller=Stock&action=voirEvolutionStockArticle">Évolution stock article</a></li>
+                    </ul>
+                    <button class="menu-button">Banque</button>
+                    <ul class="menu-list">
+                        <li class="rotate-text"><a href="?controller=&action=">Liste des soldes progressifs d'un ou plusieurs comptes bancaires</a></li>
+                        <li class="rotate-text"><a href="?controller=&action=">Graphique d'évolution des soldes des comptes bancaires</a></li>
+                        <li class="rotate-text"><a href="?controller=&action=">Diagramme sectoriel des comptes bancaires</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row row-gauche">
                 <form action="index.php" method= "post">
                     <input type="hidden" name="controller" value="Stock">
                     <input type="hidden" name="action" value="listeFournisseursLike">
@@ -34,8 +50,6 @@
                     <br>
                     <button type="submit">Rechercher fournisseur</button>
                 </form>
-            </div>
-            <div>
                 <form action="index.php" method= "post">
                     <input type="hidden" name="controller" value="Stock">
                     <input type="hidden" name="action" value="montantEtQuantiteFournisseur">
@@ -60,10 +74,10 @@
                     Date fin
                     <input name="dateFin" type="date" value="<?php if($dateFin !=null){echo $dateFin;}?>" >
                     <br>
-                    Par mois ou par jour
+                    Par 
                     <select id="moisOuJour" name="moisOuJour">
-                        <option value="mois">mois</option>
-                        <option value="jour">jour</option>
+                        <option value="mois" <?php if($moisOuJour == "mois") {echo "selected";}?>>mois</option>
+                        <option value="jour" <?php if($moisOuJour == "jour") {echo "selected";}?>>jour</option>
                     </select>
                     <br>
                     <button type="submit">Valider</button> 
@@ -71,9 +85,8 @@
                 <?php
                     $donneesJSON = json_encode($montantEtQuantite);
                 ?>
-                <div>
+
                     <canvas id="myChart"></canvas>
-                </div>
                 <span id="donnees" class="invisible"><?php echo $donneesJSON; ?></span>
                 <script src="js/script.js"></script>      
             </div>

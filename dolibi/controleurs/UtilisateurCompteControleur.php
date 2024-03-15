@@ -19,9 +19,11 @@ class UtilisateurCompteControleur
     public function index() : View 
     {
         $fichier_urls = "url.txt";
+        $verifLoginOuMdp = true;
         $listeUrl = $this->userModele->listeUrl($fichier_urls);
         $vue = new View("vues/vue_connexion");
         $vue->setVar("listeUrl", $listeUrl);
+        $vue->setVar("loginOuMdpOk", $verifLoginOuMdp);
         return $vue;
     }
 
@@ -35,9 +37,11 @@ class UtilisateurCompteControleur
         $apiKey = $this->userModele->connexion($identifiant,$mdp,$url);
         if ($apiKey == []) {
             $fichier_urls = "url.txt";
+            $verifLoginOuMdp = false;
             $listeUrl = $this->userModele->listeUrl($fichier_urls);
             $vue = new View("vues/vue_connexion");
             $vue->setVar("listeUrl", $listeUrl);
+            $vue->setVar("loginOuMdpOk", $verifLoginOuMdp);
         } else {
             session_start();
             $_SESSION['url'] = $url;
@@ -47,13 +51,6 @@ class UtilisateurCompteControleur
         }
         return $vue;
     }
-
-    public function deconnexion() : View
-    {
-        session_destroy();
-        $vue = new View("vues/vue_connexion");
-        return $vue;
-    } 
 
     public function ajoutUrl() : View
     {
@@ -74,5 +71,17 @@ class UtilisateurCompteControleur
             $vue->setVar("listeUrl", $listeUrl);
             return $vue;
         }
+    }
+
+    public function deconnexion() {
+        session_start();
+        session_destroy();
+        $verifLoginOuMdp = true;
+        $fichier_urls = "url.txt";
+        $listeUrl = $this->userModele->listeUrl($fichier_urls);
+        $vue = new View("vues/vue_connexion");
+        $vue->setVar("listeUrl", $listeUrl);
+        $vue->setVar("loginOuMdpOk", $verifLoginOuMdp);
+        return $vue;
     }
 }

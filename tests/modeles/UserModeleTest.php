@@ -3,7 +3,7 @@
 use PHPUnit\Framework\TestCase;
 use modeles\UserModele;
 
-class UserModeleTest extends TestCase
+class StockModeleTest extends TestCase
 {
     private UserModele $userModele;
 

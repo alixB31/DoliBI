@@ -15,11 +15,14 @@ class HomeController {
         $this->userModele = $userModele;
     }
 
-    public function index() : View{
+    public function index() : View 
+    {
         $fichier_urls = "url.txt";
+        $verifLoginOuMdp = true;
         $listeUrl = $this->userModele->listeUrl($fichier_urls);
         $vue = new View("vues/vue_connexion");
         $vue->setVar("listeUrl", $listeUrl);
+        $vue->setVar("loginOuMdpOk", $verifLoginOuMdp);
         return $vue;
     }
 }

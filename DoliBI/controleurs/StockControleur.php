@@ -57,6 +57,10 @@ class StockControleur {
         $vue = new View("vues/vue_montant_quantite_fournisseur");
         $vue->setVar("listeFournisseurs", $listeFournisseurs);
         $vue->setVar("rechercheFournisseur",$nom);
+        $vue->setVar("idChoisis",null);
+        $vue->setVar("dateDebut", null);
+        $vue->setVar("dateFin", null);
+        $vue->setVar("montantEtQuantite", null);
         return $vue;
     }
 
@@ -85,10 +89,66 @@ class StockControleur {
         $vue->setVar("idChoisis",$idFournisseur);
         $vue->setVar("dateDebut", $dateDebut);
         $vue->setVar("dateFin", $dateFin);
+        $vue->setVar("moisOuJour", $moisOuJour);
         $vue->setVar("montantEtQuantite", $montantEtQuantite);
         return $vue;
     }
 
+    public function listeArticlesLike() : View
+    {
+        session_start();
+        // Recupere les variables de sessions utiles
+        $apiKey = $_SESSION['apiKey'];
+        $url = $_SESSION['url'];
+        // Recupere les parametres choisis par l'utilisateur
+        $nom = HttpHelper::getParam('nom');
+        
+        // Demande au modele de trouver la liste des articles correspondant au nom
+        $listeArticles = $this->stockModele->listeArticlesLike($url,$apiKey,$nom);
+        $vue = new View("vues/vue_evolution_stock_article");
+        $vue->setVar("listeArticles", $listeArticles);
+        $vue->setVar("idChoisis", null);
+        $vue->setVar("dateDebut", null);
+        $vue->setVar("dateFin", null);
+        $vue->setVar("rechercheArticle",$nom);
+        return $vue;
+    }
+
+    public function evolutionStockArticle() : View
+    {
+        session_start();
+        // Recupere les variables de sessions utiles
+        $apiKey = $_SESSION['apiKey'];
+        $url = $_SESSION['url'];
+        // Recupere les parametres choisis par l'utilisateur
+        $rechercheArticle = HttpHelper::getParam('rechercheArticle');
+        $idArticle = HttpHelper::getParam('idArticle');
+        $dateDebut = HttpHelper::getParam('dateDebut');
+        $dateFin = HttpHelper::getParam('dateFin');
+        $moisOuJour = HttpHelper::getParam('moisOuJour');
+        
+        // Demande au modele de trouver la liste des articles correspondant au nom
+        $listeArticles = $this->stockModele->listeArticlesLike($url,$apiKey,$rechercheArticle);
+        $quantiteAchetes = $this->stockModele->quantiteAchetesArticle($url,$apiKey,$idArticle,$dateDebut,$dateFin,$moisOuJour);
+        $quantiteVendues = $this->stockModele->quantiteVenduesArticle($url,$apiKey,$idArticle,$dateDebut,$dateFin,$moisOuJour);
+        
+        $vue = new View("vues/vue_evolution_stock_article");
+        $vue->setVar("listeArticles", $listeArticles);
+        $vue->setVar("idChoisis", $idArticle);
+        $vue->setVar("dateDebut", $dateDebut);
+        $vue->setVar("dateFin", $dateFin);
+        $vue->setVar("moisOuJour", $moisOuJour);
+        $vue->setVar("rechercheArticle",$rechercheArticle);
+        return $vue;
+    }
+
+    
+    public function voirEvolutionStockArticle() : View 
+    {
+        $vue = new View("vues/vue_evolution_stock_article");
+        return $vue;
+    }
+    
     public function voirPalmaresFournisseurs() : View 
     {
         $vue = new View("vues/vue_palmares_fournisseurs");

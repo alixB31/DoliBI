@@ -16,6 +16,9 @@
                 <h1>Bienvenue sur Doli-BI</h1>
                 <h2>Veuillez vous identifier pour continuer</h2>
             </div>
+            <?php
+                    echo (!$loginOuMdpOk) ? '<p id="invalide">Erreur : Identifiant ou mot de passe invalide.</p>' : '';
+                ?>
             <div class="corps-principal">
                 <form action="index.php" method="post">
             
