@@ -174,13 +174,13 @@ class StockModele
 		$commandesArticle = UserModele::appelAPI($urlAchetes,$apikey);
 		// Recherche les quantites par date de l'article choisis
 		$quantiteArticle = self::quantiteArticle($commandesArticle,$idArticle,$dateDebut,$dateFin,$moisOuJour);
+		//var_dump($quantiteArticle);
 		return $quantiteArticle;
 	}
 
 	function quantiteVenduesArticle($url,$apikey,$idArticle,$dateDebut,$dateFin,$moisOuJour) {
 		$urlVendues = $url.'api/index.php/orders?sortfield=t.rowid&sortorder=ASC&limit=100';
 		$commandesArticle = UserModele::appelAPI($urlVendues,$apikey);
-		
 		// Recherche les quantites par date de l'article choisis
 		$quantiteArticle = self::quantiteArticle($commandesArticle,$idArticle,$dateDebut,$dateFin,$moisOuJour);
 		return $quantiteArticle;
@@ -238,16 +238,28 @@ class StockModele
 			}
 			// Tri du tableau $sommeParDate par date croissante
 			uasort($sommeParDate, 'self::comparerDates');
-			$bonFormat[] = array();
-			$compteur = 0;
-			foreach ($sommeParDate as $somme) {
-				$bonFormat[$compteur]['date'] = $somme['date'];
-				$bonFormat[$compteur]['quantite'] = $somme['quantite'];
-				$compteur++;
+			// Créer un intervalle d'un jour
+			$dateCourante = strtotime($dateDebut);
+			$date_fin_timestamp = strtotime($dateFin);
+
+			while ($dateCourante < $date_fin_timestamp) {
+				$dateCourante = strtotime('+1 day', $dateCourante);
+				var_dump($dateTest);
+				$dateTest = date('Y-m-d', $dateCourante);
+				
 			}
-			return $bonFormat;
+			
+			// $bonFormat[] = array();
+			// $compteur = 0;
+			// foreach ($sommeParDate as $somme) {
+			// 	$bonFormat[$compteur]['date'] = $somme['date'];
+			// 	$bonFormat[$compteur]['quantite'] = $somme['quantite'];
+			// 	$compteur++;
+			// }
+			// return $bonFormat;
 		}
-		
 		return null;
 	}
+
+
 }

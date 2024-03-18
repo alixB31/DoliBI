@@ -30,8 +30,8 @@
                     <button class="menu-button">Stock</button>
                     <ul class="menu-list">
                         <li class="rotate-text"><a href="?controller=Stock&action=voirPalmaresFournisseurs">Palmarès fournisseur</a></li>
-                        <li class="rotate-text"><a href="?controller=Stock&action=voirMontantEtQuantiteFourniseeurs">Montant et quantité fournisseur</a></li>
-                        <li class="rotate-text"><a href="?controller=Stock&action=voirEvolutionStockArticle">Évolution stock article</a></li>
+                        <li class="rotate-text <?php if ($_GET['action'] == 'voirMontantEtQuantiteFourniseeurs'|| ($_SERVER['REQUEST_METHOD'] == 'POST')) echo 'active'; ?>"><a href="?controller=Stock&action=voirMontantEtQuantiteFourniseeurs">Montant et quantité fournisseur</a></li>
+                        <li class="rotate-text?>"><a href="?controller=Stock&action=voirEvolutionStockArticle">Évolution stock article</a></li>
                     </ul>
                     <button class="menu-button">Banque</button>
                     <ul class="menu-list">
@@ -42,14 +42,15 @@
                 </div>
             </div>
             <div class="row row-gauche">
-                <form action="index.php" method= "post">
+                <form action="index.php" method= "post" id="first-form">
                     <input type="hidden" name="controller" value="Stock">
                     <input type="hidden" name="action" value="listeFournisseursLike">
                     Nom du Fournisseur
-                    <input name="nom" type="texte" value="<?php if($rechercheFournisseur !=null){echo $rechercheFournisseur;}?>">
+                    <input name="nom" type="texte" id="test" value="<?php if($rechercheFournisseur !=null){echo $rechercheFournisseur;}?>">
                     <br>
                     <button type="submit">Rechercher fournisseur</button>
                 </form>
+            <div id="second-form">
                 <form action="index.php" method= "post">
                     <input type="hidden" name="controller" value="Stock">
                     <input type="hidden" name="action" value="montantEtQuantiteFournisseur">
@@ -86,9 +87,10 @@
                     $donneesJSON = json_encode($montantEtQuantite);
                 ?>
 
-                    <canvas id="myChart"></canvas>
+                <canvas id="myChart"></canvas>
                 <span id="donnees" class="invisible"><?php echo $donneesJSON; ?></span>
-                <script src="js/script.js"></script>      
+                <script src="js/scriptFournisseur.js"></script>
+                </div>      
             </div>
         </div>
     </body>

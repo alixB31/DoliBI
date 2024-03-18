@@ -154,3 +154,12 @@ body {
 .row-gauche {
     margin-left: 220px;
 }
+
+.menu-list li.active a {
+    color: yellow; /* Couleur de texte jaune */
+}
+
+#formulaireAjoutURL {
+    display: none
+}
+

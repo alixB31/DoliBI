@@ -87,4 +87,35 @@ class UserModele
 	 	$urls = file($fichier, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 	 	return $urls;
 	}
+
+	// Fonction pour supprimer une URL du fichier
+	function supprimerURL($urlASupprimer, $fichier) {
+		// Vérifie si le fichier existe
+		if (file_exists($fichier)) {
+			// Ouvre le fichier en mode lecture
+			$handle = fopen($fichier, 'r');
+			
+			// Tableau pour stocker les URLs restantes
+			$nouvellesUrls = array();
+			
+			// Parcourt le fichier pour récupérer les URLs
+			while (($ligne = fgets($handle)) !== false) {
+				// Si l'URL n'est pas celle à supprimer, l'ajouter au tableau
+				if (trim($ligne) !== trim($urlASupprimer)) {
+					$nouvellesUrls[] = $ligne;
+				}
+			}
+			
+			// Ferme le fichier
+			fclose($handle);
+			
+			// Réécrit le contenu du fichier avec les URLs restantes
+			$handle = fopen($fichier, 'w');
+			fwrite($handle, implode(PHP_EOL, $nouvellesUrls));
+			fclose($handle);
+			
+			return true; // Suppression réussie
+		}
+		return false; // Le fichier n'existe pas
+	}
 }

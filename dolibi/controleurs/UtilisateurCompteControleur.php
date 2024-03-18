@@ -59,16 +59,20 @@ class UtilisateurCompteControleur
         $url = htmlspecialchars(HttpHelper::getParam('urlSaisi'));
         $urlExiste = $this->userModele->urlExiste($url, $fichier_urls);
         if (!$urlExiste) {
+            $verifLoginOuMdp = true;
             $this->userModele->ajoutURL($url, $fichier_urls);
             $listeUrl = $this->userModele->listeUrl($fichier_urls);
             $vue = new View("vues/vue_connexion");
             $vue->setVar("listeUrl", $listeUrl);
+            $vue->setVar("loginOuMdpOk", $verifLoginOuMdp);
             return $vue;
         } else {
             //$this->userModele->ajoutURL($url, $fichier_urls);
+            $verifLoginOuMdp = true;
             $listeUrl = $this->userModele->listeUrl($fichier_urls);
             $vue = new View("vues/vue_connexion");
             $vue->setVar("listeUrl", $listeUrl);
+            $vue->setVar("loginOuMdpOk", $verifLoginOuMdp);
             return $vue;
         }
     }

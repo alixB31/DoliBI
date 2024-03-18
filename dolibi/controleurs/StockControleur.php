@@ -110,6 +110,9 @@ class StockControleur {
         $vue->setVar("idChoisis", null);
         $vue->setVar("dateDebut", null);
         $vue->setVar("dateFin", null);
+        $vue->setVar("moisOuJour", "mois");
+        $vue->setVar("quantiteAchetes", null);
+        $vue->setVar("quantiteVendues", null);
         $vue->setVar("rechercheArticle",$nom);
         return $vue;
     }
@@ -138,6 +141,8 @@ class StockControleur {
         $vue->setVar("dateDebut", $dateDebut);
         $vue->setVar("dateFin", $dateFin);
         $vue->setVar("moisOuJour", $moisOuJour);
+        $vue->setVar("quantiteAchetes", $quantiteAchetes);
+        $vue->setVar("quantiteVendues", $quantiteVendues);
         $vue->setVar("rechercheArticle",$rechercheArticle);
         return $vue;
     }
@@ -146,6 +151,14 @@ class StockControleur {
     public function voirEvolutionStockArticle() : View 
     {
         $vue = new View("vues/vue_evolution_stock_article");
+        $vue->setVar("listeArticles", null);
+        $vue->setVar("idChoisis", null);
+        $vue->setVar("dateDebut", null);
+        $vue->setVar("dateFin", null);
+        $vue->setVar("moisOuJour", "mois");
+        $vue->setVar("quantiteAchetes", null);
+        $vue->setVar("quantiteVendues", null);
+        $vue->setVar("rechercheArticle",null);
         return $vue;
     }
     
@@ -157,7 +170,21 @@ class StockControleur {
 
     public function voirMontantEtQuantiteFourniseeurs() : View
     {
+        session_start();
+        // Recupere les variables de sessions utiles
+        $apiKey = $_SESSION['apiKey'];
+        $url = $_SESSION['url'];
+        // Recupere les parametres choisis par l'utilisateur
+        $nom = HttpHelper::getParam('nom');
+        // Demande au modele de trouver la liste des fournisseurs correspondant au nom
+        $listeFournisseurs = $this->stockModele->listeFournisseursLike($url,$apiKey,$nom);
         $vue = new View("vues/vue_montant_quantite_fournisseur");
+        $vue->setVar("listeFournisseurs", $listeFournisseurs);
+        $vue->setVar("rechercheFournisseur",$nom);
+        $vue->setVar("idChoisis",null);
+        $vue->setVar("dateDebut", null);
+        $vue->setVar("dateFin", null);
+        $vue->setVar("montantEtQuantite", null);
         return $vue;
     }
 

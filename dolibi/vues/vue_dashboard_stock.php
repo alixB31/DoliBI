@@ -29,15 +29,15 @@
                 <div class="menu">
                     <button class="menu-button">Stock</button>
                     <ul class="menu-list">
-                        <li class="rotate-text"><a href="?controller=Stock&action=voirPalmaresFournisseurs">Palmarès fournisseur</a></li>
-                        <li class="rotate-text"><a href="?controller=Stock&action=voirMontantEtQuantiteFourniseeurs">Montant et quantité fournisseur</a></li>
-                        <li class="rotate-text"><a href="?controller=Stock&action=voirEvolutionStockArticle">Évolution stock article</a></li>
+                        <li class="rotate-text"><a href="?controller=Stock&action=voirPalmaresFournisseurs" class="active">Palmarès fournisseur</a></li>
+                        <li class="rotate-text"><a href="?controller=Stock&action=voirMontantEtQuantiteFourniseeurs" class="active">Montant et quantité fournisseur</a></li>
+                        <li class="rotate-text"><a href="?controller=Stock&action=voirEvolutionStockArticle" class="active">Évolution stock article</a></li>
                     </ul>
                     <button class="menu-button">Banque</button>
                     <ul class="menu-list">
-                        <li class="rotate-text"><a href="?controller=&action=">Liste des soldes progressifs d'un ou plusieurs comptes bancaires</a></li>
-                        <li class="rotate-text"><a href="?controller=&action=">Graphique d'évolution des soldes des comptes bancaires</a></li>
-                        <li class="rotate-text"><a href="?controller=&action=">Diagramme sectoriel des comptes bancaires</a></li>
+                        <li class="rotate-text"><a href="?controller=&action=" class="active">Liste des soldes progressifs d'un ou plusieurs comptes bancaires</a></li>
+                        <li class="rotate-text"><a href="?controller=&action=" class="active">Graphique d'évolution des soldes des comptes bancaires</a></li>
+                        <li class="rotate-text"><a href="?controller=&action=" class="active">Diagramme sectoriel des comptes bancaires</a></li>
                     </ul>
                 </div>
             </div>

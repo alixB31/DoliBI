@@ -21,15 +21,6 @@
                 ?>
             <div class="corps-principal">
                 <form action="index.php" method="post">
-            
-                    <input type="hidden" name="controller" value="UtilisateurCompte">
-                    <input type="hidden" name="action" value="ajoutURL">
-                    Ajouter un url de connexion :
-                    <input type="text" class="form-control" name="urlSaisi" placeholder="URL de connexion"/>
-                    <input class="btn-blanc btn-modif" type="submit" value="Ajouter">
-
-                </form>
-                <form action="index.php" method="post">
                     <input type="hidden" name="controller" value="UtilisateurCompte">
                     <input type="hidden" name="action" value="connexion">
                     
@@ -43,7 +34,17 @@
                            }
                             ?>
                         </select>
+                        <button id="btnAjouterURL">+</button>
                         <br/>
+                        <span id="formulaireAjoutURL">
+                            <form action="index.php" method="post" id="formulaireAjoutURL">
+                                <input type="hidden" name="controller" value="UtilisateurCompte">
+                                <input type="hidden" name="action" value="ajoutURL">
+                                Ajouter un url de connexion :
+                                <input type="text" class="form-control" name="urlSaisi" placeholder="URL de connexion"/>
+                                <input class="btn-blanc btn-modif" type="submit" value="Ajouter">
+                            </form>
+                        </span>
                         Identifiant :
                         <br/>
                         <input type="text" class="form-control" name="identifiant" placeholder="Entrez votre identifiant">
@@ -56,5 +57,6 @@
                 </form>
             </div>    
         </div>
+        <script src="js/scriptConnexion.js"></script>
     </body>
 </html>
