@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="static\css\common.css">
         <link rel="stylesheet" href="static\fontawesome-free-6.2.1-web/css/all.css">
         <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+        <title>Gestion stock</title>
     </head>
     <header>
         <div class ="row">
@@ -28,9 +29,9 @@
                 <div class="menu">
                     <button class="menu-button">Stock</button>
                     <ul class="menu-list">
-                        <li class="rotate-text"><a href="?controller=Stock&action=voirPalmaresFournisseurs">Palmarès fournisseur</a></li>
-                        <li class="rotate-text <?php if ($_GET['action'] == 'voirMontantEtQuantiteFournisseurs' || ($_SERVER['REQUEST_METHOD'] == 'POST')) echo 'active'; ?>"><a href="?controller=Stock&action=voirMontantEtQuantiteFournisseurs">Montant et quantité fournisseur</a></li>
-                        <li class="rotate-text?>"><a href="?controller=Stock&action=voirEvolutionStockArticle">Évolution stock article</a></li>
+                        <li class="rotate-text <?php if ($_GET['action'] == 'voirPalmaresFournisseurs' || ($_SERVER['REQUEST_METHOD'] == 'POST')) echo 'active'; ?>"><a href="?controller=Stock&action=voirPalmaresFournisseurs">Palmarès fournisseur</a></li>
+                        <li class="rotate-text"><a href="?controller=Stock&action=voirMontantEtQuantiteFournisseurs">Montant et quantité fournisseur</a></li>
+                        <li class="rotate-text"><a href="?controller=Stock&action=voirEvolutionStockArticle">Évolution stock article</a></li>
                     </ul>
                     <button class="menu-button">Banque</button>
                     <ul class="menu-list">
@@ -41,55 +42,41 @@
                 </div>
             </div>
             <div class="row row-gauche">
-                <form action="index.php" method= "post" id="first-form">
-                    <input type="hidden" name="controller" value="Stock">
-                    <input type="hidden" name="action" value="listeFournisseursLike">
-                    Nom du Fournisseur
-                    <input name="nom" type="texte" id="test" value="<?php if($rechercheFournisseur !=null){echo $rechercheFournisseur;}?>">
-                    <br>
-                    <button type="submit">Rechercher fournisseur</button>
-                </form>
-            <div id="second-form">
                 <form action="index.php" method= "post">
                     <input type="hidden" name="controller" value="Stock">
-                    <input type="hidden" name="action" value="montantEtQuantiteFournisseur">
-                    <input type="hidden" name="rechercheFournisseur" value="<?php if($rechercheFournisseur !=null){echo $rechercheFournisseur;}?>">
-                    Fournisseur
-                    <select id="idFournisseur" name="idFournisseur">
+                    <input type="hidden" name="action" value="palmaresFournisseurs">
+                    Banque 
+                    <?php 
+                        foreach($listeBanques as $banque) {
+                    ?>
+                        <div>
+                            <input type="checkbox" class="checkBoxs" name="Banque[]" value="<?php echo $banque["id_banque"]; ?>" <?php
+                            // Vérifier si l'utilisateur est dans la liste des organisateurs
+                            // if (in_array($row['idUtilisateur'], $organisateurIDs)) {
+                            //     echo 'checked';
+                                    
+                            // }
+                            ?>>
+                            <?php echo $banque["nom"]; ?>
+                            <br>
+                        </div>
                         <?php
-                            foreach ($listeFournisseurs as $liste) {
-                                if($liste["id_fournisseur"]==$idChoisis) {
-                                    echo "<option value=".$liste["id_fournisseur"]." selected>".$liste["nom"]."</option>";
-                                } else {
-                                    echo "<option value=".$liste["id_fournisseur"].">".$liste["nom"]."</option>";
-                                } 
-                            }
-                            
-                        ?>
-                    </select>
-                    <br>
+                    }
+                    ?>
                     Date début
                     <input name="dateDebut" type="date" value="<?php if($dateDebut !=null){echo $dateDebut;}?>" >
                     <br>
                     Date fin
                     <input name="dateFin" type="date" value="<?php if($dateFin !=null){echo $dateFin;}?>" >
                     <br>
-                    Par 
                     <select id="moisOuJour" name="moisOuJour">
                         <option value="mois" <?php if($moisOuJour == "mois") {echo "selected";}?>>mois</option>
                         <option value="jour" <?php if($moisOuJour == "jour") {echo "selected";}?>>jour</option>
                     </select>
                     <br>
-                    <button type="submit">Valider</button> 
+                    <button type="submit">Rechercher</button>
+                    <br>
                 </form>
-                <?php
-                    $donneesJSON = json_encode($montantEtQuantite);
-                ?>
-
-                <canvas id="myChart"></canvas>
-                <span id="donnees" class="invisible"><?php echo $donneesJSON; ?></span>
-                <script src="js/scriptFournisseur.js"></script>
-                </div>      
             </div>
         </div>
     </body>

@@ -19,32 +19,29 @@
             <?php
                     echo (!$loginOuMdpOk) ? '<p id="invalide">Erreur : Identifiant ou mot de passe invalide.</p>' : '';
                 ?>
-            <div class="corps-principal">
+            <div class="corps-principal">    
+                <form action="index.php" method="post" id="formulaireAjoutURL">
+                    <input type="hidden" name="controller" value="UtilisateurCompte">
+                    <input type="hidden" name="action" value="ajoutURL">
+                    Ajouter un url de connexion :
+                    <input type="text" class="form-control" name="urlSaisi" placeholder="URL de connexion"/>
+                    <input class="btn-blanc btn-modif" type="submit" value="Ajouter">
+                </form>
                 <form action="index.php" method="post">
                     <input type="hidden" name="controller" value="UtilisateurCompte">
                     <input type="hidden" name="action" value="connexion">
-                    
                         <br/>
-                        
                         URL de connexion :
                         <select name="urlExistant" id="urlExistant">
                             <?php
                            foreach ($listeUrl as $Url) {
                                 echo "<option value=".$Url.">".$Url."</option>";
-                           }
+                            }
                             ?>
                         </select>
-                        <button id="btnAjouterURL">+</button>
+                        <button id="btnAjouterURL">+</button><a href="#" id="btnSupprimerURL"><i class="fa-solid fa-trash"></i></a>
+                        
                         <br/>
-                        <span id="formulaireAjoutURL">
-                            <form action="index.php" method="post" id="formulaireAjoutURL">
-                                <input type="hidden" name="controller" value="UtilisateurCompte">
-                                <input type="hidden" name="action" value="ajoutURL">
-                                Ajouter un url de connexion :
-                                <input type="text" class="form-control" name="urlSaisi" placeholder="URL de connexion"/>
-                                <input class="btn-blanc btn-modif" type="submit" value="Ajouter">
-                            </form>
-                        </span>
                         Identifiant :
                         <br/>
                         <input type="text" class="form-control" name="identifiant" placeholder="Entrez votre identifiant">

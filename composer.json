@@ -13,7 +13,8 @@
       "psr-4": {
         "controleurs\\": "dolibi/controleurs",
         "modeles\\": "dolibi/modeles",
-        "application\\": "dolibi/application"
+        "application\\": "dolibi/application",
+        "outils\\": "dolibi/outils"
       }
     },
     "require": {

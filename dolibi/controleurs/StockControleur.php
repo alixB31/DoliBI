@@ -34,7 +34,7 @@ class StockControleur {
         $dateFin = HttpHelper::getParam('dateFin');
         $top = HttpHelper::getParam('TopX');
         // Demande au modele de trouver le palmares fournisseur
-        $palmaresFournisseurs = $this->stockModele->palmaresFournisseurs($url,$apiKey,$dateDebut,$dateFin,$top);
+        $palmaresFournisseurs = $this->stockModele->palmaresFournisseurs($url,$apiKey,$dateDebut,$dateFin);
         $vue = new View("vues/vue_palmares_fournisseurs");
         $vue->setVar("top", $top);
         $vue->setVar("dateDebut", $dateDebut);
@@ -146,7 +146,6 @@ class StockControleur {
         $vue->setVar("rechercheArticle",$rechercheArticle);
         return $vue;
     }
-
     
     public function voirEvolutionStockArticle() : View 
     {
@@ -168,7 +167,7 @@ class StockControleur {
         return $vue;
     }
 
-    public function voirMontantEtQuantiteFourniseeurs() : View
+    public function voirMontantEtQuantiteFournisseurs() : View
     {
         session_start();
         // Recupere les variables de sessions utiles
@@ -194,3 +193,4 @@ class StockControleur {
         return $vue;
     }
 }
+

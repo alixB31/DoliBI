@@ -30,12 +30,12 @@
                     <button class="menu-button">Stock</button>
                     <ul class="menu-list">
                         <li class="rotate-text <?php if ($_GET['action'] == 'voirPalmaresFournisseurs' || ($_SERVER['REQUEST_METHOD'] == 'POST')) echo 'active'; ?>"><a href="?controller=Stock&action=voirPalmaresFournisseurs">Palmarès fournisseur</a></li>
-                        <li class="rotate-text"><a href="?controller=Stock&action=voirMontantEtQuantiteFourniseeurs">Montant et quantité fournisseur</a></li>
+                        <li class="rotate-text"><a href="?controller=Stock&action=voirMontantEtQuantiteFournisseurs">Montant et quantité fournisseur</a></li>
                         <li class="rotate-text"><a href="?controller=Stock&action=voirEvolutionStockArticle">Évolution stock article</a></li>
                     </ul>
                     <button class="menu-button">Banque</button>
                     <ul class="menu-list">
-                        <li class="rotate-text"><a href="?controller=&action=">Liste des soldes progressifs d'un ou plusieurs comptes bancaires</a></li>
+                        <li class="rotate-text"><a href="?controller=Banque&action=voirListeSoldesBancaireProgressif">Liste des soldes progressifs d'un ou plusieurs comptes bancaires</a></li>
                         <li class="rotate-text"><a href="?controller=&action=">Graphique d'évolution des soldes des comptes bancaires</a></li>
                         <li class="rotate-text"><a href="?controller=&action=">Diagramme sectoriel des comptes bancaires</a></li>
                     </ul>
@@ -53,12 +53,10 @@
                     <br>
                     TOP :
                     <select id="TopX" name="TopX">
-                        <option value="5">5</option>
-                        <option value="10">10</option>
-                        <option value="20">20</option>
-                        <option value="30">30</option>
-                        <option value="40">40</option>
-                        <option value="50">50</option>
+                        <option value="5" <?php if($top == "5"){echo "selected";}?> >5</option>
+                        <option value="10" <?php if($top == "10"){echo "selected";}?> >10</option>
+                        <option value="20" <?php if($top == "20"){echo "selected";}?> >20</option>
+                        <option value="30" <?php if($top == "30"){echo "selected";}?> >30</option>
                     </select>
                     <br>
                     <button type="submit">Rechercher</button>

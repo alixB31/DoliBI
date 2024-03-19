@@ -1,53 +1,48 @@
 <?php
 
 namespace modeles;
-use modeles\UserModele;      
+use outils\fonctions;      
 
+/**
+ * class StockModele
+ * Contient toutes les méthodes relatives à la feature "Stock".
+ */
 class StockModele
 {
-	function convertUnixToDate($unixTimestamp) {
-		return date('Y-m-d', $unixTimestamp);
-	}
-
-
-	function comparerPrixHT($a, $b) {
-		if ($a['prixHT_Facture'] == $b['prixHT_Facture']) {
-			return 0;
-		}
-		return ($a['prixHT_Facture'] > $b['prixHT_Facture']) ? -1 : 1;
-	}
-
-	function comparerDates($a, $b) {
-		return strtotime($a['date']) - strtotime($b['date']);
-	}
-
-
+	/**
+     * Récupere la liste des fournisseurs ainsi que son nom, son code et le montant Ht des commandes et des factures entre 2 dates.
+     * @param url l'url de l'instance de dolibarr utilisé par l'utilisateur.
+     * @param apikey La clé api du compte de l'utilisateur.
+     * @param dateDebut La date de debut pour récuperer les données.
+     * @param dateFin La date de fin pour récuperer les données.
+     * @return palmares un tableaux contenant les données voulu pour chaque fournisseurs.
+     */
     function palmaresFournisseurs($url,$apikey,$dateDebut,$dateFin) {		
 		$urlThirdParties = $url.'api/index.php/thirdparties?fields=id&sqlfilters=(t.fournisseur:LIKE:1)';
 		// Recupere la liste des fournisseurs
-		$listeFournisseurs = UserModele::appelAPI($urlThirdParties,$apikey);
+		$listeFournisseurs = fonctions::appelAPI($urlThirdParties,$apikey);
 		// Parcoure tout les fournisseurs
 		// Initialise le palmares:
 		foreach($listeFournisseurs as $liste) {
 			
 			$urlPalmares  = $url."api/index.php/supplierorders?sortfield=t.rowid&sortorder=ASC&limit=100&sqlfilters=(t.fk_soc%3A%3D%3A".$liste['id'].")";
-			$listeCommandefournisseur = UserModele::appelAPI($urlPalmares,$apikey);
+			$listeCommandefournisseur = fonctions::appelAPI($urlPalmares,$apikey);
 			// Parcoure toutes les commandes effectués a ce fournisseurs et calcule le prix total
 			$prixHT = 0;
 			foreach($listeCommandefournisseur as $listeCommande) {
 				// Regarde si la commande a était éffectué entre les dates voulus
-				if (($dateDebut==null && $dateFin=null) || (self::convertUnixToDate($listeCommande['date'])>=$dateDebut && self::convertUnixToDate($listeCommande['date']<=$dateFin))) {
+				if (($dateDebut==null && $dateFin=null) || (fonctions::convertUnixToDate($listeCommande['date'])>=$dateDebut && fonctions::convertUnixToDate($listeCommande['date']<=$dateFin))) {
 					$prixHT+= intval($listeCommande['total_ht']);
 				}
 			}
 
 			$urlPalmaresFacture  = $url."api/index.php/supplierinvoices?sortfield=t.rowid&sortorder=ASC&limit=100&sqlfilters=(t.fk_soc%3A%3D%3A".$liste['id'].")";
-			$listeFacturefournisseur = UserModele::appelAPI($urlPalmaresFacture,$apikey);
+			$listeFacturefournisseur = fonctions::appelAPI($urlPalmaresFacture,$apikey);
 			// Parcoure toutes les commandes effectués a ce fournisseurs et calcule le prix total
 			$prixHTFacture = 0;
 			foreach($listeFacturefournisseur as $listeFacture) {
 				// Regarde si la commande a était éffectué entre les dates voulus
-				if (($dateDebut==null && $dateFin=null) || (self::convertUnixToDate($listeFacture['date'])>=$dateDebut && self::convertUnixToDate($listeFacture['date']<=$dateFin))) {
+				if (($dateDebut==null && $dateFin=null) || (fonctions::convertUnixToDate($listeFacture['date'])>=$dateDebut && fonctions::convertUnixToDate($listeFacture['date']<=$dateFin))) {
 					$prixHTFacture+= intval($listeFacture['total_ht']);
 				}
 			}
@@ -64,16 +59,23 @@ class StockModele
     	}
 		// Si il ya au moins 1 fournisseur correspondant aux parametres tri le tableau
 		if(isset($palmares)) {
-			usort($palmares, 'self::comparerPrixHT');
+			usort($palmares, 'outils\fonctions::comparerPrixHT');
 		}
 		return $palmares;
 	}
 
 
+	/**
+     * Récupere la liste des fournisseurs correspondant au nom choisis par l'utilisateur
+     * @param url l'url de l'instance de dolibarr utilisé par l'utilisateur.
+     * @param apikey La clé api du compte de l'utilisateur.
+	 * @param nom le nom des fournisseurs.
+     * @return listeFournisseur un tableaux contenant l'ensemble des fournisseurs correspondant au nom.
+     */
 	function listeFournisseursLike($url,$apikey,$nom) {
 		$urlThirdParties = $url.'api/index.php/thirdparties?fields=id&sqlfilters=&sqlfilters=(t.fournisseur:LIKE:1)%20and%20(t.nom:like:%'.$nom.'%)';
 		// Recupere la liste des fournisseurs
-		$listeFournisseurs = UserModele::appelAPI($urlThirdParties,$apikey);
+		$listeFournisseurs = fonctions::appelAPI($urlThirdParties,$apikey);
 		foreach($listeFournisseurs as $liste) {
 			$listeFournisseur[] = array(
 				'id_fournisseur' => $liste['id'],
@@ -83,14 +85,24 @@ class StockModele
 		return $listeFournisseur;
 	}
 
+	/**
+     * Récupere le montant et les quantites de l'ensemble des factures éffectué a un fournisseurs précis
+     * @param url l'url de l'instance de dolibarr utilisé par l'utilisateur.
+     * @param apikey La clé api du compte de l'utilisateur.
+	 * @param id l'id du fournisseur.
+	 * @param dateDebut La date de debut pour récuperer les données.
+     * @param dateFin La date de fin pour récuperer les données.
+	 * @param moisOuJour Si l'utilisateur veut regrouper les données par mois ou par jour.
+     * @return bonFormat le tableaux des données au bon format.
+     */
 	function montantEtQuantite($url,$apikey,$id,$dateDebut,$dateFin,$moisOuJour) {
 		$urlCommande = $url."api/index.php/supplierinvoices?sortfield=t.rowid&sortorder=ASC&limit=100&sqlfilters=(t.fk_soc%3A%3D%3A".$id.")";
 		// Recupere la liste des fournisseurs
-		$commandes = UserModele::appelAPI($urlCommande,$apikey);
+		$commandes = fonctions::appelAPI($urlCommande,$apikey);
 		// Initialisation
 		foreach($commandes as $commande) {
 			// Regarde si la commande a était fais dans l'intervalle voulus
-			if (($dateDebut==null && $dateFin==null) || (self::convertUnixToDate($commande['date'])>=$dateDebut && self::convertUnixToDate($commande['date']<=$dateFin))) {
+			if (($dateDebut==null && $dateFin==null) || (fonctions::convertUnixToDate($commande['date'])>=$dateDebut && fonctions::convertUnixToDate($commande['date']<=$dateFin))) {
 				$quantite = 0;
 				// Ajoute la quantite a la somme des quantites
 				foreach($commande['lines'] as $ligne) {
@@ -98,7 +110,7 @@ class StockModele
 				}
 				
 				$montantEtQuantite[] = array(
-					'date' => self::convertUnixToDate($commande['date']),
+					'date' => fonctions::convertUnixToDate($commande['date']),
 					'quantite' => $quantite,
 					'montant' => $commande['total_ht'],
 				);
@@ -141,25 +153,78 @@ class StockModele
 				
 			}
 			// Tri du tableau $sommeParDate par date croissante
-			uasort($sommeParDate, 'self::comparerDates');
+			uasort($sommeParDate, 'outils\fonctions::comparerDates');
 			$bonFormat[] = array();
 			$compteur = 0;
-			foreach ($sommeParDate as $somme) {
-				$bonFormat[$compteur]['date'] = $somme['date'];
-				$bonFormat[$compteur]['quantite'] = $somme['quantite'];
-				$bonFormat[$compteur]['montant'] = $somme['montant'];
-				$compteur++;
+			$dateCourante = strtotime($dateDebut);
+			$dateDeFin = strtotime($dateFin);
+
+			if ($moisOuJour == 'jour') {
+				while ($dateCourante <= $dateDeFin) {
+					
+					$dateTest = date('Y-m-d', $dateCourante);
+					// Vérifier si la date est présente dans $sommeParDate
+					$quantite = 0;
+					$montant = 0;
+					foreach ($sommeParDate as $somme) {
+						if ($somme['date'] == $dateTest) {
+							$quantite = $somme['quantite'];
+							$montant = $somme['montant'];
+							break;
+						}
+					}
+					// Ajouter la date, la quantité et le montant correspondants au tableau $bonFormat
+					$bonFormat[$compteur] = array('date' => $dateTest, 'quantite' => $quantite, 'montant' => $montant);
+					$compteur +=1;
+					$dateCourante = strtotime('+1 day', $dateCourante);
+				}
+			} else {
+				// Recupere que le mois de la date courante
+				$date_courante = date('Y-m', $dateCourante);
+				$date_fin = date('Y-m', $dateDeFin);
+				// Le met au bon format
+				$dateCourante = strtotime($date_courante);
+				$dateDeFin = strtotime($date_fin);
+				
+				while ($dateCourante <= $dateDeFin) {
+					
+					$moisTest = date('Y-m', $dateCourante);
+					
+					// Vérifier si la date est présente dans $sommeParDate
+					$quantite = 0;
+					$montant = 0;
+					foreach ($sommeParDate as $somme) {
+						if ($somme['date'] == $moisTest) {
+							$quantite = $somme['quantite'];
+							$montant = $somme['montant'];
+							break;
+						}
+					}
+					// Ajouter la date et la quantité correspondante au tableau $bonFormat
+					$bonFormat[$compteur] = array('date' => $moisTest, 'quantite' => $quantite, 'montant' => $montant);
+					$compteur +=1;
+					$dateCourante = strtotime('+1 month', $dateCourante);
+				}
+				return $bonFormat;
 			}
+
 			return $bonFormat;
 		}
 		return null;
 		
 	}
 
+	/**
+     * Récupere la liste des articles correspondant au nom choisis par l'utilisateur
+     * @param url l'url de l'instance de dolibarr utilisé par l'utilisateur.
+     * @param apikey La clé api du compte de l'utilisateur.
+	 * @param nom le nom de l'article.
+     * @return listeFournisseur un tableaux contenant l'ensemble des articles correspondant au nom.
+     */
 	function listeArticlesLike($url,$apikey,$nom) {
 		$urlProduct = $url.'api/index.php/products?sortfield=t.ref&sortorder=ASC&limit=100&sqlfilters=(t.label:LIKE:%'.$nom.'%)';
 		// Recupere la liste des Articles
-		$listeArticles = UserModele::appelAPI($urlProduct,$apikey);
+		$listeArticles = fonctions::appelAPI($urlProduct,$apikey);
 		foreach($listeArticles as $liste) {
 			$listeArticle[] = array(
 				'id' => $liste['id'],
@@ -169,30 +234,60 @@ class StockModele
 		return $listeArticle;
 	}
 
+	/**
+     * Récupere la quantite achetés pour un article précis.
+     * @param url l'url de l'instance de dolibarr utilisé par l'utilisateur.
+     * @param apikey La clé api du compte de l'utilisateur.
+	 * @param idArticle l'id de l'article.
+	 * @param dateDebut La date de debut pour récuperer les données.
+     * @param dateFin La date de fin pour récuperer les données.
+	 * @param moisOuJour Si l'utilisateur veut regrouper les données par mois ou par jour.
+     * @return quantiteArticle le tableaux des quantités achetés.
+     */
 	function quantiteAchetesArticle($url,$apikey,$idArticle,$dateDebut,$dateFin,$moisOuJour) {
 		$urlAchetes = $url.'api/index.php/supplierorders?sortfield=t.rowid&sortorder=ASC&limit=100&product_ids='.$idArticle;
-		$commandesArticle = UserModele::appelAPI($urlAchetes,$apikey);
+		$commandesArticle = fonctions::appelAPI($urlAchetes,$apikey);
 		// Recherche les quantites par date de l'article choisis
 		$quantiteArticle = self::quantiteArticle($commandesArticle,$idArticle,$dateDebut,$dateFin,$moisOuJour);
 		//var_dump($quantiteArticle);
 		return $quantiteArticle;
 	}
 
+	/**
+     * Récupere la quantite vendues pour un article précis.
+     * @param url l'url de l'instance de dolibarr utilisé par l'utilisateur.
+     * @param apikey La clé api du compte de l'utilisateur.
+	 * @param idArticle l'id de l'article.
+	 * @param dateDebut La date de debut pour récuperer les données.
+     * @param dateFin La date de fin pour récuperer les données.
+	 * @param moisOuJour Si l'utilisateur veut regrouper les données par mois ou par jour.
+     * @return quantiteArticle le tableaux des quantités vendues.
+     */
 	function quantiteVenduesArticle($url,$apikey,$idArticle,$dateDebut,$dateFin,$moisOuJour) {
 		$urlVendues = $url.'api/index.php/orders?sortfield=t.rowid&sortorder=ASC&limit=100';
-		$commandesArticle = UserModele::appelAPI($urlVendues,$apikey);
+		$commandesArticle = fonctions::appelAPI($urlVendues,$apikey);
 		// Recherche les quantites par date de l'article choisis
 		$quantiteArticle = self::quantiteArticle($commandesArticle,$idArticle,$dateDebut,$dateFin,$moisOuJour);
 		return $quantiteArticle;
 		
 	}
 
+
+	/**
+     * Récupere la quantite de l'ensemble des factures éffectué pour un article précis.
+     * @param commandesArticle la liste des commandes contenant l'article.
+	 * @param idArticle l'id de l'article.
+	 * @param dateDebut La date de debut pour récuperer les données.
+     * @param dateFin La date de fin pour récuperer les données.
+	 * @param moisOuJour Si l'utilisateur veut regrouper les données par mois ou par jour.
+     * @return bonFormat le tableaux des données au bon format.
+     */
 	function quantiteArticle($commandesArticle,$idArticle,$dateDebut,$dateFin,$moisOuJour) {
 		// Regarde toute les commandes de l'articles
 		foreach($commandesArticle as $commande) {
 			$quantite = 0;
 			// Regarde si la commande a était fais dans l'intervalle voulus
-			if (($dateDebut==null && $dateFin==null) || (self::convertUnixToDate($commande['date'])>=$dateDebut && self::convertUnixToDate($commande['date']<=$dateFin))) {
+			if (($dateDebut==null && $dateFin==null) || (fonctions::convertUnixToDate($commande['date'])>=$dateDebut && fonctions::convertUnixToDate($commande['date']<=$dateFin))) {
 				foreach($commande['lines'] as $lignes) {
 					if($lignes['fk_product'] == $idArticle) {
 						// Ajoute la quantite a la somme des quantites
@@ -200,7 +295,7 @@ class StockModele
 					}
 				}
 				$quantiteParDate[] = array(
-					'date' => self::convertUnixToDate($commande['date']),
+					'date' => fonctions::convertUnixToDate($commande['date']),
 					'quantite' => $quantite,
 				);
 			}
@@ -236,28 +331,67 @@ class StockModele
 				}
 				
 			}
+			
 			// Tri du tableau $sommeParDate par date croissante
-			uasort($sommeParDate, 'self::comparerDates');
+			uasort($sommeParDate, 'outils\fonctions::comparerDates');
 			// Créer un intervalle d'un jour
 			$dateCourante = strtotime($dateDebut);
-			$date_fin_timestamp = strtotime($dateFin);
+			$dateDeFin = strtotime($dateFin);
+			// Initialiser un tableau pour stocker les quantités par date
+			$bonFormat [] = array();
+			$compteur = 0;
+			// Si l'utilisateur a choisis jour
+			if ($moisOuJour == 'jour') {
+				while ($dateCourante <= $dateDeFin) {
+					
+					$dateTest = date('Y-m-d', $dateCourante);
+					// Vérifier si la date est présente dans $sommeParDate
+					$quantite = 0;
+					foreach ($sommeParDate as $somme) {
+						if ($somme['date'] == $dateTest) {
+							$quantite = $somme['quantite'];
+							break;
+						}
+					}
+					// Ajouter la date et la quantité correspondante au tableau $bonFormat
+					$bonFormat[$compteur] = array('date' => $dateTest, 'quantite' => $quantite);
+					$compteur +=1;
+					$dateCourante = strtotime('+1 day', $dateCourante);
+				}
 
-			while ($dateCourante < $date_fin_timestamp) {
-				$dateCourante = strtotime('+1 day', $dateCourante);
-				var_dump($dateTest);
-				$dateTest = date('Y-m-d', $dateCourante);
+				return $bonFormat;
+
+			// Si l'utilisateur a choisis mois
+			} else {
+				// Recupere que le mois de la date courante
+				$date_courante = date('Y-m', $dateCourante);
+				$date_fin = date('Y-m', $dateDeFin);
+				// Le met au bon format
+				$dateCourante = strtotime($date_courante);
+				$dateDeFin = strtotime($date_fin);
 				
+				while ($dateCourante <= $dateDeFin) {
+					
+					$moisTest = date('Y-m', $dateCourante);
+					
+					// Vérifier si la date est présente dans $sommeParDate
+					$quantite = 0;
+					foreach ($sommeParDate as $somme) {
+						if ($somme['date'] == $moisTest) {
+							$quantite = $somme['quantite'];
+							break;
+						}
+					}
+					// Ajouter la date et la quantité correspondante au tableau $bonFormat
+					$bonFormat[$compteur] = array('date' => $moisTest, 'quantite' => $quantite);
+					$compteur +=1;
+					$dateCourante = strtotime('+1 month', $dateCourante);
+				}
+				return $bonFormat;
 			}
 			
-			// $bonFormat[] = array();
-			// $compteur = 0;
-			// foreach ($sommeParDate as $somme) {
-			// 	$bonFormat[$compteur]['date'] = $somme['date'];
-			// 	$bonFormat[$compteur]['quantite'] = $somme['quantite'];
-			// 	$compteur++;
-			// }
-			// return $bonFormat;
 		}
+
 		return null;
 	}
 

@@ -2,58 +2,35 @@
 
 namespace modeles;
 
+use outils\fonctions;
 
+/**
+ * class UserModele
+ * Contient toutes les méthodes relatives à la feature "Utilisateur".
+ */
 class UserModele
-{
+{	
 
-    static function appelAPI($apiUrl,$apiKey) {
-		// Interrogation de l'API
-		// Retourne le résultat en format JSON
-		$curl = curl_init();									// Initialisation
-
-		curl_setopt($curl, CURLOPT_URL, $apiUrl);				// Url de l'API à appeler
-		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);			// Retour dans une chaine au lieu de l'afficher
-		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false); 		// Désactive test certificat
-		curl_setopt($curl, CURLOPT_FAILONERROR, true);
-		
-		$httpheader [] = "Content-Type:application/json";
-		if($apiKey !=null) {
-			$httpheader = ['DOLAPIKEY: '.$apiKey];
-		}
-		curl_setopt($curl, CURLOPT_HTTPHEADER, $httpheader);
-		// A utiliser sur le réseau des PC IUT, pas en WIFI, pas sur une autre connexion
-		
-		// $proxy="http://cache.iut-rodez.fr:8080";
-		// curl_setopt($curl, CURLOPT_HTTPPROXYTUNNEL, true);
-		// curl_setopt($curl, CURLOPT_PROXY,$proxy ) ;
-		
-		///////////////////////////////////////////////////////////////////////////////
-		$result = curl_exec($curl);								// Exécution
-		$http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);	// Récupération statut 
-		// Si 404  indique qu'un serveur ne peut pas trouver la ressource demandée
-		// Si 200 c'est OK
-		curl_close($curl);										// Cloture curl
-		if ($http_status=="200") {								// OK, l'appel s'est bien passé
-			return json_decode($result,true); 					// Retourne la collection 
-		} else {
-			$result=[]; 										// retourne une collection Vide
-			return $result;
-		}
-	}
-
-	function convertirDateUnix($timestamp, $format = 'Y-m-d H:i:s') {
-		return date($format, $timestamp);
-	}
-
+	/**
+     * Récupere l'apiKey d'un utilisateur qui se connecte (Si ses identifiants existe).
+	 * @param login le login de l'utilisateur.
+	 * @param mdp le mot de pass de l'utilisateur
+     * @param url l'url de l'instance de dolibarr utilisé par l'utilisateur.
+     * @return apikey la clé api du compte de l'utilisateur.
+     */
     function connexion($login,$mdp,$url) {
 		$urlConnexion = $url."api/index.php/login?login=".$login."&password=".$mdp;
 		// récupere l'apiKey de l'utilisateur qui se connecte
 		// Si récupere [] alors les identifiants sont mauvais
-		$apiKey = self::appelAPI($urlConnexion,null);
+		$apiKey = fonctions::appelAPI($urlConnexion,null);
 		return $apiKey['success']['token'];
     }
 
-	// Fonction pour ajouter une URL au fichier
+	/**
+     * Ajoute un url aux fichier des instance de dolibarr.
+     * @param url l'url a ajouté aux fichier des instance de dolibarr.
+	 * @param fichier le lien du fichier des instance de dolibarr.
+     */
 	function ajoutURL($url, $fichier) {
     	// Ouvre le fichier en mode append (ajout à la fin)
     	$handle = fopen($fichier, 'a');
@@ -65,7 +42,12 @@ class UserModele
 		fclose($handle);
 	}
 	
-	function urlExiste($url, $fichier) {
+	/**
+     * Regarde si un url existe deja dans lefichier des instance de dolibarr.
+     * @param url l'url a vérifier aux fichier des instance de dolibarr.
+	 * @param fichier le lien du fichier des instance de dolibarr.
+     */
+	public function urlExiste($url, $fichier) {
 		// Vérifie si le fichier existe
 		if (file_exists($fichier)) {
 			// Lit le contenu du fichier dans un tableau, chaque ligne est un élément du tableau
@@ -81,41 +63,41 @@ class UserModele
 		return false; // L'URL n'existe pas dans le fichier ou le fichier n'existe pas
 	}
 	
-	//Fonction pour lire une URL du fichier
+	/**
+     * Lis le fichier des instance de dolibarr.
+	 * @param fichier le lien du fichier des instance de dolibarr.
+     */
 	function listeUrl($fichier) {
 		// Lit le contenu du fichier 
 	 	$urls = file($fichier, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 	 	return $urls;
 	}
 
-	// Fonction pour supprimer une URL du fichier
+	/**
+     * Supprime un url aux fichier des instance de dolibarr.
+     * @param urlASupprimer l'url a supprimé aux fichier des instance de dolibarr.
+	 * @param fichier le lien du fichier des instance de dolibarr.
+     */
 	function supprimerURL($urlASupprimer, $fichier) {
-		// Vérifie si le fichier existe
-		if (file_exists($fichier)) {
-			// Ouvre le fichier en mode lecture
-			$handle = fopen($fichier, 'r');
+		    // Vérifie si l'URL existe
+		if (!$this->urlExiste($url, $fichier)) {
+			// Si l'URL n'existe pas, retourne false
+			return false;
+		}
+		// Vérifie si le fichier existe et est lisible
+		if (is_readable($fichier) && is_writable($fichier)) {
+			// Lit le contenu du fichier
+			$urls = file($fichier, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 			
-			// Tableau pour stocker les URLs restantes
-			$nouvellesUrls = array();
-			
-			// Parcourt le fichier pour récupérer les URLs
-			while (($ligne = fgets($handle)) !== false) {
-				// Si l'URL n'est pas celle à supprimer, l'ajouter au tableau
-				if (trim($ligne) !== trim($urlASupprimer)) {
-					$nouvellesUrls[] = $ligne;
-				}
-			}
-			
-			// Ferme le fichier
-			fclose($handle);
+			// Supprime l'URL à partir du tableau des URLs
+			$nouvellesUrls = array_diff($urls, array($urlASupprimer));
 			
 			// Réécrit le contenu du fichier avec les URLs restantes
-			$handle = fopen($fichier, 'w');
-			fwrite($handle, implode(PHP_EOL, $nouvellesUrls));
-			fclose($handle);
+			file_put_contents($fichier, implode(PHP_EOL, $nouvellesUrls));
 			
 			return true; // Suppression réussie
 		}
-		return false; // Le fichier n'existe pas
+		return false; // Le fichier n'existe pas ou ne peut pas être modifié
 	}
+
 }

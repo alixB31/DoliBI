@@ -71,7 +71,7 @@
                     ?>
                     <canvas id="myChart"></canvas>
                     <span id="achetes" class="invisible"><?php echo $achetesJSON; ?></span>
-                    <span id="vandues" class="invisible"><?php echo $venduesJSON; ?></span>
+                    <span id="vendues" class="invisible"><?php echo $venduesJSON; ?></span>
                     <script src="js/scriptEvolution.js"></script> 
                 </form>
             <div>

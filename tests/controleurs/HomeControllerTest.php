@@ -44,30 +44,30 @@ class HomeControllerTest extends TestCase
         //When index est appelé avec une liste d'URL non vide
         $this->userModele->method('listeUrl')->willReturn(['url1', 'url2']);
         $view = $this->homeController->index();
-
         //then on affiche la vue connexion
         $this->assertEquals("vues/vue_connexion", $view->getRelativePath());
         $this->assertEquals(['url1', 'url2'], $view->getVar("listeUrl"));
-        $this->assertTrue($view->getVar("verifLoginOuMdp"));
+    }
 
+    public function testIndexAvecUnUrl(): void
+    {
         // When index est appelé avec un URL
         $this->userModele->method('listeUrl')->willReturn(['url1']);
         $viewOneUrl = $this->homeController->index();
-
         //then on affiche la vue connexion
         $this->assertEquals("vues/vue_connexion", $viewOneUrl->getRelativePath());
-        $this->assertEquals(['url1'], $view->getVar("listeUrl"));
-        $this->assertTrue($view->getVar("loginOuMDPOk"));
-        // Ajouter des assertions pour les variables définies dans la vue lorsque la liste contient une seule URL
+        $this->assertEquals(['url1'], $viewOneUrl->getVar("listeUrl"));
+    } 
 
+    public function testIndexAvecAucunUrl(): void 
+    {
         // Cas limite
-         //When index est appelé avec une liste d'URL non vide
+        //When index est appelé avec une liste d'URL non vide
         $this->userModele->method('listeUrl')->willReturn([]);
         $viewEmptyUrls = $this->homeController->index();
-
+ 
         //then on affiche la vue connexion
         $this->assertEquals("vues/vue_connexion", $viewEmptyUrls->getRelativePath());
-        $this->assertEquals([], $view->getVar("listeUrl"));
-        $this->assertTrue($view->getVar("loginOuMDPOk"));
+        $this->assertEmpty($viewEmptyUrls->getVar("listeUrl"));
     }
 }

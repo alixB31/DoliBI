@@ -42,6 +42,7 @@ class UtilisateurCompteControleur
             $vue = new View("vues/vue_connexion");
             $vue->setVar("listeUrl", $listeUrl);
             $vue->setVar("loginOuMdpOk", $verifLoginOuMdp);
+            $vue->setVar("Url", $Url);
         } else {
             session_start();
             $_SESSION['url'] = $url;
@@ -75,6 +76,20 @@ class UtilisateurCompteControleur
             $vue->setVar("loginOuMdpOk", $verifLoginOuMdp);
             return $vue;
         }
+    }
+
+    public function supprimerUrl(): View
+    {
+        $fichier_urls = "url.txt";
+        $url = HttpHelper::getParam('urlExistant');
+        $verifLoginOuMdp = true;
+        $urlSupprime = $this->userModele->supprimerURL($url, $fichier_urls);
+        $listeUrl = $this->userModele->listeUrl($fichier_urls);
+        $vue = new View("vues/vue_connexion");
+        $vue->setVar("listeUrl", $listeUrl);
+        $vue->setVar("loginOuMdpOk", $verifLoginOuMdp);
+        return $vue;
+        
     }
 
     public function deconnexion() {

@@ -57,3 +57,4 @@ $ php ./dolibi/lib/vendor/bin/phpunit
 tests with coverage
 
 $ php -d xdebug.mode=coverage ./dolibi/lib/vendor/bin/phpunit  --coverage-html='reports/coverage'
+

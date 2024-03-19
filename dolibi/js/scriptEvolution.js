@@ -13,35 +13,27 @@ for (var i = 0; i < donneesAchetes.length; i++) {
   dates.push(donneesAchetes[i].date);
   achetes.push(donneesAchetes[i].quantite);
 }
+
 for (var i = 0; i < donneesVendues.length; i++) {
-    dates.push(donneesVendues[i].date);
     vendues.push(donneesVendues[i].quantite);
 }
-// Trouver la première et la dernière date dans le tableau
-var premiereDate = new Date(Math.min.apply(null, dates.map(function(date) {
-    return new Date(date);
-})));
-var derniereDate = new Date(Math.max.apply(null, dates.map(function(date) {
-    return new Date(date);
-})));
-
   console.log("dates :", dates);
-  console.log("Quantités :", quantites);
-  console.log("Montants :", montants);
+  console.log("Quantités :", achetes);
+  console.log("Montants :", vendues);
 
 new Chart(ctx, {
   type: 'line',
   data: {
     labels: dates,
     datasets: [{
-      label: 'Quantité',
-      data: quantites,
+      label: 'Quantité achetés',
+      data: achetes,
       yAxisID: 'quantites',
       borderColor: 'blue',
       borderWidth: 1
     }, {
-      label: 'Montant',
-      data: montants,
+      label: 'Quantité vendues',
+      data: vendues,
       yAxisID: 'montant',
       borderColor: 'red',
       borderWidth: 1
