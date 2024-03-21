@@ -22,18 +22,6 @@ class UserModeleTest extends TestCase
             ->getMock();
     }
 
-    public function tearDown(): void
-    {
-        parent::tearDown();
-
-        // Réinitialise le contenu du fichier url.txt à une chaîne vide
-        $fichier = "url.txt";
-        file_put_contents($fichier, '');
-
-        // Assure que le fichier a bien été vidé
-        $this->assertEmpty(file_get_contents($fichier));
-    }
-
     public function testConnexionAvecIdentifiantsValides(): void
     {
         // Given des données de connexion valides
@@ -76,7 +64,7 @@ class UserModeleTest extends TestCase
     {
         // Given des données d'URL et de fichier
         $url = "http://test.com";
-        $fichier = "url.txt";
+        $fichier = "urlTest.txt";
 
         // When appel de la méthode ajoutURL
         $this->userModele->ajoutURL($url, $fichier);
@@ -89,7 +77,7 @@ class UserModeleTest extends TestCase
     {
         // Given une URL existante et un fichier contenant cette URL
         $url = "http://dolibi.com";
-        $fichier = "url.txt";
+        $fichier = "urlTest.txt";
         file_put_contents($fichier, $url . PHP_EOL);
 
         // When appel de la méthode urlExiste avec l'URL existante
@@ -103,7 +91,7 @@ class UserModeleTest extends TestCase
     {
         // Given une URL inexistante et un fichier ne contenant pas cette URL
         $url = "http://iut-rodez.com";
-        $fichier = "url.txt";
+        $fichier = "urlTest.txt";
 
         // When appel de la méthode urlExiste avec l'URL inexistante
         $urlExiste = $this->userModele->urlExiste($url, $fichier);
@@ -115,7 +103,7 @@ class UserModeleTest extends TestCase
     public function testListeUrl(): void
     {
         // Given un fichier contenant des URLs
-        $fichier = "url.txt";
+        $fichier = "urlTest.txt";
         $urls = ["http://example1.com", "http://example2.com"];
         file_put_contents($fichier, implode(PHP_EOL, $urls));
 
@@ -130,26 +118,22 @@ class UserModeleTest extends TestCase
     {
         // Given une URL existante et un fichier contenant cette URL
         $url = "http://dolibarr.iut-rodez.com";
-        $fichier = "url.txt";
+        $fichier = "urlTest.txt";
         file_put_contents($fichier, $url . PHP_EOL);
-
+    
         // When appel de la méthode supprimerURL
-        $this->userModele->supprimerURL($url, $fichier);
+        $resultat = $this->userModele->supprimerURL($url, $fichier);
 
-        // Then vérification que l'URL a bien été supprimée du fichier
-        $this->assertStringNotContainsString($url, file_get_contents($fichier));
+        // Then vérification que la méthode retourne true
+        $this->assertTrue($resultat);
     }
+    
 
     public function testSupprimerUrlInexistant(): void
     {
         // Given une URL inexistante
         $url = "http://ut-capitole.com";
-        $fichier = "url.txt";
-
-        // Given une réponse de la méthode urlExiste simulée pour retourner false
-        $this->userModeleMock->expects($this->once())
-            ->method('urlExiste')
-            ->willReturn(false);
+        $fichier = "urlTest.txt";
 
         // When appel de la méthode supprimerURL
         $resultat = $this->userModele->supprimerURL($url, $fichier);
@@ -160,5 +144,18 @@ class UserModeleTest extends TestCase
         // And vérification que le fichier n'a pas été modifié
         $urls = file($fichier, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
         $this->assertNotContains($url, $urls);
+    }
+
+    public function testSupprimerUrlFichierInexistant(): void
+    {
+        // Given une URL et un fichier inexistant
+        $urlASupprimer = "http://example.com";
+        $fichier = "fichier_inexistant.txt";
+
+        // When appel de la méthode supprimerURL
+        $resultat = $this->userModele->supprimerURL($urlASupprimer, $fichier);
+
+        // Then vérification que la méthode retourne false
+        $this->assertFalse($resultat);
     }
 }

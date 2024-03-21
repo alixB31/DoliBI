@@ -5,7 +5,7 @@
         <link rel="stylesheet" href="static\bootstrap-4.6.2-dist\css\bootstrap.css">
         <link rel="stylesheet" href="static\css\common.css">
         <link rel="stylesheet" href="static\fontawesome-free-6.2.1-web/css/all.css">
-        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     </head>
     <header>
         <div class ="row">
@@ -35,7 +35,7 @@
                     <button class="menu-button">Banque</button>
                     <ul class="menu-list">
                         <li class="rotate-text"><a href="?controller=Banque&action=voirListeSoldesBancaireProgressif">Liste des soldes progressifs d'un ou plusieurs comptes bancaires</a></li>
-                        <li class="rotate-text"><a href="?controller=&action=">Graphique d'évolution des soldes des comptes bancaires</a></li>
+                        <li class="rotate-text"><a href="?controller=&Banque&action=voirGraphiqueSoldeBancaire">Graphique d'évolution des soldes des comptes bancaires</a></li>
                         <li class="rotate-text"><a href="?controller=&action=">Diagramme sectoriel des comptes bancaires</a></li>
                     </ul>
                 </div>
@@ -83,11 +83,19 @@
                     <button type="submit">Valider</button> 
                 </form>
                 <?php
-                    $donneesJSON = json_encode($montantEtQuantite);
+                    if($montantEtQuantite != []) {
+                        $donneesJSON = json_encode($montantEtQuantite);
+                    
+                    
                 ?>
 
-                <canvas id="myChart"></canvas>
-                <span id="donnees" class="invisible"><?php echo $donneesJSON; ?></span>
+                        <canvas id="myChart"></canvas>
+                        <span id="donnees" class="invisible"><?php echo $donneesJSON; ?></span>
+                <?php
+                    } else  {
+                        echo "<h3>Il n'y a aucune données pour les dates choisis</h3>";
+                    }
+                ?>
                 <script src="js/scriptFournisseur.js"></script>
                 </div>      
             </div>

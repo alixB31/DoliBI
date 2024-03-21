@@ -163,3 +163,10 @@ body {
     display: none
 }
 
+.benef {
+    color: rgb(24, 155, 56);
+}
+
+.perte {
+    color: rgb(245, 0, 0);
+}

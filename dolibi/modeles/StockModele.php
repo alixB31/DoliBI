@@ -116,7 +116,6 @@ class StockModele
 				);
 			}
 		}
-		
 		// Si il ya au moins une quantite factorise par date
 		if (isset($montantEtQuantite)) {
 			$sommeParDate = array();
@@ -155,10 +154,12 @@ class StockModele
 			// Tri du tableau $sommeParDate par date croissante
 			uasort($sommeParDate, 'outils\fonctions::comparerDates');
 			$bonFormat[] = array();
+
+
+			// Tout cela permet de mettre toute les dates ou il n'y a pas de commande a 0
 			$compteur = 0;
 			$dateCourante = strtotime($dateDebut);
 			$dateDeFin = strtotime($dateFin);
-
 			if ($moisOuJour == 'jour') {
 				while ($dateCourante <= $dateDeFin) {
 					
@@ -231,6 +232,7 @@ class StockModele
 				'label' => $liste['label']
 			);
 		}
+		var_dump($listeArticle);
 		return $listeArticle;
 	}
 
@@ -248,9 +250,8 @@ class StockModele
 		$urlAchetes = $url.'api/index.php/supplierorders?sortfield=t.rowid&sortorder=ASC&limit=100&product_ids='.$idArticle;
 		$commandesArticle = fonctions::appelAPI($urlAchetes,$apikey);
 		// Recherche les quantites par date de l'article choisis
-		$quantiteArticle = self::quantiteArticle($commandesArticle,$idArticle,$dateDebut,$dateFin,$moisOuJour);
-		//var_dump($quantiteArticle);
-		return $quantiteArticle;
+		$quantiteArticles = self::quantiteArticle($commandesArticle,$idArticle,$dateDebut,$dateFin,$moisOuJour);
+		return $quantiteArticles;
 	}
 
 	/**
@@ -269,7 +270,6 @@ class StockModele
 		// Recherche les quantites par date de l'article choisis
 		$quantiteArticle = self::quantiteArticle($commandesArticle,$idArticle,$dateDebut,$dateFin,$moisOuJour);
 		return $quantiteArticle;
-		
 	}
 
 
@@ -318,7 +318,7 @@ class StockModele
 					}
 				// Si l'utilisateur veut regrouper par mois 
 				} else {
-					// Extraire le mois de la date
+					// Extrais le mois de la date
 					$mois = date('Y-m', strtotime($date));
 
 					// Si le mois existe déjà dans le tableau, ajoute la quantité et le montant à la somme existante
@@ -391,9 +391,6 @@ class StockModele
 			}
 			
 		}
-
 		return null;
 	}
-
-
 }

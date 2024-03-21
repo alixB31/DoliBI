@@ -39,7 +39,7 @@
   }
 
   // Créer le graphique une fois que toutes les données sont prêtes
-  new Chart(ctx, {
+new Chart(ctx, {
     type: 'line',
     data: {
       labels: dates,

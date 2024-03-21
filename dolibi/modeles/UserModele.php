@@ -79,8 +79,8 @@ class UserModele
 	 * @param fichier le lien du fichier des instance de dolibarr.
      */
 	function supprimerURL($urlASupprimer, $fichier) {
-		    // Vérifie si l'URL existe
-		if (!$this->urlExiste($url, $fichier)) {
+		// Vérifie si l'URL existe
+		if (!$this->urlExiste($urlASupprimer, $fichier)) {
 			// Si l'URL n'existe pas, retourne false
 			return false;
 		}
@@ -97,7 +97,5 @@ class UserModele
 			
 			return true; // Suppression réussie
 		}
-		return false; // Le fichier n'existe pas ou ne peut pas être modifié
-	}
-
+	}	
 }

@@ -29,7 +29,7 @@
                 <div class="menu">
                     <button class="menu-button">Stock</button>
                     <ul class="menu-list">
-                        <li class="rotate-text"><a href="?controller=Stock&action=voirPalmaresFournisseurs">Palmarès fournisseur</a></li>
+                        <li class="rotate-text <?php if ($_GET['action'] == 'voirPalmaresFournisseurs' || ($_SERVER['REQUEST_METHOD'] == 'POST')) echo 'active'; ?>"><a href="?controller=Stock&action=voirPalmaresFournisseurs">Palmarès fournisseur</a></li>
                         <li class="rotate-text"><a href="?controller=Stock&action=voirMontantEtQuantiteFournisseurs">Montant et quantité fournisseur</a></li>
                         <li class="rotate-text"><a href="?controller=Stock&action=voirEvolutionStockArticle">Évolution stock article</a></li>
                     </ul>
@@ -44,7 +44,7 @@
             <div class="row row-gauche">
                 <form action="index.php" method= "post">
                     <input type="hidden" name="controller" value="Banque">
-                    <input type="hidden" name="action" value="listeSoldesBancaireProgressif">
+                    <input type="hidden" name="action" value="graphiqueEvolution">
                     Banque 
                     <?php 
                         foreach($listeBanques as $banque) {
@@ -52,10 +52,10 @@
                         <div>
                             <input type="checkbox" class="checkBoxs" name="Banque[]" value="<?php echo $banque["id_banque"]; ?>" <?php
                             // Vérifier si l'utilisateur est dans la liste des organisateurs
-                            if (in_array($banque['id_banque'], $banques)) {
-                                echo 'checked';
+                            // if (in_array($row['idUtilisateur'], $organisateurIDs)) {
+                            //     echo 'checked';
                                     
-                            }
+                            // }
                             ?>>
                             <?php echo $banque["nom"]; ?>
                             <br>
@@ -63,13 +63,13 @@
                         <?php
                     }
                     ?>
+
                     Date début
-                    <input name="dateDebut" type="date" value="<?php if($dateDebut !=null){echo $dateDebut;}?>" required>
+                    <input name="dateDebut" type="date" value="<?php if($dateDebut !=null){echo $dateDebut;}?>" >
                     <br>
                     Date fin
-                    <input name="dateFin" type="date" value="<?php if($dateFin !=null){echo $dateFin;}?>" required>
+                    <input name="dateFin" type="date" value="<?php if($dateFin !=null){echo $dateFin;}?>" >
                     <br>
-                    Total par
                     <select id="moisOuJour" name="moisOuJour">
                         <option value="mois" <?php if($moisOuJour == "mois") {echo "selected";}?>>mois</option>
                         <option value="jour" <?php if($moisOuJour == "jour") {echo "selected";}?>>jour</option>
@@ -79,46 +79,6 @@
                     <br>
                 </form>
             </div>
-            <?php
-                foreach ($banquesCoches as $banque) {
-                    echo '<h3 class="row-gauche">'.$banque['nom'].'</h3>';
-            ?>
-                    <div class="row row-gauche">
-                        <table class="table table-striped table-bordered">
-                            <tr>
-                                <th>Date</th>
-                                <th>Total</th>
-                            </tr>
-                            <?php
-                                foreach ($listeEcritures[$banque['id_banque']] as $ecriture) {
-                                    
-                                    // Affiche le nombre de fournisseurs choisis par l'utilisateur
-                                    
-                                    echo "<tr>
-                                            <td>".$ecriture['date']."</td>";
-                                    ?>
-                                            <td 
-                                            <?php 
-                                                if($ecriture['montant']>0) { 
-                                                    echo "class='benef'";
-                                                } else if($ecriture['montant']<0) {
-                                                    echo "class='perte'";
-                                                } 
-                                            ?>
-                                                >
-                                            <?php
-                                                echo $ecriture['montant'];
-                                            ?>
-                                            </td>
-                                        </tr>
-                            <?php
-                                }
-                            ?>
-                        </table>
-                    </div>
-            <?php
-                }
-            ?>
         </div>
     </body>
 </html>

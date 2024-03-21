@@ -123,7 +123,7 @@ class UtilisateurCompteControleurTest extends TestCase
     public function testDeconnexion(): void
     {
         // Given un fichier txt avec les urls
-        $fichier_urls = "url.txt";
+        $fichier_urls = "urlTest.txt";
         $this->userModele->method('listeUrl')->willReturn(['url1', 'url2']);
 
         // When un utilisateur se déconnecte
@@ -142,7 +142,7 @@ class UtilisateurCompteControleurTest extends TestCase
     public function testSupprimerUrl(): void
     {
         // Given un fichier txt avec les url à supprimer
-        $fichier_urls = "url.txt";
+        $fichier_urls = "urlTest.txt";
         $url = "url_a_supprimer";
         $this->userModele->method('listeUrl')->willReturn(['url1', 'url2']);
         $this->userModele->method('supprimerURL')->willReturn(true); // Simuler la suppression réussie
@@ -165,7 +165,7 @@ class UtilisateurCompteControleurTest extends TestCase
     public function testAjoutUrl_QuandURLestVide(): void
     {
         // Given un fichier txt vide
-        $fichier_urls = "url.txt";
+        $fichier_urls = "urlTest.txt";
         $url = "nouvel_url";
         $this->userModele->method('listeUrl')->willReturn([]);
         $this->userModele->method('urlExiste')->willReturn(false); // Simuler que le nouvel URL n'existe pas
@@ -188,7 +188,7 @@ class UtilisateurCompteControleurTest extends TestCase
     public function testAjoutUrl_QuandURLestNonVide(): void
     {
         // Given un fichier txt non vide
-        $fichier_urls = "url.txt";
+        $fichier_urls = "urlTest.txt";
         $url = "nouvel_url";
         $this->userModele->method('listeUrl')->willReturn(['url1', 'url2']);
         $this->userModele->method('urlExiste')->willReturn(false); // Simuler que le nouvel URL n'existe pas
@@ -211,7 +211,7 @@ class UtilisateurCompteControleurTest extends TestCase
     public function testAjoutUrl_WhenUrlExiste(): void
     {
         // Given un ficher txt avec des urls
-        $fichier_urls = "url.txt";
+        $fichier_urls = "urlTest.txt";
         $url = "url_existante";
         $listeUrlsExistantes = ['url_existante', 'autre_url'];
         $this->userModele->method('listeUrl')->willReturn($listeUrlsExistantes);

@@ -83,6 +83,7 @@ class StockControleur {
         $listeFournisseurs = $this->stockModele->listeFournisseursLike($url,$apiKey,$rechercheFournisseur);
         // Demande au modele de trouver le palmares fournisseur
         $montantEtQuantite = $this->stockModele->montantEtQuantite($url,$apiKey,$idFournisseur,$dateDebut,$dateFin,$moisOuJour);
+        
         $vue = new View("vues/vue_montant_quantite_fournisseur");
         $vue->setVar("rechercheFournisseur",$rechercheFournisseur);
         $vue->setVar("listeFournisseurs",$listeFournisseurs);
