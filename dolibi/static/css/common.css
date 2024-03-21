@@ -1,0 +1,172 @@
+body {  
+    background-color: #fafafa;
+    color :black;
+    height: 120vh;
+}
+
+.corps-principal {
+    padding: 2% 5%; /* Réduire la largeur en ajustant le padding */
+    padding-bottom: 20px;
+    margin: 20px;
+    text-align: center;
+    border-radius: 5px;
+    box-shadow: 1px 1px 30px rgba(0, 0, 0, 0.4);
+}
+
+
+.textenoir {
+    color :black;
+}
+
+.titre {
+    font-family: 'Kiwi Maru', serif;
+    font-size: 40px;
+}
+
+.contact {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto 
+}
+
+header {
+    padding: 5px;
+    background-color: rgb(38, 60, 92);
+    margin-bottom: 10px;
+    color :white;
+    z-index: 2; /* Permet au menu d'être au-dessus du contenu */
+}
+
+.cadre {
+    border : solid;
+    margin: 2px;
+    padding: 5px;
+    padding-left: 25px;
+    color :white;
+}
+
+footer {
+    bottom: 0;
+    clear: both;
+    position: relative;
+    width: 100%;
+    color:white;
+    height: auto;
+}
+
+.btn-modif {
+    font-size: 15px;
+    min-height: 50px;
+    height: fit-content;
+    width: 200px;
+    max-width: 100%;
+}
+
+.btn-blanc {
+    background-color: #ffffff;
+    border: 1px;
+    border-style: solid;
+    border-radius: 5px;
+}
+
+
+.btn-deco {
+    font-family: 'Kiwi Maru', serif;
+    font-size: 15px;
+    background-color: #ffffff;
+    border: 1px;
+    border-style: solid;
+    border-radius: 5px;
+    width: 150px;
+    height: 55px;
+}
+
+.btn-deco-rond {
+    background-color: #ffffff;
+    height: 76px;
+    width: 76px;
+    border: 1px;
+    border-style: solid;
+    border-radius: 38px;
+}
+
+.invisible b {
+    position: absolute;
+    left: 0;
+    top: -10000px;
+    overflow: hidden;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+
+.menu {
+    position: fixed;
+    left: 0;
+    top: 0;
+    background-color: #333;
+    width: 180px;
+    height: 100%;
+    padding-top: 100px; /* Ajustez cette valeur pour laisser de la place pour le header */
+}
+
+.menu-button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #555;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.menu-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu-list li {
+    padding: 10px;
+}
+
+.menu-list li a {
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+}
+
+.menu-list li a:hover {
+    color: #ffcc00;
+}
+
+/* Lorsque qu'un champ est invalide affiche en rouge */
+#invalide {
+    color: rgb(245, 0, 0);
+    text-align: center;
+}
+
+/*!texte à droite*/
+.row-gauche {
+    margin-left: 220px;
+}
+
+.menu-list li.active a {
+    color: yellow; /* Couleur de texte jaune */
+}
+
+#formulaireAjoutURL {
+    display: none
+}
+
+.benef {
+    color: rgb(24, 155, 56);
+}
+
+.perte {
+    color: rgb(245, 0, 0);
+}
