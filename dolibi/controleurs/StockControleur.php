@@ -33,14 +33,26 @@ class StockControleur {
         $dateDebut = HttpHelper::getParam('dateDebut');
         $dateFin = HttpHelper::getParam('dateFin');
         $top = HttpHelper::getParam('TopX');
-        // Demande au modele de trouver le palmares fournisseur
-        $palmaresFournisseurs = $this->stockModele->palmaresFournisseurs($url,$apiKey,$dateDebut,$dateFin);
-        $vue = new View("vues/vue_palmares_fournisseurs");
-        $vue->setVar("top", $top);
-        $vue->setVar("dateDebut", $dateDebut);
-        $vue->setVar("dateFin", $dateFin);
-        $vue->setVar("palmares", $palmaresFournisseurs);
-        return $vue;
+        if ($dateFin >= $dateDebut) {
+            $verifDate = true;
+            // Demande au modele de trouver le palmares fournisseur
+            $palmaresFournisseurs = $this->stockModele->palmaresFournisseurs($url,$apiKey,$dateDebut,$dateFin);
+            $vue = new View("vues/vue_palmares_fournisseurs");
+            $vue->setVar("top", $top);
+            $vue->setVar("dateDebut", $dateDebut);
+            $vue->setVar("dateFin", $dateFin);
+            $vue->setVar("verifDate", $verifDate);
+            $vue->setVar("palmares", $palmaresFournisseurs);
+            return $vue;
+        } else {
+            $verifDate = false;
+            $vue = new View("vues/vue_palmares_fournisseurs");
+            $vue->setVar("top", $top);
+            $vue->setVar("dateDebut", $dateDebut);
+            $vue->setVar("dateFin", $dateFin);
+            $vue->setVar("verifDate", $verifDate);
+            return $vue;
+        }
     }
 
     public function listeFournisseursLike() : View
@@ -101,7 +113,7 @@ class StockControleur {
         $url = $_SESSION['url'];
         // Recupere les parametres choisis par l'utilisateur
         $nom = HttpHelper::getParam('nom');
-        
+        $verifDate = true;
         // Demande au modele de trouver la liste des articles correspondant au nom
         $listeArticles = $this->stockModele->listeArticlesLike($url,$apiKey,$nom);
         $vue = new View("vues/vue_evolution_stock_article");
@@ -113,6 +125,7 @@ class StockControleur {
         $vue->setVar("quantiteAchetes", null);
         $vue->setVar("quantiteVendues", null);
         $vue->setVar("rechercheArticle",$nom);
+        $vue->setVar("verifDate", $verifDate);
         return $vue;
     }
 
@@ -128,26 +141,44 @@ class StockControleur {
         $dateDebut = HttpHelper::getParam('dateDebut');
         $dateFin = HttpHelper::getParam('dateFin');
         $moisOuJour = HttpHelper::getParam('moisOuJour');
+         // Demande au modele de trouver la liste des articles correspondant au nom
+         $listeArticles = $this->stockModele->listeArticlesLike($url,$apiKey,$rechercheArticle);
+         $quantiteAchetes = $this->stockModele->quantiteAchetesArticle($url,$apiKey,$idArticle,$dateDebut,$dateFin,$moisOuJour);
+         $quantiteVendues = $this->stockModele->quantiteVenduesArticle($url,$apiKey,$idArticle,$dateDebut,$dateFin,$moisOuJour);
         
-        // Demande au modele de trouver la liste des articles correspondant au nom
-        $listeArticles = $this->stockModele->listeArticlesLike($url,$apiKey,$rechercheArticle);
-        $quantiteAchetes = $this->stockModele->quantiteAchetesArticle($url,$apiKey,$idArticle,$dateDebut,$dateFin,$moisOuJour);
-        $quantiteVendues = $this->stockModele->quantiteVenduesArticle($url,$apiKey,$idArticle,$dateDebut,$dateFin,$moisOuJour);
-        
-        $vue = new View("vues/vue_evolution_stock_article");
-        $vue->setVar("listeArticles", $listeArticles);
-        $vue->setVar("idChoisis", $idArticle);
-        $vue->setVar("dateDebut", $dateDebut);
-        $vue->setVar("dateFin", $dateFin);
-        $vue->setVar("moisOuJour", $moisOuJour);
-        $vue->setVar("quantiteAchetes", $quantiteAchetes);
-        $vue->setVar("quantiteVendues", $quantiteVendues);
-        $vue->setVar("rechercheArticle",$rechercheArticle);
-        return $vue;
+         if ($dateFin >= $dateDebut) {
+            $verifDate = true;
+            $vue = new View("vues/vue_evolution_stock_article");
+            $vue->setVar("listeArticles", $listeArticles);
+            $vue->setVar("idChoisis", $idArticle);
+            $vue->setVar("dateDebut", $dateDebut);
+            $vue->setVar("dateFin", $dateFin);
+            $vue->setVar("moisOuJour", $moisOuJour);
+            $vue->setVar("quantiteAchetes", $quantiteAchetes);
+            $vue->setVar("quantiteVendues", $quantiteVendues);
+            $vue->setVar("rechercheArticle",$rechercheArticle);
+            $vue->setVar("verifDate", $verifDate);
+            return $vue;
+        } else {
+            $verifDate = false;
+            $listeArticles = $this->stockModele->listeArticlesLike($url,$apiKey,$rechercheArticle);
+            $vue = new View("vues/vue_evolution_stock_article");
+            $vue->setVar("listeArticles", $listeArticles);
+            $vue->setVar("idChoisis", $idArticle);
+            $vue->setVar("dateDebut", $dateDebut);
+            $vue->setVar("dateFin", $dateFin);
+            $vue->setVar("moisOuJour", $moisOuJour);
+            $vue->setVar("quantiteAchetes", $quantiteAchetes);
+            $vue->setVar("quantiteVendues", $quantiteVendues);
+            $vue->setVar("rechercheArticle",$rechercheArticle);
+            $vue->setVar("verifDate", $verifDate);
+            return $vue;
+        }
     }
     
     public function voirEvolutionStockArticle() : View 
     {
+        $verifDate = true;
         $vue = new View("vues/vue_evolution_stock_article");
         $vue->setVar("listeArticles", null);
         $vue->setVar("idChoisis", null);
@@ -157,12 +188,15 @@ class StockControleur {
         $vue->setVar("quantiteAchetes", null);
         $vue->setVar("quantiteVendues", null);
         $vue->setVar("rechercheArticle",null);
+        $vue->setVar("verifDate", $verifDate);
         return $vue;
     }
     
     public function voirPalmaresFournisseurs() : View 
     {
+        $verifDate = true;
         $vue = new View("vues/vue_palmares_fournisseurs");
+        $vue->setVar("verifDate", $verifDate);
         return $vue;
     }
 

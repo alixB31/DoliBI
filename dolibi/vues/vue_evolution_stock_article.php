@@ -42,13 +42,16 @@
                     </div>
                 </div>
             <div class="row row-gauche">
+                <?php
+                    echo (!$verifDate) ? '<p id="invalide">Erreur : Les dates ne sont pas cohérentes.</p>' : '';
+                ?>
                 <form action="index.php" method= "post">
                     <input type="hidden" name="controller" value="Stock">
                     <input type="hidden" name="action" value="listeArticlesLike">
                     Nom de l'article
                     <input name="nom" type="texte" value="<?php if($rechercheArticle !=null){echo $rechercheArticle;}?>">
                     <br>
-                    <button type="submit">Rechercher fournisseur</button>
+                    <button type="submit">Rechercher article</button>
                 </form>
             </div>
             <div class="row row-gauche">
@@ -70,10 +73,10 @@
                     </select>
                     <br>
                     Date début
-                    <input name="dateDebut" type="date" value="<?php if($dateDebut !=null){echo $dateDebut;}?>" >
+                    <input name="dateDebut" type="date" value="<?php if($dateDebut !=null){echo $dateDebut;}?>" required>
                     <br>
                     Date fin
-                    <input name="dateFin" type="date" value="<?php if($dateFin !=null){echo $dateFin;}?>" >
+                    <input name="dateFin" type="date" value="<?php if($dateFin !=null){echo $dateFin;}?>" required>
                     <br>
                     Par 
                     <select id="moisOuJour" name="moisOuJour">
@@ -84,6 +87,10 @@
                     <?php
                         $achetesJSON = json_encode($quantiteAchetes);
                         $venduesJSON = json_encode($quantiteVendues);
+                        if ($achetesJSON == 'null' || $venduesJSON == 'null' || $achetesJSON == [[]] || $venduesJSON == [[]]) {
+                            echo '<br>';
+                            echo '<p id="invalide">Aucune donnée disponible avec les données actuelles</p>';
+                        }
                     ?>
                     <canvas id="myChart"></canvas>
                     <span id="achetes" class="invisible"><?php echo $achetesJSON; ?></span>
