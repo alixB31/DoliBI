@@ -47,10 +47,33 @@
                         $donneesJSON = json_encode($repartition);
                     }
                 ?>
-            <div class="col-md-6">
-                <canvas id="myChart" width="200" height="200"></canvas>
-            </div>
-            
+                <div class="col-md-6">
+                    <canvas id="myChart" width="200" height="200"></canvas>
+                </div>
+                <div class="col-md-6">
+                    <table class="table table-striped table-bordered">
+                            <tr>
+                                <th>Nom de la banque</th>
+                                <th>Solde actuel</th>
+                                <th>Pourcentage sur le solde total</th>
+                            </tr>
+                            <?php
+                                // Calcul du solde total de toutes les banques
+                                foreach ($repartition as $element) {
+                                    $soldeTotal += $element['solde'];
+                                }
+                                foreach ($repartition as $element) {
+                                    $pourcentage = ($element['solde'] / $soldeTotal) * 100;
+                                    echo "<tr>
+                                            <td>".$element['banque']."</td>
+                                            <td>".$element['solde']."</td>
+                                            <td>".number_format($pourcentage, 2)." %</td>
+                                        </tr>";
+                                }
+                            ?>
+                    </table>
+                </div>
+                
             <span id="donnees" class="invisible"><?php echo $donneesJSON; ?></span>
             </div>
         </div>
