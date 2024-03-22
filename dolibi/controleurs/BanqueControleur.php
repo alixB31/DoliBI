@@ -65,17 +65,25 @@ class BanqueControleur {
         }
 
         // Met dans un tableaux les infos des banques cochés
-        foreach($listeBanques as $banque) {
-            if (in_array($banque['id_banque'], $banques)) {
-                $banquesCoches[] = array(
-                    'id_banque' => $banque['id_banque'],
-                    'nom' => $banque['nom'],
-                );
+        if ($banques != null) {
+            foreach($listeBanques as $banque) {
+                if (in_array($banque['id_banque'], $banques)) {
+                    $banquesCoches[] = array(
+                        'id_banque' => $banque['id_banque'],
+                        'nom' => $banque['nom'],
+                    );
+                }
             }
         }
         $vue = new View("vues/vue_liste_soldes_bancaire");
         $vue->setVar("banquesCoches", $banquesCoches);
-        $vue->setVar("banques", $banques);
+        
+        // Si il y a pas de banques coché renvoie [] (évite un bug)
+        if ($banques != null) {
+            $vue->setVar("banques", $banques);
+        } else {
+            $vue->setVar("banques", []);
+        }
         $vue->setVar("listeBanques", $listeBanques);
         $vue->setVar("listeEcritures", $listeEcritures);
         $vue->setVar("dateDebut", $dateDebut);
@@ -94,9 +102,10 @@ class BanqueControleur {
         $listeBanques = $this->banqueModele->listeBanques($url,$apiKey);
         $vue = new View("vues/vue_graphique_solde_bancaire");
         $vue->setVar("listeBanques", $listeBanques);
-        $vue->setVar("dateDebut", null);
-        $vue->setVar("dateFin", null);
-        $vue->setVar("anOuMois", null);
+        $vue->setVar("banques", []);
+        $vue->setVar("histoOuCourbe", null);
+        $vue->setVar("an", $annee);
+        $vue->setVar("mois", $mois);
         return $vue;
     }
 
@@ -106,14 +115,53 @@ class BanqueControleur {
         // Recupere les variables de sessions utiles
         $apiKey = $_SESSION['apiKey'];
         $url = $_SESSION['url'];
-        // Recupere la liste des banques 
+        $annee = HttpHelper::getParam('an');
+        $mois = HttpHelper::getParam('mois');
+        $histoOuCourbe = HttpHelper::getParam('histoOuCourbe');
+        // Récupere tout les banques checks
+        $banques = fonctions::getParamArray('Banque');
+        // Initialise le résultat
+        $listeValeurs[] = array();
+        foreach($banques as $banque) { 
+            // Demande au modele de trouver le compte bancaire coché
+            $listeValeurs[$banque] = $this->banqueModele->graphiqueSoldeBancaire($url,$apiKey,$banque,$listeValeurs,$annee,$mois);
+        }
         $listeBanques = $this->banqueModele->listeBanques($url,$apiKey);
         $vue = new View("vues/vue_graphique_solde_bancaire");
         $vue->setVar("listeBanques", $listeBanques);
-        $vue->setVar("dateDebut", null);
-        $vue->setVar("dateFin", null);
-        $vue->setVar("anOuMois", null);
+        $vue->setVar("histoOuCourbe", $histoOuCourbe);
+
+        // Si il y a pas de banques coché renvoie [] (évite un bug)
+        if ($banques != null) {
+            $vue->setVar("banques", $banques);
+        } else {
+            $vue->setVar("banques", []);
+        }
+        $vue->setVar("an", $annee);
+        $vue->setVar("mois", $mois);
         return $vue;
     }
 
+    public function voirDiagrammeRepartition() : View 
+    {   
+        session_start();
+        // Recupere les variables de sessions utiles
+        $apiKey = $_SESSION['apiKey'];
+        $url = $_SESSION['url'];
+        // Recupere la liste des banques 
+        $listeBanques = $this->banqueModele->listeBanques($url,$apiKey);
+        // Initialise le résultat
+        $repartition[] = array();
+
+        foreach($listeBanques as $banque) {
+            $repartition = $this->banqueModele->diagrammeRepartition($url,$apiKey,$banque,$repartion);
+        }
+
+        $vue = new View("vues/vue_diagramme_repartition_bancaire");
+        $vue->setVar("repartition", $repartition);
+        return $vue;
+    }
+
+
+    
 }

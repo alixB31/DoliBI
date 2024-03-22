@@ -53,7 +53,6 @@ class StockControleur {
         $nom = HttpHelper::getParam('nom');
         // Demande au modele de trouver la liste des fournisseurs correspondant au nom
         $listeFournisseurs = $this->stockModele->listeFournisseursLike($url,$apiKey,$nom);
-        
         $vue = new View("vues/vue_montant_quantite_fournisseur");
         $vue->setVar("listeFournisseurs", $listeFournisseurs);
         $vue->setVar("rechercheFournisseur",$nom);
@@ -82,8 +81,7 @@ class StockControleur {
         // Delande au modele de retrouver la liste des fournisseurs correspondant au nom
         $listeFournisseurs = $this->stockModele->listeFournisseursLike($url,$apiKey,$rechercheFournisseur);
         // Demande au modele de trouver le palmares fournisseur
-        $montantEtQuantite = $this->stockModele->montantEtQuantite($url,$apiKey,$idFournisseur,$dateDebut,$dateFin,$moisOuJour);
-        
+        $montantEtQuantite = $this->stockModele->montantEtQuantite($url,$apiKey,$idFournisseur,$dateDebut,$dateFin,$moisOuJour);    
         $vue = new View("vues/vue_montant_quantite_fournisseur");
         $vue->setVar("rechercheFournisseur",$rechercheFournisseur);
         $vue->setVar("listeFournisseurs",$listeFournisseurs);

@@ -116,6 +116,7 @@ class StockModele
 				);
 			}
 		}
+
 		// Si il ya au moins une quantite factorise par date
 		if (isset($montantEtQuantite)) {
 			$sommeParDate = array();
@@ -173,6 +174,7 @@ class StockModele
 							$montant = $somme['montant'];
 							break;
 						}
+	
 					}
 					// Ajouter la date, la quantité et le montant correspondants au tableau $bonFormat
 					$bonFormat[$compteur] = array('date' => $dateTest, 'quantite' => $quantite, 'montant' => $montant);
@@ -190,7 +192,6 @@ class StockModele
 				while ($dateCourante <= $dateDeFin) {
 					
 					$moisTest = date('Y-m', $dateCourante);
-					
 					// Vérifier si la date est présente dans $sommeParDate
 					$quantite = 0;
 					$montant = 0;
@@ -200,6 +201,7 @@ class StockModele
 							$montant = $somme['montant'];
 							break;
 						}
+						
 					}
 					// Ajouter la date et la quantité correspondante au tableau $bonFormat
 					$bonFormat[$compteur] = array('date' => $moisTest, 'quantite' => $quantite, 'montant' => $montant);
@@ -207,12 +209,11 @@ class StockModele
 					$dateCourante = strtotime('+1 month', $dateCourante);
 				}
 				return $bonFormat;
+				
 			}
-
 			return $bonFormat;
 		}
-		return null;
-		
+		return null;	
 	}
 
 	/**
@@ -232,7 +233,6 @@ class StockModele
 				'label' => $liste['label']
 			);
 		}
-		var_dump($listeArticle);
 		return $listeArticle;
 	}
 

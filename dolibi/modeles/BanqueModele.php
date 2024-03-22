@@ -36,14 +36,19 @@ class BanqueModele
     }
 
     /**
-     * Récupere la quantite achetés pour un article précis.
+     * Récupere l'ensemble des écriture pour entre des dates données pour une banque donnée.
      * @param url l'url de l'instance de dolibarr utilisé par l'utilisateur.
      * @param apikey La clé api du compte de l'utilisateur.
-     * @return quantiteArticle le tableaux des quantités achetés.
+     * @param dateDebut La date de debut pour récuperer les données.
+     * @param dateFin La date de fin pour récuperer les données.
+     * @param banque La banque choisis par l'utilisateur.
+     * @param listeValeur la liste des valeurs des autres banques choisis par l'utilisateur.
+     * @param moisOuJour La temporalite du tri que veux l'utilisateur.
+     * @return ensembleEcriture l'ensemble des ecriture pour la banque choisis.
      */
     function listeSoldeBancaireProgressif($url,$apiKey,$dateDebut,$dateFin,$banque,$listeValeur,$moisOuJour)  {
         $urlBankAccount = $url.'api/index.php/bankaccounts/'.$banque.'/lines';
-        // Recupere la liste des banques
+        // Recupere la liste des ecritures de la banque choisis
 		$ecrituresBanque = fonctions::appelAPI($urlBankAccount,$apiKey);
         foreach($ecrituresBanque as $ecriture) {
             if (($dateDebut==null && $dateFin=null) || ($ecriture['dateo']>=$dateDebut && $ecriture['dateo']<=$dateFin)) {
@@ -79,4 +84,52 @@ class BanqueModele
         return $ensembleEcriture;
     }
 
+
+    /**
+     * Récupere la quantite achetés pour un article précis.
+     * @param url l'url de l'instance de dolibarr utilisé par l'utilisateur.
+     * @param apikey La clé api du compte de l'utilisateur.
+     * @param banque La banque choisis par l'utilisateur.
+     * @param listeValeurs la liste des valeurs des autres banques choisis par l'utilisateur.
+     * @param anOuMois La temporalite du tri que veux l'utilisateur.
+     * @param temporalite la valeur de la temporalité (janvier, 2024 ...)
+     * @return quantiteArticle le tableaux des quantités achetés.
+     */
+    function graphiqueSoldeBancaire($url,$apiKey,$banque,$listeValeurs,$annee,$mois)  {
+        $urlBankAccount = $url.'api/index.php/bankaccounts/'.$banque.'/lines';
+        // Recupere la liste des ecritures de la banque choisis
+		$ecrituresBanque = fonctions::appelAPI($urlBankAccount,$apiKey);
+        foreach($ecrituresBanque as $ecriture) {
+            if (fonctions::annee($ecriture['dateo'])==$annee ) {
+
+
+                $ensembleEcriture[] = array(
+                    'date' => $ecriture['dateo'],
+                    'montant' => $ecriture['amount'],
+                );
+            }
+        }
+    }
+    
+    /**
+     * Récupere le montant actuelle du solde dans une banque a la date actuelle
+     * @param url l'url de l'instance de dolibarr utilisé par l'utilisateur.
+     * @param apikey La clé api du compte de l'utilisateur.
+     * @param banque La banque choisis par l'utilisateur.
+     * @param listeValeurs la liste des valeurs des autres banques choisis par l'utilisateur.
+     * @return quantiteArticle le tableaux des quantités achetés.
+     */
+    function diagrammeRepartition ($url,$apiKey,$banque,$repartition)  {
+        $urlBankAccount = $url.'api/index.php/bankaccounts/'.$banque.'/lines';
+        // Recupere la liste des ecritures de la banque choisis
+		$ecrituresBanque = fonctions::appelAPI($urlBankAccount,$apiKey);
+        $mois = date('Y-m', strtotime($date))
+        foreach($ecrituresBanque as $ecriture) {
+            $solde += $ecriture['amount'];
+            $solde[] = array(
+                'date' => date('');
+                'solde' => $solde;
+            );
+        }
+    }
 }

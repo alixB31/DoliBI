@@ -35,8 +35,8 @@
                     <button class="menu-button">Banque</button>
                     <ul class="menu-list">
                         <li class="rotate-text"><a href="?controller=Banque&action=voirListeSoldesBancaireProgressif">Liste des soldes progressifs d'un ou plusieurs comptes bancaires</a></li>
-                        <li class="rotate-text"><a href="?controller=&Banque&action=voirGraphiqueSoldeBancaire">Graphique d'évolution des soldes des comptes bancaires</a></li>
-                        <li class="rotate-text"><a href="?controller=&action=">Diagramme sectoriel des comptes bancaires</a></li>
+                        <li class="rotate-text"><a href="?controller=Banque&action=voirGraphiqueSoldeBancaire">Graphique d'évolution des soldes des comptes bancaires</a></li>
+                        <li class="rotate-text"><a href="?controller=Banque&action=voirDiagrammeRepartition">Diagramme sectoriel des comptes bancaires</a></li>
                     </ul>
                 </div>
             </div>
@@ -45,7 +45,7 @@
                     <input type="hidden" name="controller" value="Stock">
                     <input type="hidden" name="action" value="listeFournisseursLike">
                     Nom du Fournisseur
-                    <input name="nom" type="texte" id="test" value="<?php if($rechercheFournisseur !=null){echo $rechercheFournisseur;}?>">
+                    <input name="nom" type="texte"  value="<?php if($rechercheFournisseur !=null){echo $rechercheFournisseur;}?>">
                     <br>
                     <button type="submit">Rechercher fournisseur</button>
                 </form>

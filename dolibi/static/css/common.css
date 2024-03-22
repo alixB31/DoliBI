@@ -23,6 +23,12 @@ body {
     font-size: 40px;
 }
 
+.titreDécalé {
+    padding-left : 10px;
+    font-family: 'Kiwi Maru', serif;
+    font-size: 40px;
+}
+
 .contact {
     text-align: center;
     margin-left: auto;
@@ -32,9 +38,11 @@ body {
 header {
     padding: 5px;
     background-color: rgb(38, 60, 92);
-    margin-bottom: 10px;
-    color :white;
-    z-index: 2; /* Permet au menu d'être au-dessus du contenu */
+    margin-bottom: 10px;    
+    /*position: fixed;*/
+    width: 100%;
+    top: 0;
+    left: 0;
 }
 
 .cadre {
@@ -68,7 +76,6 @@ footer {
     border-style: solid;
     border-radius: 5px;
 }
-
 
 .btn-deco {
     font-family: 'Kiwi Maru', serif;

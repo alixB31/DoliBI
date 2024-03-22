@@ -70,4 +70,15 @@ class fonctions
         if (isset($_POST[$name])) return $_POST[$name];
         return null;
     }
+
+	public static function extraireAnnee($date) {
+		// Utilisation de la fonction date_parse pour analyser la date
+		$date_info = date_parse($date);
+		
+		// Récupération de l'année à partir des informations analysées
+		$annee = $date_info['year'];
+		
+		return $annee;
+	}
+	
 }

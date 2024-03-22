@@ -29,15 +29,15 @@
                 <div class="menu">
                     <button class="menu-button">Stock</button>
                     <ul class="menu-list">
-                        <li class="rotate-text <?php if ($_GET['action'] == 'voirPalmaresFournisseurs' || ($_SERVER['REQUEST_METHOD'] == 'POST')) echo 'active'; ?>"><a href="?controller=Stock&action=voirPalmaresFournisseurs">Palmarès fournisseur</a></li>
+                        <li class="rotate-text"><a href="?controller=Stock&action=voirPalmaresFournisseurs">Palmarès fournisseur</a></li>
                         <li class="rotate-text"><a href="?controller=Stock&action=voirMontantEtQuantiteFournisseurs">Montant et quantité fournisseur</a></li>
                         <li class="rotate-text"><a href="?controller=Stock&action=voirEvolutionStockArticle">Évolution stock article</a></li>
                     </ul>
                     <button class="menu-button">Banque</button>
                     <ul class="menu-list">
                         <li class="rotate-text"><a href="?controller=Banque&action=voirListeSoldesBancaireProgressif">Liste des soldes progressifs d'un ou plusieurs comptes bancaires</a></li>
-                        <li class="rotate-text"><a href="?controller=&Banque&action=voirGraphiqueSoldeBancaire">Graphique d'évolution des soldes des comptes bancaires</a></li>
-                        <li class="rotate-text"><a href="?controller=&action=">Diagramme sectoriel des comptes bancaires</a></li>
+                        <li class="rotate-text"><a href="?controller=Banque&action=voirGraphiqueSoldeBancaire">Graphique d'évolution des soldes des comptes bancaires</a></li>
+                        <li class="rotate-text"><a href="?controller=Banque&action=voirDiagrammeRepartition">Diagramme sectoriel des comptes bancaires</a></li>
                     </ul>
                 </div>
             </div>
@@ -45,35 +45,48 @@
                 <form action="index.php" method= "post">
                     <input type="hidden" name="controller" value="Banque">
                     <input type="hidden" name="action" value="graphiqueEvolution">
-                    Banque 
+                    Banque
                     <?php 
                         foreach($listeBanques as $banque) {
                     ?>
                         <div>
                             <input type="checkbox" class="checkBoxs" name="Banque[]" value="<?php echo $banque["id_banque"]; ?>" <?php
                             // Vérifier si l'utilisateur est dans la liste des organisateurs
-                            // if (in_array($row['idUtilisateur'], $organisateurIDs)) {
-                            //     echo 'checked';
+                            if (in_array($banque['id_banque'], $banques)) {
+                                echo 'checked';
                                     
-                            // }
+                            }
                             ?>>
                             <?php echo $banque["nom"]; ?>
                             <br>
                         </div>
-                        <?php
-                    }
+                    <?php
+                        }
                     ?>
-
-                    Date début
-                    <input name="dateDebut" type="date" value="<?php if($dateDebut !=null){echo $dateDebut;}?>" >
                     <br>
-                    Date fin
-                    <input name="dateFin" type="date" value="<?php if($dateFin !=null){echo $dateFin;}?>" >
-                    <br>
-                    <select id="moisOuJour" name="moisOuJour">
-                        <option value="mois" <?php if($moisOuJour == "mois") {echo "selected";}?>>mois</option>
-                        <option value="jour" <?php if($moisOuJour == "jour") {echo "selected";}?>>jour</option>
+                    <select id="histoOuCourbe" name="histoOuCourbe">
+                        <option value="histo" <?php if($histoOuCourbe == "histo") {echo "selected";}?>>histogramme</option>
+                        <option value="courbe" <?php if($histoOuCourbe == "courbe") {echo "selected";}?>>courbe</option>
                     </select>
+                    <br>
+                    Saissisez une année :
+                    <input type="number" name="an" value="<?php if($an !=null){echo $an;}?>" required/>
+                    <br>
+                    <select name="mois" id="mois">
+                        <option value="mois">Tous les mois</option>
+                        <option value="janvier">Janvier</option>
+                        <option value="fevrier">Février</option>
+                        <option value="mars">Mars</option>
+                        <option value="avril">Avril</option>
+                        <option value="mai">Mai</option>
+                        <option value="juin">Juin</option>
+                        <option value="juillet">Juillet</option>
+                        <option value="aout">Août</option>
+                        <option value="septembre">Septembre</option>
+                        <option value="novembre">Novembre</option>
+                        <option value="decembre">decembre</option>
+                    </select>
+                    
                     <br>
                     <button type="submit">Rechercher</button>
                     <br>
