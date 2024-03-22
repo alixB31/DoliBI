@@ -25,6 +25,22 @@
     </header>
     <body>
         <div class="container-fluid">
+            <div class="row">
+                    <div class="menu">
+                        <button class="menu-button">Stock</button>
+                        <ul class="menu-list">
+                            <li class="rotate-text"><a href="?controller=Stock&action=voirPalmaresFournisseurs">Palmarès fournisseur</a></li>
+                            <li class="rotate-text"><a href="?controller=Stock&action=voirMontantEtQuantiteFournisseurs">Montant et quantité fournisseur</a></li>
+                            <li class="rotate-text <?php if ($_GET['action'] == 'voirEvolutionStockArticle' || ($_SERVER['REQUEST_METHOD'] == 'POST')) echo 'active'; ?>"><a href="?controller=Stock&action=voirEvolutionStockArticle">Évolution stock article</a></li>
+                        </ul>
+                        <button class="menu-button">Banque</button>
+                        <ul class="menu-list">
+                            <li class="rotate-text"><a href="?controller=Banque&action=voirListeSoldesBancaireProgressif">Liste des soldes progressifs d'un ou plusieurs comptes bancaires</a></li>
+                            <li class="rotate-text"><a href="?controller=Banque&action=voirGraphiqueSoldeBancaire">Graphique d'évolution des soldes des comptes bancaires</a></li>
+                            <li class="rotate-text"><a href="?controller=Banque&action=voirDiagrammeRepartition">Diagramme sectoriel des comptes bancaires</a></li>
+                        </ul>
+                    </div>
+                </div>
             <div class="row row-gauche">
                 <form action="index.php" method= "post">
                     <input type="hidden" name="controller" value="Stock">
@@ -35,7 +51,7 @@
                     <button type="submit">Rechercher fournisseur</button>
                 </form>
             </div>
-            <div>
+            <div class="row row-gauche">
                 <form action="index.php" method= "post">
                     <input type="hidden" name="controller" value="Stock">
                     <input type="hidden" name="action" value="evolutionStockArticle">

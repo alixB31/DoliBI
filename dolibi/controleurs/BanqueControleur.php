@@ -156,7 +156,7 @@ class BanqueControleur {
         foreach($listeBanques as $banque) {
             $repartition = $this->banqueModele->diagrammeRepartition($url,$apiKey,$banque,$repartion);
         }
-
+        var_dump($repartition);
         $vue = new View("vues/vue_diagramme_repartition_bancaire");
         $vue->setVar("repartition", $repartition);
         return $vue;

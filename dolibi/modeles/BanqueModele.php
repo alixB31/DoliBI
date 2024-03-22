@@ -120,16 +120,24 @@ class BanqueModele
      * @return quantiteArticle le tableaux des quantités achetés.
      */
     function diagrammeRepartition ($url,$apiKey,$banque,$repartition)  {
-        $urlBankAccount = $url.'api/index.php/bankaccounts/'.$banque.'/lines';
+        $urlBankAccount = $url.'api/index.php/bankaccounts/'.$banque['id_banque'].'/lines';
         // Recupere la liste des ecritures de la banque choisis
 		$ecrituresBanque = fonctions::appelAPI($urlBankAccount,$apiKey);
-        $mois = date('Y-m', strtotime($date))
+        $jour = date('Y-m-d');
+        $solde = 0;
         foreach($ecrituresBanque as $ecriture) {
-            $solde += $ecriture['amount'];
-            $solde[] = array(
-                'date' => date('');
-                'solde' => $solde;
-            );
+            if(($ecriture['dateo']) < $jour) {
+                $solde += $ecriture['amount'];
+            }
+            
         }
+        //if($solde>0) {
+            $listeDeSolde[] = array(
+                'banque' => $banque['nom'],
+                'solde' => $solde,
+            );
+        //}
+        return $listeDeSolde;
+        
     }
 }
