@@ -41,6 +41,19 @@
                     </ul>
                 </div>
             </div>
+            <div class="row row-gauche">
+                <?php
+                    if($repartition != []) {
+                        $donneesJSON = json_encode($repartition);
+                    }
+                ?>
+            <div class="col-md-6">
+                <canvas id="myChart" width="200" height="200"></canvas>
+            </div>
+            
+            <span id="donnees" class="invisible"><?php echo $donneesJSON; ?></span>
+            </div>
         </div>
+        <script src="js/scriptBanque.js"></script>
     </body>
 </html>

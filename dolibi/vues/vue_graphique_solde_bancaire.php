@@ -73,7 +73,7 @@
                     <input type="number" name="an" value="<?php if($an !=null){echo $an;}?>" required/>
                     <br>
                     <select name="mois" id="mois">
-                        <option value="mois">Tous les mois</option>
+                        <option value="tous">Tous les mois</option>
                         <option value="janvier">Janvier</option>
                         <option value="fevrier">Février</option>
                         <option value="mars">Mars</option>

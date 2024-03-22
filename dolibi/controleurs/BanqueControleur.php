@@ -151,12 +151,11 @@ class BanqueControleur {
         // Recupere la liste des banques 
         $listeBanques = $this->banqueModele->listeBanques($url,$apiKey);
         // Initialise le résultat
-        $repartition[] = array();
+        $repartition = array();
 
         foreach($listeBanques as $banque) {
-            $repartition = $this->banqueModele->diagrammeRepartition($url,$apiKey,$banque,$repartion);
+            $repartition = $this->banqueModele->diagrammeRepartition($url,$apiKey,$banque,$repartition);
         }
-        var_dump($repartition);
         $vue = new View("vues/vue_diagramme_repartition_bancaire");
         $vue->setVar("repartition", $repartition);
         return $vue;

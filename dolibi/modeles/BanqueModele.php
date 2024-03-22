@@ -131,13 +131,13 @@ class BanqueModele
             }
             
         }
-        //if($solde>0) {
-            $listeDeSolde[] = array(
+        if($solde>0) {
+            $repartition[] = array(
                 'banque' => $banque['nom'],
                 'solde' => $solde,
             );
-        //}
-        return $listeDeSolde;
+        }
+        return $repartition;
         
     }
 }
