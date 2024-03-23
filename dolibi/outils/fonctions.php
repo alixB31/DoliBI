@@ -81,4 +81,17 @@ class fonctions
 		return $annee;
 	}
 	
+	public static function extraireAnneeMois($date) {
+		// Utilisation de la fonction date_parse pour analyser la date
+		$date_info = date_parse($date);
+
+		// Récupération de l'année et du mois à partir des informations analysées
+		$annee = $date_info['year'];
+		$mois = $date_info['month'];
+	 
+		// Formattage de l'année et du mois en une seule chaîne
+		$anneeMois = sprintf("%04d-%02d", $annee, $mois);
+	 
+		return $anneeMois;
+	 }
 }

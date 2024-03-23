@@ -99,16 +99,47 @@ class BanqueModele
         $urlBankAccount = $url.'api/index.php/bankaccounts/'.$banque.'/lines';
         // Recupere la liste des ecritures de la banque choisis
 		$ecrituresBanque = fonctions::appelAPI($urlBankAccount,$apiKey);
+        // Parcoure toute les ecriture pour connaitre l'etat du compte avant l'intervalle voulu
         foreach($ecrituresBanque as $ecriture) {
-            if (fonctions::annee($ecriture['dateo'])==$annee ) {
+            // Si l'utilisateur a choisis un tri par année
+            if ($mois == 'tous') {
+                // Parcoure tout les mois de l'année voulu
+                for ($moisAnnee = 1; $moisAnnee <= 12; $moisAnnee++) {
+                    // concatene le mois et l'annee
+                    $anneeMois =  sprintf("%04d-%02d", $annee, $moisAnnee);
+                    if (fonctions::extraireAnneeMois($ecriture['dateo'])<=$anneeMois ) {
+                        if (isset($somme[$moisAnnee])) {
+                            // Si ce n'est pas la premiere ecriture l'ajoute
+                            $somme[$moisAnnee]['montant'] += $ecriture['amount'];
+                        } else {
+                            // Sinon, initialise la mois au montant actuels
+                            $somme[$moisAnnee] = array('date' => $anneeMois, 'montant' => $ecriture['amount']);
+                        }
+                    }
+                }
 
-
-                $ensembleEcriture[] = array(
-                    'date' => $ecriture['dateo'],
-                    'montant' => $ecriture['amount'],
-                );
+            } else {
+                // Utilisation de la fonction cal_days_in_month pour obtenir le nombre de jours dans le mois donné
+                $joursDansLeMois = cal_days_in_month(CAL_GREGORIAN, $mois, $annee);
+                // Parcoure tout les jousr du mois voulus
+                for ($jour  = 1; $jour  <= $joursDansLeMois ; $jour++) { 
+                    // Concatene la date complete
+                    $date = sprintf("%04d-%02d-%02d", $annee, $mois, $jour);
+                    if ($ecriture['dateo']<=$date) {
+                        if (isset($somme[$jour])) {
+                            // Si ce n'est pas la premiere ecriture l'ajoute
+                            $somme[$jour]['montant'] += $ecriture['amount'];
+                        } else {
+                            // Sinon, initialise la date au montant actuels
+                            $somme[$jour] = array('date' => $date, 'montant' => $ecriture['amount']);
+                        }
+                    }
+                }
             }
+            
         }
+
+        return $somme;
     }
     
     /**

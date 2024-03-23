@@ -73,24 +73,28 @@
                     <input type="number" name="an" value="<?php if($an !=null){echo $an;}?>" required/>
                     <br>
                     <select name="mois" id="mois">
-                        <option value="tous">Tous les mois</option>
-                        <option value="janvier">Janvier</option>
-                        <option value="fevrier">Février</option>
-                        <option value="mars">Mars</option>
-                        <option value="avril">Avril</option>
-                        <option value="mai">Mai</option>
-                        <option value="juin">Juin</option>
-                        <option value="juillet">Juillet</option>
-                        <option value="aout">Août</option>
-                        <option value="septembre">Septembre</option>
-                        <option value="novembre">Novembre</option>
-                        <option value="decembre">decembre</option>
+                        <option value="tous" <?php if($mois == "tous") {echo "selected";}?> >Tous les mois</option>
+                        <option value="1" <?php if($mois == "1") {echo "selected";}?>>Janvier</option>
+                        <option value="2" <?php if($mois == "2") {echo "selected";}?>>Février</option>
+                        <option value="3" <?php if($mois == "3") {echo "selected";}?>>Mars</option>
+                        <option value="4" <?php if($mois == "4") {echo "selected";}?>>Avril</option>
+                        <option value="5" <?php if($mois == "5") {echo "selected";}?>>Mai</option>
+                        <option value="6" <?php if($mois == "6") {echo "selected";}?>>Juin</option>
+                        <option value="7" <?php if($mois == "7") {echo "selected";}?>>Juillet</option>
+                        <option value="8" <?php if($mois == "8") {echo "selected";}?>>Août</option>
+                        <option value="9" <?php if($mois == "9") {echo "selected";}?>>Septembre</option>
+                        <option value="10" <?php if($mois == "10") {echo "selected";}?>>Octobre</option>
+                        <option value="11" <?php if($mois == "11") {echo "selected";}?>>Novembre</option>
+                        <option value="12" <?php if($mois == "12") {echo "selected";}?>>decembre</option>
                     </select>
                     
                     <br>
                     <button type="submit">Rechercher</button>
                     <br>
                 </form>
+            </div>
+            <div>
+                <?php var_dump($listeValeurs); ?>
             </div>
         </div>
     </body>

@@ -104,8 +104,9 @@ class BanqueControleur {
         $vue->setVar("listeBanques", $listeBanques);
         $vue->setVar("banques", []);
         $vue->setVar("histoOuCourbe", null);
-        $vue->setVar("an", $annee);
-        $vue->setVar("mois", $mois);
+        $vue->setVar("an", null);
+        $vue->setVar("mois", null);
+        $vue->setVar("listeValeurs", null);
         return $vue;
     }
 
@@ -137,6 +138,7 @@ class BanqueControleur {
         } else {
             $vue->setVar("banques", []);
         }
+        $vue->setVar("listeValeurs", $listeValeurs);
         $vue->setVar("an", $annee);
         $vue->setVar("mois", $mois);
         return $vue;
