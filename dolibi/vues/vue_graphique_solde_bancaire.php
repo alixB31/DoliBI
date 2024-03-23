@@ -94,7 +94,10 @@
                 </form>
             </div>
             <div>
-                <?php var_dump($listeValeurs); ?>
+                <canvas id="myChart"></canvas>
+                <?php $donneesJSON = json_encode($listeValeurs); ?>
+                <span id="donnees" class="invisible"><?php echo $donneesJSON; ?></span>
+                <script src="js/scriptGraphiqueBancaire.js"></script>
             </div>
         </div>
     </body>

@@ -107,15 +107,14 @@ class BanqueModele
                 for ($moisAnnee = 1; $moisAnnee <= 12; $moisAnnee++) {
                     // concatene le mois et l'annee
                     $anneeMois =  sprintf("%04d-%02d", $annee, $moisAnnee);
-                    if (fonctions::extraireAnneeMois($ecriture['dateo'])<=$anneeMois ) {
-                        if (isset($somme[$moisAnnee])) {
-                            // Si ce n'est pas la premiere ecriture l'ajoute
-                            $somme[$moisAnnee]['montant'] += $ecriture['amount'];
-                        } else {
-                            // Sinon, initialise la mois au montant actuels
-                            $somme[$moisAnnee] = array('date' => $anneeMois, 'montant' => $ecriture['amount']);
-                        }
+                    if (!isset($somme[$moisAnnee])) {
+                        $somme[$moisAnnee] = array('date' => $anneeMois, 'montant' => 0);
                     }
+                    if (fonctions::extraireAnneeMois($ecriture['dateo'])<=$anneeMois ) {
+                        // ajoute l'ecriture a son mois 
+                        $somme[$moisAnnee]['montant'] += $ecriture['amount'];
+                    }
+                    
                 }
 
             } else {
@@ -125,20 +124,17 @@ class BanqueModele
                 for ($jour  = 1; $jour  <= $joursDansLeMois ; $jour++) { 
                     // Concatene la date complete
                     $date = sprintf("%04d-%02d-%02d", $annee, $mois, $jour);
+                    if (!isset($somme[$jour])) {
+                        $somme[$jour] = array('date' => $date, 'montant' => 0);
+                    }
                     if ($ecriture['dateo']<=$date) {
-                        if (isset($somme[$jour])) {
-                            // Si ce n'est pas la premiere ecriture l'ajoute
-                            $somme[$jour]['montant'] += $ecriture['amount'];
-                        } else {
-                            // Sinon, initialise la date au montant actuels
-                            $somme[$jour] = array('date' => $date, 'montant' => $ecriture['amount']);
-                        }
+                        // Ajoute l'ecriture a son jour
+                        $somme[$jour]['montant'] += $ecriture['amount'];
                     }
                 }
             }
             
         }
-
         return $somme;
     }
     

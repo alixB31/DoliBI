@@ -122,16 +122,15 @@ class BanqueControleur {
         // Récupere tout les banques checks
         $banques = fonctions::getParamArray('Banque');
         // Initialise le résultat
-        $listeValeurs[] = array();
         foreach($banques as $banque) { 
             // Demande au modele de trouver le compte bancaire coché
             $listeValeurs[$banque] = $this->banqueModele->graphiqueSoldeBancaire($url,$apiKey,$banque,$listeValeurs,$annee,$mois);
         }
+
         $listeBanques = $this->banqueModele->listeBanques($url,$apiKey);
         $vue = new View("vues/vue_graphique_solde_bancaire");
         $vue->setVar("listeBanques", $listeBanques);
         $vue->setVar("histoOuCourbe", $histoOuCourbe);
-
         // Si il y a pas de banques coché renvoie [] (évite un bug)
         if ($banques != null) {
             $vue->setVar("banques", $banques);
