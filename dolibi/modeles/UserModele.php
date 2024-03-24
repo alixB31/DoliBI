@@ -98,4 +98,38 @@ class UserModele
 			return true; // Suppression réussie
 		}
 	}	
+
+	/**
+     * Regarde si un utilisateur a les droits des stocks
+     * @param url l'url de l'instance de dolibarr utilisé par l'utilisateur.
+     * @param apikey La clé api du compte de l'utilisateur.
+	 * @return true si l'utilisateur a les droits
+     */
+	function voirDroitStock($url, $apiKey) {
+		$urlStock = $url.'api/index.php/supplierinvoices?sortfield=t.rowid&sortorder=ASC&limit=100';
+		$droit = fonctions::appelAPI($urlStock	,$apiKey);
+
+		if ($droit != []) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+     * Regarde si un utilisateur a les droits des banques.
+     * @param url l'url de l'instance de dolibarr utilisé par l'utilisateur.
+     * @param apikey La clé api du compte de l'utilisateur.
+	 * @return true si l'utilisateur a les droits
+     */
+	function voirDroitBanque($url, $apiKey) {
+		$urlBanque = $url.'api/index.php/bankaccounts?sortfield=t.rowid&sortorder=ASC&limit=100';
+		$droit = fonctions::appelAPI($urlBanque,$apiKey);
+
+		if ($droit != []) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

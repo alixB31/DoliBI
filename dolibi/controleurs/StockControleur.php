@@ -38,21 +38,16 @@ class StockControleur {
             // Demande au modele de trouver le palmares fournisseur
             $palmaresFournisseurs = $this->stockModele->palmaresFournisseurs($url,$apiKey,$dateDebut,$dateFin);
             $vue = new View("vues/vue_palmares_fournisseurs");
-            $vue->setVar("top", $top);
-            $vue->setVar("dateDebut", $dateDebut);
-            $vue->setVar("dateFin", $dateFin);
-            $vue->setVar("verifDate", $verifDate);
             $vue->setVar("palmares", $palmaresFournisseurs);
-            return $vue;
         } else {
             $verifDate = false;
             $vue = new View("vues/vue_palmares_fournisseurs");
-            $vue->setVar("top", $top);
-            $vue->setVar("dateDebut", $dateDebut);
-            $vue->setVar("dateFin", $dateFin);
-            $vue->setVar("verifDate", $verifDate);
-            return $vue;
         }
+        $vue->setVar("top", $top);
+        $vue->setVar("dateDebut", $dateDebut);
+        $vue->setVar("dateFin", $dateFin);
+        $vue->setVar("verifDate", $verifDate);
+        return $vue;
     }
 
     public function listeFournisseursLike() : View
@@ -141,39 +136,27 @@ class StockControleur {
         $dateDebut = HttpHelper::getParam('dateDebut');
         $dateFin = HttpHelper::getParam('dateFin');
         $moisOuJour = HttpHelper::getParam('moisOuJour');
-         // Demande au modele de trouver la liste des articles correspondant au nom
-         $listeArticles = $this->stockModele->listeArticlesLike($url,$apiKey,$rechercheArticle);
-         $quantiteAchetes = $this->stockModele->quantiteAchetesArticle($url,$apiKey,$idArticle,$dateDebut,$dateFin,$moisOuJour);
-         $quantiteVendues = $this->stockModele->quantiteVenduesArticle($url,$apiKey,$idArticle,$dateDebut,$dateFin,$moisOuJour);
-        
-         if ($dateFin >= $dateDebut) {
+        // Demande au modele de trouver la liste des articles correspondant au nom
+        $listeArticles = $this->stockModele->listeArticlesLike($url,$apiKey,$rechercheArticle);
+        // Si les dates sont valides
+        if ($dateFin >= $dateDebut) {
             $verifDate = true;
-            $vue = new View("vues/vue_evolution_stock_article");
-            $vue->setVar("listeArticles", $listeArticles);
-            $vue->setVar("idChoisis", $idArticle);
-            $vue->setVar("dateDebut", $dateDebut);
-            $vue->setVar("dateFin", $dateFin);
-            $vue->setVar("moisOuJour", $moisOuJour);
-            $vue->setVar("quantiteAchetes", $quantiteAchetes);
-            $vue->setVar("quantiteVendues", $quantiteVendues);
-            $vue->setVar("rechercheArticle",$rechercheArticle);
-            $vue->setVar("verifDate", $verifDate);
-            return $vue;
+            $quantiteAchetes = $this->stockModele->quantiteAchetesArticle($url,$apiKey,$idArticle,$dateDebut,$dateFin,$moisOuJour);
+            $quantiteVendues = $this->stockModele->quantiteVenduesArticle($url,$apiKey,$idArticle,$dateDebut,$dateFin,$moisOuJour);
         } else {
             $verifDate = false;
-            $listeArticles = $this->stockModele->listeArticlesLike($url,$apiKey,$rechercheArticle);
-            $vue = new View("vues/vue_evolution_stock_article");
-            $vue->setVar("listeArticles", $listeArticles);
-            $vue->setVar("idChoisis", $idArticle);
-            $vue->setVar("dateDebut", $dateDebut);
-            $vue->setVar("dateFin", $dateFin);
-            $vue->setVar("moisOuJour", $moisOuJour);
-            $vue->setVar("quantiteAchetes", $quantiteAchetes);
-            $vue->setVar("quantiteVendues", $quantiteVendues);
-            $vue->setVar("rechercheArticle",$rechercheArticle);
-            $vue->setVar("verifDate", $verifDate);
-            return $vue;
         }
+        $vue = new View("vues/vue_evolution_stock_article");
+        $vue->setVar("listeArticles", $listeArticles);
+        $vue->setVar("idChoisis", $idArticle);
+        $vue->setVar("dateDebut", $dateDebut);
+        $vue->setVar("dateFin", $dateFin);
+        $vue->setVar("moisOuJour", $moisOuJour);
+        $vue->setVar("quantiteAchetes", $quantiteAchetes);
+        $vue->setVar("quantiteVendues", $quantiteVendues);
+        $vue->setVar("rechercheArticle",$rechercheArticle);
+        $vue->setVar("verifDate", $verifDate);
+        return $vue;
     }
     
     public function voirEvolutionStockArticle() : View 
