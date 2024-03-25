@@ -1,4 +1,8 @@
-<?php session_start();?>
+<?php session_start();
+if (!isset($_SESSION['droitBanque']) || $_SESSION['droitBanque'] == false) {
+    header("Location: ../dolibi/index.php");
+}
+?>
 <!DOCTYPE html>
 <html lang="fr">
     <head>
@@ -106,7 +110,7 @@
                     echo '<h3 class="row-gauche">'.$banque['nom'].'</h3>';
             ?>
                     <div class="row row-gauche">
-                        <table class="table table-striped table-bordered">
+                        <table class="table table-striped table-bordered table-responsive">
                             <tr>
                                 <th>Date</th>
                                 <th>Total</th>

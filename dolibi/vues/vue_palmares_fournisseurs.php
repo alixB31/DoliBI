@@ -1,4 +1,8 @@
-<?php session_start();?>
+<?php session_start();
+if (!isset($_SESSION['droitStock']) || $_SESSION['droitStock'] == false) {
+    header("Location: ../dolibi/index.php");
+}
+?>
 <!DOCTYPE html>
 <html lang="fr">
     <head>
@@ -85,7 +89,7 @@
                     <button type="submit">Rechercher</button>
                     <br>
                     <br>
-                    <table class="table table-striped text-center table-bordered">
+                    <table class="table table-striped text-center table-bordered table-responsive">
                         <tr>
                             <th>Code Fournisseur</th>
                             <th>Nom Fournisseur</th>

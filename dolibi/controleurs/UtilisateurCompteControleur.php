@@ -37,6 +37,8 @@ class UtilisateurCompteControleur
 
         $apiKey = $this->userModele->connexion($identifiant,$mdp,$url);
         if ($apiKey == []) {
+            $_SESSION['droitStock'] == false;
+            $_SESSION['droitBanque'] == false;
             $fichier_urls = "url.txt";
             $verifLoginOuMdp = false;
             $listeUrl = $this->userModele->listeUrl($fichier_urls);

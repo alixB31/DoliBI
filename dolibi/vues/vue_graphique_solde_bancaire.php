@@ -1,4 +1,8 @@
-<?php session_start();?>
+<?php session_start();
+if (!isset($_SESSION['droitBanque']) || $_SESSION['droitBanque'] == false) {
+    header("Location: ../dolibi/index.php");
+}
+?>
 <!DOCTYPE html>
 <html lang="fr">
     <head>

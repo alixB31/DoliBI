@@ -1,4 +1,8 @@
-<?php session_start();?>
+<?php session_start();
+if (!isset($_SESSION['droitBanque']) || $_SESSION['droitBanque'] == false) {
+    header("Location: ../dolibi/index.php");
+}
+?>
 <!DOCTYPE html>
 <html lang="fr">
     <head>
@@ -67,8 +71,8 @@
                         $donneesJSON = json_encode($repartition);
                     }
                 ?>
-                <div class="col-md-6">
-                    <canvas id="myChart" width="200" height="200"></canvas>
+               <div class="chart-container col-md-6" id="graphique">
+                    <canvas id="myChart"></canvas>
                 </div>
                 <div class="col-md-6">
                     <table class="table table-striped table-bordered">
