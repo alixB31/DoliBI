@@ -107,6 +107,8 @@ class BanqueControleur {
         $vue->setVar("an", null);
         $vue->setVar("mois", null);
         $vue->setVar("listeValeurs", null);
+        $vue->setVar("nomBanques", $nomBanques);
+        $vue->setVar("dates", null);
         return $vue;
     }
 
@@ -121,25 +123,54 @@ class BanqueControleur {
         $histoOuCourbe = HttpHelper::getParam('histoOuCourbe');
         // Récupere tout les banques checks
         $banques = fonctions::getParamArray('Banque');
+        $listeBanques = $this->banqueModele->listeBanques($url,$apiKey);
+        $listeValeurs = null;
         // Initialise le résultat
         foreach($banques as $banque) { 
             // Demande au modele de trouver le compte bancaire coché
             $listeValeurs[$banque] = $this->banqueModele->graphiqueSoldeBancaire($url,$apiKey,$banque,$listeValeurs,$annee,$mois);
         }
+        // Met dans un tableaux les noms des banques cochés
+        if ($banques != null) {
+            $nomBanques = []; // Initialisation du tableau
+            foreach ($listeBanques as $banque) {
+                if (in_array($banque['id_banque'], $banques)) {
+                    $nomBanques[] = $banque['nom']; // Ajout du nom de la banque directement
+                }
+            }
+        }
 
-        $listeBanques = $this->banqueModele->listeBanques($url,$apiKey);
+        // Initialiser un tableau vide pour stocker les dates
+        $dates = array();
+        // Initialiser un tableau temporaire pour suivre les dates déjà ajoutées
+        $datesDejaAjoute = array();
+        // Parcourir le tableau $donnees pour rechercher les données
+        foreach ($listeValeurs as $data) {
+            foreach ($data as $element) {
+                $date = $element["date"];
+                // Vérifier si la date n'a pas déjà été ajoutée
+                if (!in_array($date, $datesDejaAjoute)) {
+                    $dates[] = $date;
+                    $datesDejaAjoute[] = $date; // Ajouter la date au tableau temporaire
+                }
+            }
+        }
+
         $vue = new View("vues/vue_graphique_solde_bancaire");
-        $vue->setVar("listeBanques", $listeBanques);
-        $vue->setVar("histoOuCourbe", $histoOuCourbe);
         // Si il y a pas de banques coché renvoie [] (évite un bug)
         if ($banques != null) {
             $vue->setVar("banques", $banques);
         } else {
             $vue->setVar("banques", []);
         }
+        $vue->setVar("listeBanques", $listeBanques);
+        $vue->setVar("histoOuCourbe", $histoOuCourbe);
+        $vue->setVar("an", $annee);
+        $vue->setVar("nomBanques", $nomBanques);
         $vue->setVar("listeValeurs", $listeValeurs);
         $vue->setVar("an", $annee);
         $vue->setVar("mois", $mois);
+        $vue->setVar("dates", $dates);
         return $vue;
     }
 
@@ -160,8 +191,6 @@ class BanqueControleur {
         $vue = new View("vues/vue_diagramme_repartition_bancaire");
         $vue->setVar("repartition", $repartition);
         return $vue;
-    }
-
-
-    
+        
+    }   
 }

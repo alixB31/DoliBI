@@ -57,7 +57,6 @@ class BanqueModele
                     'montant' => $ecriture['amount'],
                 );
             }
-
         }
 
         // Si l'utilisateur a choisis le tri par mois, factorise les écriture par mois
@@ -66,7 +65,7 @@ class BanqueModele
             foreach($ensembleEcriture as $ecritureBanque) {
                 
                 $date = $ecritureBanque['date'];
-                
+
                 // Extrais le mois de la date
 				$mois = date('Y-m', strtotime($date));
 
@@ -77,6 +76,7 @@ class BanqueModele
                     $sommeParMois[$mois] = array('date' => $mois, 'montant' => $ecritureBanque['montant']);
                 }
             }   
+            //var_dump($sommeParMois);
             return $sommeParMois;
         } 
         
@@ -156,15 +156,14 @@ class BanqueModele
             if(($ecriture['dateo']) < $jour) {
                 $solde += $ecriture['amount'];
             }
-            
         }
         if($solde>0) {
             $repartition[] = array(
                 'banque' => $banque['nom'],
                 'solde' => $solde,
             );
+            var_dump($repartition);
         }
         return $repartition;
-        
     }
 }

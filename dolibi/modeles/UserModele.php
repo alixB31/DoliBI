@@ -111,9 +111,9 @@ class UserModele
 
 		if ($droit != []) {
 			return true;
-		} else {
-			return false;
-		}
+		} 
+		return false;
+		
 	}
 
 	/**
@@ -128,8 +128,7 @@ class UserModele
 
 		if ($droit != []) {
 			return true;
-		} else {
-			return false;
-		}
+		} 
+		return false;
 	}
 }

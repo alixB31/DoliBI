@@ -93,5 +93,6 @@ class fonctions
 		$anneeMois = sprintf("%04d-%02d", $annee, $mois);
 	 
 		return $anneeMois;
-	 }
+	}
+
 }

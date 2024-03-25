@@ -112,11 +112,18 @@
                     <button type="submit">Rechercher</button>
                     <br>
                 </form>
+                <canvas id="myChart"></canvas>
             </div>
             <div>
-                <canvas id="myChart"></canvas>
-                <?php $donneesJSON = json_encode($listeValeurs); ?>
+                
+                <?php 
+                    $donneesJSON = json_encode($listeValeurs); 
+                    $donneesBanques = json_encode($nomBanques); 
+                    $donneesDates = json_encode($dates); 
+                ?>
                 <span id="donnees" class="invisible"><?php echo $donneesJSON; ?></span>
+                <span id="donneesBanques" class="invisible"><?php echo $donneesBanques; ?></span>
+                <span id="donneesDates" class="invisible"><?php echo $donneesDates; ?></span>
                 <script src="js/scriptGraphiqueBancaire.js"></script>
             </div>
         </div>

@@ -92,10 +92,10 @@
                     </select>
                     <br>
                     Date début
-                    <input name="dateDebut" type="date" value="<?php if($dateDebut !=null){echo $dateDebut;}?>" >
+                    <input name="dateDebut" type="date" value="<?php if($dateDebut !=null){echo $dateDebut;}?>" required>
                     <br>
                     Date fin
-                    <input name="dateFin" type="date" value="<?php if($dateFin !=null){echo $dateFin;}?>" >
+                    <input name="dateFin" type="date" value="<?php if($dateFin !=null){echo $dateFin;}?>" required>
                     <br>
                     Par 
                     <select id="moisOuJour" name="moisOuJour">
@@ -106,7 +106,8 @@
                     <button type="submit">Valider</button> 
                 </form>
                 <?php
-                    if($montantEtQuantite != []) {
+                    echo (!$verifDate) ? "<p id='invalide'>Erreur : Les dates ne sont pas cohérentes ou l'écart entre les deux dates est trop éleves.</p>" : "";
+                    if($montantEtQuantite != [] && $verifDate) {
                         $donneesJSON = json_encode($montantEtQuantite);
                     
                     
@@ -115,7 +116,7 @@
                         <canvas id="myChart"></canvas>
                         <span id="donnees" class="invisible"><?php echo $donneesJSON; ?></span>
                 <?php
-                    } else  {
+                    } else if($verifDate) {
                         echo "<h3>Il n'y a aucune données pour les dates choisis</h3>";
                     }
                 ?>
