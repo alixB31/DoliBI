@@ -54,7 +54,7 @@ class UtilisateurCompteControleur
             $droitBanque = $this->userModele->voirDroitBanque($url,$apiKey);
             $_SESSION['droitStock'] = $droitStock;
             $_SESSION['droitBanque'] = $droitBanque;
-            $vue = new View("vues/vue_dashboard_stock");
+            $vue = new View("vues/vue_dashboard");
         }
         return $vue;
     }

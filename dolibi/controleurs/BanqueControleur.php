@@ -19,7 +19,7 @@ class BanqueControleur {
 
     public function index() : View
     {
-        $vue = new View("vues/vue_dashboard_stock");
+        $vue = new View("vues/vue_dashboard");
         return $vue;
     }
 
