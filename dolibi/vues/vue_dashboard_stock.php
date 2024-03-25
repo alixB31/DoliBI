@@ -10,18 +10,23 @@
     </head>
     <header>
         <div class ="row">
-            <div class ="col-4">
-                <hspan class="titre">Doli-BI</hspan>
+            <div class="offset-4 col-4 d-none d-md-block d-sm-block">
+                <h1>Gestion des Stocks</h1>
             </div>
-            <div class="col-4">
+            <div class ="offset-5 col-4 d-md-none d-sm-none">
                 <h1>Gestion des Stocks</h1>
             </div>
             <div class="col-3">
-                <button name="deconnexion" class="btn-deco d-none d-md-block d-sm-block">
+                <button name="deconnexion" class="btn btn-deco d-none d-md-block d-sm-block">
                     <i class="fa-solid fa-power-off"></i>
                     <a href="?controller=UtilisateurCompte&action=deconnexion">Déconnexion<a>
                 </button>
+                <button name="deconnexion" class="btn-deco-rond d-md-none d-sm-none">
+                    <i class="fa-solid fa-power-off"></i>
+                    <a href="?controller=UtilisateurCompte&action=deconnexion"><a>
+                </button>
             </div>
+        </div>
     </header>
     <body>
         <div class="container-fluid">
