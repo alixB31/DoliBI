@@ -1,3 +1,4 @@
+<?php session_start();?>
 <!DOCTYPE html>
 <html lang="fr">
     <head>
@@ -29,15 +30,27 @@
                 <div class="menu">
                     <button class="menu-button">Stock</button>
                     <ul class="menu-list">
-                        <li class="rotate-text <?php if ($_GET['action'] == 'voirPalmaresFournisseurs' || ($_SERVER['REQUEST_METHOD'] == 'POST')) echo 'active'; ?>"><a href="?controller=Stock&action=voirPalmaresFournisseurs">Palmarès fournisseur</a></li>
-                        <li class="rotate-text"><a href="?controller=Stock&action=voirMontantEtQuantiteFournisseurs">Montant et quantité fournisseur</a></li>
-                        <li class="rotate-text"><a href="?controller=Stock&action=voirEvolutionStockArticle">Évolution stock article</a></li>
-                    </ul>
-                    <button class="menu-button">Banque</button>
-                    <ul class="menu-list">
-                        <li class="rotate-text"><a href="?controller=Banque&action=voirListeSoldesBancaireProgressif">Liste des soldes progressifs d'un ou plusieurs comptes bancaires</a></li>
-                        <li class="rotate-text"><a href="?controller=&Banque&action=voirGraphiqueSoldeBancaire">Graphique d'évolution des soldes des comptes bancaires</a></li>
-                        <li class="rotate-text"><a href="?controller=&action=">Diagramme sectoriel des comptes bancaires</a></li>
+                        <?php if ($_SESSION['droitStock']){ ?>
+                            <li class="rotate-text"><a href="?controller=Stock&action=voirPalmaresFournisseurs" class="active">Palmarès fournisseur</a></li>
+                            <li class="rotate-text"><a href="?controller=Stock&action=voirMontantEtQuantiteFournisseurs" class="active">Montant et quantité fournisseur</a></li>
+                            <li class="rotate-text"><a href="?controller=Stock&action=voirEvolutionStockArticle" class="active">Évolution stock article</a></li>
+                        <?php }else { ?>
+                            <li class="rotate-text">Palmarès fournisseur</li>
+                            <li class="rotate-text">Montant et quantité fournisseur</li>
+                            <li class="rotate-text">Évolution stock article</li>
+                        <?php } ?>
+                        </ul>
+                        <button class="menu-button">Banque</button>
+                        <ul class="menu-list">
+                        <?php if ($_SESSION['droitBanque']){ ?>
+                            <li class="rotate-text"><a href="?controller=Banque&action=voirListeSoldesBancaireProgressif" class="active">Liste des soldes progressifs d'un ou plusieurs comptes bancaires</a></li>
+                            <li class="rotate-text <?php if ($_GET['action'] == 'voirGraphiqueSoldeBancaire' || ($_SERVER['REQUEST_METHOD'] == 'POST')) echo 'active'; ?>"><a href="?controller=Banque&action=voirGraphiqueSoldeBancaire">Graphique d'évolution des soldes des comptes bancaires</a></li>
+                            <li class="rotate-text"><a href="?controller=Banque&action=voirDiagrammeRepartition">Diagramme sectoriel des comptes bancaires</a></li>
+                        <?php }else { ?>
+                            <li class="rotate-text">Liste des soldes progressifs d'un ou plusieurs comptes bancaires</li>
+                            <li class="rotate-text">Graphique d'évolution des soldes des comptes bancaires</li>
+                            <li class="rotate-text">Diagramme sectoriel des comptes bancaires</li>
+                        <?php } ?>
                     </ul>
                 </div>
             </div>
@@ -45,39 +58,59 @@
                 <form action="index.php" method= "post">
                     <input type="hidden" name="controller" value="Banque">
                     <input type="hidden" name="action" value="graphiqueEvolution">
-                    Banque 
+                    Banque
                     <?php 
                         foreach($listeBanques as $banque) {
                     ?>
                         <div>
                             <input type="checkbox" class="checkBoxs" name="Banque[]" value="<?php echo $banque["id_banque"]; ?>" <?php
                             // Vérifier si l'utilisateur est dans la liste des organisateurs
-                            // if (in_array($row['idUtilisateur'], $organisateurIDs)) {
-                            //     echo 'checked';
+                            if (in_array($banque['id_banque'], $banques)) {
+                                echo 'checked';
                                     
-                            // }
+                            }
                             ?>>
                             <?php echo $banque["nom"]; ?>
                             <br>
                         </div>
-                        <?php
-                    }
+                    <?php
+                        }
                     ?>
-
-                    Date début
-                    <input name="dateDebut" type="date" value="<?php if($dateDebut !=null){echo $dateDebut;}?>" >
                     <br>
-                    Date fin
-                    <input name="dateFin" type="date" value="<?php if($dateFin !=null){echo $dateFin;}?>" >
-                    <br>
-                    <select id="moisOuJour" name="moisOuJour">
-                        <option value="mois" <?php if($moisOuJour == "mois") {echo "selected";}?>>mois</option>
-                        <option value="jour" <?php if($moisOuJour == "jour") {echo "selected";}?>>jour</option>
+                    <select id="histoOuCourbe" name="histoOuCourbe">
+                        <option value="histo" <?php if($histoOuCourbe == "histo") {echo "selected";}?>>histogramme</option>
+                        <option value="courbe" <?php if($histoOuCourbe == "courbe") {echo "selected";}?>>courbe</option>
                     </select>
+                    <br>
+                    Saissisez une année :
+                    <input type="number" name="an" value="<?php if($an !=null){echo $an;}?>" required/>
+                    <br>
+                    <select name="mois" id="mois">
+                        <option value="tous" <?php if($mois == "tous") {echo "selected";}?> >Tous les mois</option>
+                        <option value="1" <?php if($mois == "1") {echo "selected";}?>>Janvier</option>
+                        <option value="2" <?php if($mois == "2") {echo "selected";}?>>Février</option>
+                        <option value="3" <?php if($mois == "3") {echo "selected";}?>>Mars</option>
+                        <option value="4" <?php if($mois == "4") {echo "selected";}?>>Avril</option>
+                        <option value="5" <?php if($mois == "5") {echo "selected";}?>>Mai</option>
+                        <option value="6" <?php if($mois == "6") {echo "selected";}?>>Juin</option>
+                        <option value="7" <?php if($mois == "7") {echo "selected";}?>>Juillet</option>
+                        <option value="8" <?php if($mois == "8") {echo "selected";}?>>Août</option>
+                        <option value="9" <?php if($mois == "9") {echo "selected";}?>>Septembre</option>
+                        <option value="10" <?php if($mois == "10") {echo "selected";}?>>Octobre</option>
+                        <option value="11" <?php if($mois == "11") {echo "selected";}?>>Novembre</option>
+                        <option value="12" <?php if($mois == "12") {echo "selected";}?>>decembre</option>
+                    </select>
+                    
                     <br>
                     <button type="submit">Rechercher</button>
                     <br>
                 </form>
+            </div>
+            <div>
+                <canvas id="myChart"></canvas>
+                <?php $donneesJSON = json_encode($listeValeurs); ?>
+                <span id="donnees" class="invisible"><?php echo $donneesJSON; ?></span>
+                <script src="js/scriptGraphiqueBancaire.js"></script>
             </div>
         </div>
     </body>

@@ -24,6 +24,7 @@ class UtilisateurCompteControleur
         $vue = new View("vues/vue_connexion");
         $vue->setVar("listeUrl", $listeUrl);
         $vue->setVar("loginOuMdpOk", $verifLoginOuMdp);
+        $vue->setVar("login", null);
         return $vue;
     }
 
@@ -42,12 +43,17 @@ class UtilisateurCompteControleur
             $vue = new View("vues/vue_connexion");
             $vue->setVar("listeUrl", $listeUrl);
             $vue->setVar("loginOuMdpOk", $verifLoginOuMdp);
+            $vue->setVar("login", $identifiant);
             $vue->setVar("Url", $Url);
         } else {
             session_start();
             $_SESSION['url'] = $url;
-            $_SESSION['checkBox'] = $checkBoxIut;
             $_SESSION['apiKey'] = $apiKey;
+            // Fonction permettant de voir les droit de l'utilisateur
+            $droitStock = $this->userModele->voirDroitStock($url,$apiKey);
+            $droitBanque = $this->userModele->voirDroitBanque($url,$apiKey);
+            $_SESSION['droitStock'] = $droitStock;
+            $_SESSION['droitBanque'] = $droitBanque;
             $vue = new View("vues/vue_dashboard_stock");
         }
         return $vue;

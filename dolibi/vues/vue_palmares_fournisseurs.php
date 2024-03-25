@@ -1,3 +1,4 @@
+<?php session_start();?>
 <!DOCTYPE html>
 <html lang="fr">
     <head>
@@ -34,27 +35,42 @@
                 <div class="menu">
                     <button class="menu-button">Stock</button>
                     <ul class="menu-list">
-                        <li class="rotate-text <?php if ($_GET['action'] == 'voirPalmaresFournisseurs' || ($_SERVER['REQUEST_METHOD'] == 'POST')) echo 'active'; ?>"><a href="?controller=Stock&action=voirPalmaresFournisseurs">Palmarès fournisseur</a></li>
-                        <li class="rotate-text"><a href="?controller=Stock&action=voirMontantEtQuantiteFournisseurs">Montant et quantité fournisseur</a></li>
-                        <li class="rotate-text"><a href="?controller=Stock&action=voirEvolutionStockArticle">Évolution stock article</a></li>
-                    </ul>
-                    <button class="menu-button">Banque</button>
-                    <ul class="menu-list">
-                        <li class="rotate-text"><a href="?controller=Banque&action=voirListeSoldesBancaireProgressif">Liste des soldes progressifs d'un ou plusieurs comptes bancaires</a></li>
-                        <li class="rotate-text"><a href="?controller=&Banque&action=voirGraphiqueSoldeBancaire">Graphique d'évolution des soldes des comptes bancaires</a></li>
-                        <li class="rotate-text"><a href="?controller=&action=">Diagramme sectoriel des comptes bancaires</a></li>
+                        <?php if ($_SESSION['droitStock']){ ?>
+                            <li class="rotate-text <?php if ($_GET['action'] == 'voirPalmaresFournisseurs' || ($_SERVER['REQUEST_METHOD'] == 'POST')) echo 'active'; ?>"><a href="?controller=Stock&action=voirPalmaresFournisseurs">Palmarès fournisseur</a></li>
+                            <li class="rotate-text"><a href="?controller=Stock&action=voirMontantEtQuantiteFournisseurs" class="active">Montant et quantité fournisseur</a></li>
+                            <li class="rotate-text"><a href="?controller=Stock&action=voirEvolutionStockArticle" class="active">Évolution stock article</a></li>
+                        <?php }else { ?>
+                            <li class="rotate-text">Palmarès fournisseur</li>
+                            <li class="rotate-text">Montant et quantité fournisseur</li>
+                            <li class="rotate-text">Évolution stock article</li>
+                        <?php } ?>
+                        </ul>
+                        <button class="menu-button">Banque</button>
+                        <ul class="menu-list">
+                        <?php if ($_SESSION['droitBanque']){ ?>
+                            <li class="rotate-text"><a href="?controller=Banque&action=voirListeSoldesBancaireProgressif" class="active">Liste des soldes progressifs d'un ou plusieurs comptes bancaires</a></li>
+                            <li class="rotate-text"><a href="?controller=Banque&action=voirGraphiqueSoldeBancaire" class="active">Graphique d'évolution des soldes des comptes bancaires</a></li>
+                            <li class="rotate-text"><a href="?controller=Banque&action=voirDiagrammeRepartition">Diagramme sectoriel des comptes bancaires</a></li>
+                        <?php }else { ?>
+                            <li class="rotate-text">Liste des soldes progressifs d'un ou plusieurs comptes bancaires</li>
+                            <li class="rotate-text">Graphique d'évolution des soldes des comptes bancaires</li>
+                            <li class="rotate-text">Diagramme sectoriel des comptes bancaires</li>
+                        <?php } ?>
                     </ul>
                 </div>
             </div>
             <div class="row row-gauche">
-                <form action="index.php" class="espacementDroite col-md-12 col-sm-6 col-4" method="post">
+                <?php
+                    echo (!$verifDate) ? '<p id="invalide">Erreur : Les dates ne sont pas cohérentes.</p>' : '';
+                ?>
+                <form action="index.php" method= "post">
                     <input type="hidden" name="controller" value="Stock">
                     <input type="hidden" name="action" value="palmaresFournisseurs">
                     Date début
-                    <input name="dateDebut" type="date" value="<?php if($dateDebut !=null){echo $dateDebut;}?>" >
+                    <input name="dateDebut" type="date" value="<?php if($dateDebut !=null){echo $dateDebut;}?>" required>
                     <br>
                     Date fin
-                    <input name="dateFin" type="date" value="<?php if($dateFin !=null){echo $dateFin;}?>" >
+                    <input name="dateFin" type="date" value="<?php if($dateFin !=null){echo $dateFin;}?>" required>
                     <br>
                     TOP :
                     <select id="TopX" name="TopX">

@@ -17,9 +17,6 @@ for (var i = 0; i < donneesAchetes.length; i++) {
 for (var i = 0; i < donneesVendues.length; i++) {
     vendues.push(donneesVendues[i].quantite);
 }
-  console.log("dates :", dates);
-  console.log("Quantités :", achetes);
-  console.log("Montants :", vendues);
 
 new Chart(ctx, {
   type: 'line',
@@ -28,36 +25,37 @@ new Chart(ctx, {
     datasets: [{
       label: 'Quantité achetés',
       data: achetes,
-      yAxisID: 'quantites',
+      yAxisID: 'quantitesAchetes',
       borderColor: 'blue',
       borderWidth: 1
     }, {
       label: 'Quantité vendues',
       data: vendues,
-      yAxisID: 'montant',
+      yAxisID: 'quantiteVendues',
       borderColor: 'red',
       borderWidth: 1
     }],
   },
   options: {
     scales: {
-      yAxes: [{
-        id: 'quantites',
+      quantitesAchetes: {
+        id: 'quantitesAchetes',
         type: 'linear',
         position: 'left',
         scaleLabel: {
           display: true,
           labelString: 'Quantités'
         }
-      }, {
-        id: 'montant',
+      }, 
+      quantiteVendues: {
+        id: 'quantiteVendues',
         type: 'linear',
         position: 'right',
         scaleLabel: {
           display: true,
           labelString: 'Montants'
         }
-      }]
+      }
     }
   }
 });

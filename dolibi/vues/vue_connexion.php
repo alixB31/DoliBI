@@ -44,7 +44,7 @@
                         <br/>
                         Identifiant :
                         <br/>
-                        <input type="text" class="form-control" name="identifiant" placeholder="Entrez votre identifiant">
+                        <input type="text" class="form-control" name="identifiant" placeholder="Entrez votre identifiant" value="<?php if($login !=null) { echo $login;}?>">
                         Mot de passe :
                         <br/>
                         <input type="password" class="form-control" name="mdp" placeholder="Entrez votre mot de passe"/>

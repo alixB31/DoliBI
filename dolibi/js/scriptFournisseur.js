@@ -58,8 +58,13 @@ new Chart(ctx, {
       }],
     },
     options: {
+      responsive: true,
+      interaction: {
+      mode: 'index',
+      intersect: false,
+      },
       scales: {
-        yAxes: [{
+        quantites: {
           id: 'quantites',
           type: 'linear',
           position: 'left',
@@ -67,7 +72,8 @@ new Chart(ctx, {
             display: true,
             labelString: 'Quantités'
           }
-        }, {
+        }, 
+        montant: {
           id: 'montant',
           type: 'linear',
           position: 'right',
@@ -75,7 +81,7 @@ new Chart(ctx, {
             display: true,
             labelString: 'Montants'
           }
-        }]
+        }
       }
     }
   });
