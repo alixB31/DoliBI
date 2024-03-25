@@ -84,6 +84,7 @@
                     <br>
                     <button type="submit">Rechercher</button>
                     <br>
+                    <br>
                     <table class="table table-striped text-center table-bordered">
                         <tr>
                             <th>Code Fournisseur</th>

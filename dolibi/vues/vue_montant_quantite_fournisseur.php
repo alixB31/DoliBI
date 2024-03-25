@@ -17,7 +17,7 @@
             <div class ="offset-5 col-4 d-md-none d-sm-none">
                 <hspan class="titre">Doli-BI</hspan>
             </div> 
-            <div class="offset-md-4 offset-sm-1 col-md-2 col-sm-2 d-none d-md-block d-sm-block  ">
+            <div class="offset-md-2 offset-sm-1 col-md-2 col-sm-2 d-none d-md-block d-sm-block  ">
                 <button name="deconnexion" class="btn btn-deco d-none d-md-block d-sm-block">
                     <i class="fa-solid fa-power-off"></i>
                     <a href="?controller=UtilisateurCompte&action=deconnexion">Déconnexion</a>
@@ -102,7 +102,8 @@
                         <option value="mois" <?php if($moisOuJour == "mois") {echo "selected";}?>>mois</option>
                         <option value="jour" <?php if($moisOuJour == "jour") {echo "selected";}?>>jour</option>
                     </select>
-                    <br>
+                    <br/>
+                    <br/>
                     <button type="submit">Valider</button> 
                 </form>
                 <?php

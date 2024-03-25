@@ -11,7 +11,7 @@
     </head>
     <header>
         <div class ="row">
-            <div class ="offset-md-2 offset-sm-4 col-4 d-none d-md-block d-sm-block">
+            <div class ="offset-md-3 offset-sm-4 col-4 d-none d-md-block d-sm-block">
                 <hspan class="titre">Doli-BI</hspan>
             </div>
             <div class ="offset-5 col-4 d-md-none d-sm-none">

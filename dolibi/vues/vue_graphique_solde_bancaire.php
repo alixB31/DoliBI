@@ -65,7 +65,7 @@
                 <form action="index.php" method= "post">
                     <input type="hidden" name="controller" value="Banque">
                     <input type="hidden" name="action" value="graphiqueEvolution">
-                    Banque
+                    Banque :
                     <?php 
                         foreach($listeBanques as $banque) {
                     ?>
@@ -107,7 +107,7 @@
                         <option value="11" <?php if($mois == "11") {echo "selected";}?>>Novembre</option>
                         <option value="12" <?php if($mois == "12") {echo "selected";}?>>decembre</option>
                     </select>
-                    
+                    <br>
                     <br>
                     <button type="submit">Rechercher</button>
                     <br>

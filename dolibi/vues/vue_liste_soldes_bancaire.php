@@ -65,7 +65,7 @@
                 <form action="index.php" method= "post">
                     <input type="hidden" name="controller" value="Banque">
                     <input type="hidden" name="action" value="listeSoldesBancaireProgressif">
-                    Banque 
+                    Banque :
                     <?php 
                         foreach($listeBanques as $banque) {
                     ?>
@@ -83,6 +83,7 @@
                         <?php
                     }
                     ?>
+                    <br>
                     Date début
                     <input name="dateDebut" type="date" value="<?php if($dateDebut !=null){echo $dateDebut;}?>" required>
                     <br>
@@ -94,6 +95,7 @@
                         <option value="mois" <?php if($moisOuJour == "mois") {echo "selected";}?>>mois</option>
                         <option value="jour" <?php if($moisOuJour == "jour") {echo "selected";}?>>jour</option>
                     </select>
+                    <br>
                     <br>
                     <button type="submit">Rechercher</button>
                     <br>

@@ -79,6 +79,7 @@
                     <input type="hidden" name="controller" value="Stock">
                     <input type="hidden" name="action" value="evolutionStockArticle">
                     <input type="hidden" name="rechercheArticle" value="<?php if($rechercheArticle !=null){echo $rechercheArticle;}?>">
+                    <br/>
                     Article
                     <select id="idArticle" name="idArticle">
                         <?php
