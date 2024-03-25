@@ -10,25 +10,27 @@
         <title>Gestion stock</title>
     </head>
     <header>
-    <div class="row taillerow">
-        <div class="col-4 offset-4 d-none d-md-block d-sm-block">
-            <h1>Gestion des Stocks</h1>
+        <div class ="row">
+            <div class ="offset-md-2 offset-sm-4 col-4 d-none d-md-block d-sm-block">
+                <hspan class="titre">Doli-BI</hspan>
+            </div>
+            <div class ="offset-5 col-4 d-md-none d-sm-none">
+                <hspan class="titre">Doli-BI</hspan>
+            </div> 
+            <div class="offset-md-2 offset-sm-1 col-md-2 col-sm-2 d-none d-md-block d-sm-block  ">
+                <button name="deconnexion" class="btn btn-deco d-none d-md-block d-sm-block">
+                    <i class="fa-solid fa-power-off"></i>
+                    <a href="?controller=UtilisateurCompte&action=deconnexion">Déconnexion</a>
+                </button>
+            </div>
+            <div class="col-3">
+                <button name="deconnexion" class="btn-deco-rond d-md-none d-sm-none">
+                    <i class="fa-solid fa-power-off"></i>
+                    <a href="?controller=UtilisateurCompte&action=deconnexion"></a>
+                </button>
+            </div>
         </div>
-        <div class="col-4 offset-5 d-md-none d-sm-none">
-            <h1>Gestion des Stocks</h1>
-        </div>
-        <div class="col-3">
-            <button name="deconnexion" class="btn btn-deco d-none d-md-block d-sm-block">
-                <i class="fa-solid fa-power-off"></i>
-                <a href="?controller=UtilisateurCompte&action=deconnexion">Déconnexion</a>
-            </button>
-            <button name="deconnexion" class="btn-deco-rond d-md-none d-sm-none">
-                <i class="fa-solid fa-power-off"></i>
-                <a href="?controller=UtilisateurCompte&action=deconnexion"></a>
-            </button>
-        </div>
-    </div>
-</header>
+    </header>
     <body>
         <div class="container-fluid">
             <div class="row">

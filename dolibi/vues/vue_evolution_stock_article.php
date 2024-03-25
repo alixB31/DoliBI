@@ -11,18 +11,25 @@
     </head>
     <header>
         <div class ="row">
-            <div class ="col-4">
+            <div class ="offset-md-2 offset-sm-4 col-4 d-none d-md-block d-sm-block">
                 <hspan class="titre">Doli-BI</hspan>
             </div>
-            <div class="col-4">
-            <a href="?controller=Stock&action=voirDashboard"><h1>Gestion des Stocks</h1></a>
-            </div>
-            <div class="col-3">
-            <button name="deconnexion" class="btn-deco d-none d-md-block d-sm-block">
+            <div class ="offset-5 col-4 d-md-none d-sm-none">
+                <hspan class="titre">Doli-BI</hspan>
+            </div> 
+            <div class="offset-md-2 offset-sm-1 col-md-2 col-sm-2 d-none d-md-block d-sm-block  ">
+                <button name="deconnexion" class="btn btn-deco d-none d-md-block d-sm-block">
                     <i class="fa-solid fa-power-off"></i>
-                    <a href="?controller=UtilisateurCompte&action=deconnexion">Déconnexion<a>
+                    <a href="?controller=UtilisateurCompte&action=deconnexion">Déconnexion</a>
                 </button>
             </div>
+            <div class="col-3">
+                <button name="deconnexion" class="btn-deco-rond d-md-none d-sm-none">
+                    <i class="fa-solid fa-power-off"></i>
+                    <a href="?controller=UtilisateurCompte&action=deconnexion"></a>
+                </button>
+            </div>
+        </div>
     </header>
     <body>
         <div class="container-fluid">
@@ -33,7 +40,7 @@
                             <?php if ($_SESSION['droitStock']){ ?>
                                 <li class="rotate-text"><a href="?controller=Stock&action=voirPalmaresFournisseurs" class="active">Palmarès fournisseur</a></li>
                                 <li class="rotate-text"><a href="?controller=Stock&action=voirMontantEtQuantiteFournisseurs" class="active">Montant et quantité fournisseur</a></li>
-                                <<li class="rotate-text <?php if ($_GET['action'] == 'voirEvolutionStockArticle' || ($_SERVER['REQUEST_METHOD'] == 'POST')) echo 'active'; ?>"><a href="?controller=Stock&action=voirEvolutionStockArticle">Évolution stock article</a></li>
+                                <li class="rotate-text <?php if ($_GET['action'] == 'voirEvolutionStockArticle' || ($_SERVER['REQUEST_METHOD'] == 'POST')) echo 'active'; ?>"><a href="?controller=Stock&action=voirEvolutionStockArticle">Évolution stock article</a></li>
                             <?php }else { ?>
                                 <li class="rotate-text">Palmarès fournisseur</li>
                                 <li class="rotate-text">Montant et quantité fournisseur</li>

@@ -40,7 +40,6 @@ header {
     color :white;
     padding : 5px;  
     /*position: fixed;*/
-    width: 100%;
     top: 0;
     left: 0;
 }
@@ -121,7 +120,6 @@ body {
     background-color: #333;
     width: 180px;
     height: 100%;
-    padding-top: 100px; /* Ajustez cette valeur pour laisser de la place pour le header */
 }
 
 .menu-button {
