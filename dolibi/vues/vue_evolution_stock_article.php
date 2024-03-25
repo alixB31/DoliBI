@@ -33,7 +33,7 @@
                             <?php if ($_SESSION['droitStock']){ ?>
                                 <li class="rotate-text"><a href="?controller=Stock&action=voirPalmaresFournisseurs" class="active">Palmarès fournisseur</a></li>
                                 <li class="rotate-text"><a href="?controller=Stock&action=voirMontantEtQuantiteFournisseurs" class="active">Montant et quantité fournisseur</a></li>
-                                <<li class="rotate-text <?php if ($_GET['action'] == 'voirEvolutionStockArticle' || ($_SERVER['REQUEST_METHOD'] == 'POST')) echo 'active'; ?>"><a href="?controller=Stock&action=voirEvolutionStockArticle">Évolution stock article</a></li>
+                                <li class="rotate-text <?php if ($_GET['action'] == 'voirEvolutionStockArticle' || ($_SERVER['REQUEST_METHOD'] == 'POST')) echo 'active'; ?>"><a href="?controller=Stock&action=voirEvolutionStockArticle">Évolution stock article</a></li>
                             <?php }else { ?>
                                 <li class="rotate-text">Palmarès fournisseur</li>
                                 <li class="rotate-text">Montant et quantité fournisseur</li>

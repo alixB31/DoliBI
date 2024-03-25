@@ -158,4 +158,60 @@ class UserModeleTest extends TestCase
         // Then vérification que la méthode retourne false
         $this->assertFalse($resultat);
     }
+
+    public function testDroitBanque() : void
+    {
+        //Given un url avec le droit des stocks
+        $urlBanque = "http://dolibarr.iut-rodez.fr/G2023-42/htdocs/api/index.php/bankaccounts?sortfield=t.rowid&sortorder=ASC&limit=100";
+        $apiKey = "816w91HKCO0gAg580ycDyezS5SCQIwpw";
+        
+        //When on appelle la méthode
+        $resultat = $this->userModele->voirDroitBanque($urlBanque, $apiKey);
+
+        //Then on vérifie que si il a les droit sa renvoie true 
+        if ($resultat) {
+            $this->assertTrue($resultat);
+        }
+    }
+
+    public function testDroitStock() : void
+    {
+        //Given un url avec le droit des stocks
+        $urlBanque = "http://dolibarr.iut-rodez.fr/G2023-42/htdocs/api/index.php/supplierinvoices?sortfield=t.rowid&sortorder=ASC&limit=100";
+        $apiKey = "816w91HKCO0gAg580ycDyezS5SCQIwpw";
+        
+        //When on appelle la méthode
+        $resultat = $this->userModele->voirDroitStock($urlBanque, $apiKey);
+
+        //Then on vérifie que si il a les droit sa renvoie true 
+        if ($resultat) {
+            $this->assertTrue($resultat);
+        }
+    }
+
+    public function testVoirDroitBanqueRetourneFalseSiPasDeDroits(): void
+    {
+        // Définissez ici les valeurs pour les paramètres $url et $apiKey
+        $url = "http://exemple.com/";
+        $apiKey = "votre_cle_api";
+
+        // Appelez la méthode à tester en utilisant le stub pour fonctions
+        $resultat = $this->userModele->voirDroitBanque($url, $apiKey);
+
+        // Assurez-vous que le résultat est false
+        $this->assertFalse($resultat);
+    }
+
+    public function testVoirDroitStockRetourneFalseSiPasDeDroits(): void
+    {
+        // Définissez ici les valeurs pour les paramètres $url et $apiKey
+        $url = "http://exemple.com/";
+        $apiKey = "votre_cle_api";
+
+        // Appelez la méthode à tester en utilisant le stub pour fonctions
+        $resultat = $this->userModele->voirDroitStock($url, $apiKey);
+
+        // Assurez-vous que le résultat est false
+        $this->assertFalse($resultat);
+    }
 }

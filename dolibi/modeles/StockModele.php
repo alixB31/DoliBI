@@ -389,7 +389,7 @@ class StockModele
 				}
 				return $bonFormat;
 			}
-			
+
 		}
 		return null;
 	}

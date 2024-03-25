@@ -98,6 +98,37 @@ class StockControleurTest extends TestCase
         $this->assertEquals($palmaresFournisseursAttendu, $vue->getVar('palmares'));
     }
 
+    public function testPalmaresFournisseursDateIncorrecte(): void
+    {
+        // Given des paramètres de session
+        $_SESSION['apiKey'] = 'example_api_key';
+        $_SESSION['url'] = 'example_url';
+
+        // Given des paramètres de requête
+        $_POST['dateDebut'] = '2023-03-01';
+        $_POST['dateFin'] = '2023-01-31';
+        $_POST['TopX'] = 10;
+
+        // Given des données de palmarès fictives
+        $palmaresFournisseursAttendu = [];
+
+        // Stub pour la méthode palmaresFournisseurs du modèle
+        $this->stockModele->method('palmaresFournisseurs')
+        ->willReturn($palmaresFournisseursAttendu);
+    
+
+        // When appel de la méthode palmaresFournisseurs
+        $vue = $this->stockControleur->palmaresFournisseurs();
+
+        // Then vérification des variables de la vue
+        $this->assertInstanceOf(View::class, $vue);
+        $this->assertEquals('vues/vue_palmares_fournisseurs', $vue->getRelativePath());
+        $this->assertEquals(10, $vue->getVar('top'));
+        $this->assertEquals('2023-03-01', $vue->getVar('dateDebut'));
+        $this->assertEquals('2023-01-31', $vue->getVar('dateFin'));
+        $this->assertFalse($vue->getVar('verifDate'));
+    }
+
     public function testListeFournisseursLike(): void
     {
         // Given des paramètres de session
@@ -174,6 +205,52 @@ class StockControleurTest extends TestCase
         $this->assertEquals(1, $vue->getVar('idChoisis'));
         $this->assertEquals('2023-01-01', $vue->getVar('dateDebut'));
         $this->assertEquals('2023-12-31', $vue->getVar('dateFin'));
+        $this->assertEquals('mois', $vue->getVar('moisOuJour'));
+        $this->assertEquals($listeFournisseursAttendue, $vue->getVar('listeFournisseurs'));
+        $this->assertEquals($montantEtQuantiteAttendu, $vue->getVar('montantEtQuantite'));
+    }
+
+    public function testMontantEtQuantiteFournisseurDateInvalide(): void
+    {
+        // Given des paramètres de session
+        $_SESSION['apiKey'] = 'example_api_key';
+        $_SESSION['url'] = 'example_url';
+
+        // Given des paramètres de requête
+        $_POST['rechercheFournisseur'] = 'Fournisseur A';
+        $_POST['idFournisseur'] = 1;
+        $_POST['dateDebut'] = '2023-01-01';
+        $_POST['dateFin'] = '2022-12-31';
+        $_POST['moisOuJour'] = 'mois';
+
+        // Given des données de fournisseurs fictives
+        $listeFournisseursAttendue = [
+            ['nom' => 'Fournisseur A', 'autre_attribut' => 'valeur'],
+            ['nom' => 'Fournisseur B', 'autre_attribut' => 'valeur']
+        ];
+
+        // Given des données de montant et quantité fictives
+        $montantEtQuantiteAttendu = null;
+
+        // Stub pour la méthode listeFournisseursLike du modèle
+        $this->stockModele->method('listeFournisseursLike')
+            ->willReturn($listeFournisseursAttendue);
+
+        // Stub pour la méthode montantEtQuantite du modèle
+        $this->stockModele->method('montantEtQuantite')
+            ->willReturn($montantEtQuantiteAttendu);
+
+        // When appel de la méthode montantEtQuantiteFournisseur du contrôleur
+        $vue = $this->stockControleur->montantEtQuantiteFournisseur();
+
+        // Then vérification des variables de la vue
+        $this->assertInstanceOf(View::class, $vue);
+        $this->assertEquals('vues/vue_montant_quantite_fournisseur', $vue->getRelativePath());
+        $this->assertEquals('Fournisseur A', $vue->getVar('rechercheFournisseur'));
+        $this->assertEquals(1, $vue->getVar('idChoisis'));
+        $this->assertEquals('2023-01-01', $vue->getVar('dateDebut'));
+        $this->assertEquals('2022-12-31', $vue->getVar('dateFin'));
+        $this->assertFalse($vue->getVar('verifDate'));
         $this->assertEquals('mois', $vue->getVar('moisOuJour'));
         $this->assertEquals($listeFournisseursAttendue, $vue->getVar('listeFournisseurs'));
         $this->assertEquals($montantEtQuantiteAttendu, $vue->getVar('montantEtQuantite'));
@@ -259,6 +336,54 @@ class StockControleurTest extends TestCase
         $this->assertEquals($quantiteAchetesAttendue, $vue->getVar('quantiteAchetes'));
         $this->assertEquals($quantiteVenduesAttendue, $vue->getVar('quantiteVendues'));
         $this->assertEquals($listeArticlesAttendue, $vue->getVar('listeArticles'));
+    }
+
+    public function testEvolutionStockArticleDateIncorrecte(): void
+    {
+        // Given des paramètres de session
+        $_SESSION['apiKey'] = 'example_api_key';
+        $_SESSION['url'] = 'example_url';
+
+        // Given des paramètres de requête
+        $_POST['rechercheArticle'] = 'Article A';
+        $_POST['idArticle'] = 1;
+        $_POST['dateDebut'] = '2023-01-01';
+        $_POST['dateFin'] = '2022-12-31';
+        $_POST['moisOuJour'] = 'mois';
+
+        // Given des données d'articles fictives
+        $listeArticlesAttendue = [
+            ['nom' => 'Article A', 'autre_attribut' => 'valeur'],
+            ['nom' => 'Article B', 'autre_attribut' => 'valeur']
+        ];
+
+        // Given des données de quantités fictives
+        $quantiteAchetesAttendue = null;
+        $quantiteVenduesAttendue = null;
+
+        // Stub pour les méthodes listeArticlesLike, quantiteAchetesArticle et quantiteVenduesArticle du modèle
+        $this->stockModele->method('listeArticlesLike')
+            ->willReturn($listeArticlesAttendue);
+        $this->stockModele->method('quantiteAchetesArticle')
+            ->willReturn($quantiteAchetesAttendue);
+        $this->stockModele->method('quantiteVenduesArticle')
+            ->willReturn($quantiteVenduesAttendue);
+
+        // When appel de la méthode evolutionStockArticle du contrôleur
+        $vue = $this->stockControleur->evolutionStockArticle();
+
+        // Then vérification des variables de la vue
+        $this->assertInstanceOf(View::class, $vue);
+        $this->assertEquals('vues/vue_evolution_stock_article', $vue->getRelativePath());
+        $this->assertEquals('Article A', $vue->getVar('rechercheArticle'));
+        $this->assertEquals(1, $vue->getVar('idChoisis'));
+        $this->assertEquals('2023-01-01', $vue->getVar('dateDebut'));
+        $this->assertEquals('2022-12-31', $vue->getVar('dateFin'));
+        $this->assertEquals('mois', $vue->getVar('moisOuJour'));
+        $this->assertEquals($quantiteAchetesAttendue, $vue->getVar('quantiteAchetes'));
+        $this->assertEquals($quantiteVenduesAttendue, $vue->getVar('quantiteVendues'));
+        $this->assertEquals($listeArticlesAttendue, $vue->getVar('listeArticles'));
+        $this->assertFalse($vue->getVar('verifDate'));
     }
 
     public function testVoirEvolutionStockArticle(): void

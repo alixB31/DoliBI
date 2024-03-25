@@ -67,6 +67,7 @@ class StockControleur {
         $vue->setVar("dateDebut", null);
         $vue->setVar("dateFin", null);
         $vue->setVar("montantEtQuantite", null);
+        $vue->setVar("verifDate", true);
         return $vue;
     }
 
@@ -85,10 +86,22 @@ class StockControleur {
         $dateDebut = HttpHelper::getParam('dateDebut');
         $dateFin = HttpHelper::getParam('dateFin');
         $moisOuJour = HttpHelper::getParam('moisOuJour');
+        $montantEtQuantite = null;
         // Delande au modele de retrouver la liste des fournisseurs correspondant au nom
         $listeFournisseurs = $this->stockModele->listeFournisseursLike($url,$apiKey,$rechercheFournisseur);
-        // Demande au modele de trouver le palmares fournisseur
-        $montantEtQuantite = $this->stockModele->montantEtQuantite($url,$apiKey,$idFournisseur,$dateDebut,$dateFin,$moisOuJour);    
+        // Demande au modele de trouver le palmares fournisseur si la date est valide
+        $date1 = strtotime($dateDebut);
+        $date2 = strtotime($dateFin);
+        // Calculer la différence en jours
+        $difference = floor(($date2 - $date1) / (60 * 60 * 24));
+
+        if ($dateDebut<$dateFin && $difference<365) {  
+            $verifDate = true;
+            $montantEtQuantite = $this->stockModele->montantEtQuantite($url,$apiKey,$idFournisseur,$dateDebut,$dateFin,$moisOuJour);
+        } else {
+            $verifDate = false;
+        }
+            
         $vue = new View("vues/vue_montant_quantite_fournisseur");
         $vue->setVar("rechercheFournisseur",$rechercheFournisseur);
         $vue->setVar("listeFournisseurs",$listeFournisseurs);
@@ -97,6 +110,7 @@ class StockControleur {
         $vue->setVar("dateFin", $dateFin);
         $vue->setVar("moisOuJour", $moisOuJour);
         $vue->setVar("montantEtQuantite", $montantEtQuantite);
+        $vue->setVar("verifDate", $verifDate);
         return $vue;
     }
 
@@ -161,9 +175,12 @@ class StockControleur {
     
     public function voirEvolutionStockArticle() : View 
     {
+        $rechercheArticle ="";
         $verifDate = true;
+        // Demande au modele de trouver la liste des articles correspondant au nom
+        $listeArticles = $this->stockModele->listeArticlesLike($url,$apiKey,$rechercheArticle);
         $vue = new View("vues/vue_evolution_stock_article");
-        $vue->setVar("listeArticles", null);
+        $vue->setVar("listeArticles", $listeArticles);
         $vue->setVar("idChoisis", null);
         $vue->setVar("dateDebut", null);
         $vue->setVar("dateFin", null);
@@ -200,6 +217,7 @@ class StockControleur {
         $vue->setVar("dateDebut", null);
         $vue->setVar("dateFin", null);
         $vue->setVar("montantEtQuantite", null);
+        $vue->setVar("verifDate", true);
         return $vue;
     }
 
