@@ -191,27 +191,27 @@ class UserModeleTest extends TestCase
 
     public function testVoirDroitBanqueRetourneFalseSiPasDeDroits(): void
     {
-        // Définissez ici les valeurs pour les paramètres $url et $apiKey
+        //Given un url et une api sans les droits
         $url = "http://exemple.com/";
         $apiKey = "votre_cle_api";
 
-        // Appelez la méthode à tester en utilisant le stub pour fonctions
+        // When on appelle la méthode voirDroitBanque
         $resultat = $this->userModele->voirDroitBanque($url, $apiKey);
 
-        // Assurez-vous que le résultat est false
+        // Then le résultat est false
         $this->assertFalse($resultat);
     }
 
     public function testVoirDroitStockRetourneFalseSiPasDeDroits(): void
     {
-        // Définissez ici les valeurs pour les paramètres $url et $apiKey
+        //Given un url et une api sans les droits
         $url = "http://exemple.com/";
         $apiKey = "votre_cle_api";
 
-        // Appelez la méthode à tester en utilisant le stub pour fonctions
+        // When on appelle la méthode voirDroitStock
         $resultat = $this->userModele->voirDroitStock($url, $apiKey);
 
-        // Assurez-vous que le résultat est false
+        // Then le résultat est false
         $this->assertFalse($resultat);
     }
 }

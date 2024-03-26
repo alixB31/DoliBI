@@ -1,7 +1,14 @@
-<?php session_start();
+<?php 
+/** @var mixed $verifDate */
+/** @var mixed $dateFin */
+/** @var mixed $dateDebut */
+/** @var mixed $top */
+/** @var mixed $palmares */
+session_start();
 if (!isset($_SESSION['droitStock']) || $_SESSION['droitStock'] == false) {
     header("Location: ../dolibi/index.php");
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">

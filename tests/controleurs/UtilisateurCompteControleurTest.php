@@ -80,7 +80,7 @@ class UtilisateurCompteControleurTest extends TestCase
         $this->assertTrue($viewEmptyUrls->getVar("loginOuMdpOk"));
     }
 
-    public function testConnexionWithValidCredentials(): void
+    public function testConnexionAvecDesInformationsValides(): void
     {
         //Given un utilisateur avec une api
         $_POST['identifiant'] = 'username';
@@ -97,10 +97,10 @@ class UtilisateurCompteControleurTest extends TestCase
         
         // Then la connexion est OK et on affiche le dashboard
         $this->assertInstanceOf(View::class, $view);
-        $this->assertEquals("vues/vue_dashboard_stock", $view->getRelativePath());
+        $this->assertEquals("vues/vue_dashboard", $view->getRelativePath());
     }
     
-    public function testConnexionWithInvalidCredentials(): void
+    public function testConnexionAvecDesInformationsInvalides(): void
     {
         // Given un utilisateur sans  api
         $_POST['identifiant'] = 'username';

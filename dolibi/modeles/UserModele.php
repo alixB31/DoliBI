@@ -13,10 +13,10 @@ class UserModele
 
 	/**
      * Récupere l'apiKey d'un utilisateur qui se connecte (Si ses identifiants existe).
-	 * @param login le login de l'utilisateur.
-	 * @param mdp le mot de pass de l'utilisateur
-     * @param url l'url de l'instance de dolibarr utilisé par l'utilisateur.
-     * @return apikey la clé api du compte de l'utilisateur.
+	 * @param string $login le login de l'utilisateur.
+	 * @param string $mdp le mot de passe de l'utilisateur
+     * @param string $url l'url de l'instance de dolibarr utilisé par l'utilisateur.
+     * @return string la clé api du compte de l'utilisateur.
      */
     function connexion($login,$mdp,$url) {
 		$urlConnexion = $url."api/index.php/login?login=".$login."&password=".$mdp;
@@ -28,10 +28,11 @@ class UserModele
 
 	/**
      * Ajoute un url aux fichier des instance de dolibarr.
-     * @param url l'url a ajouté aux fichier des instance de dolibarr.
-	 * @param fichier le lien du fichier des instance de dolibarr.
+     * @param string $url l'url a ajouté aux fichier des instance de dolibarr.
+	 * @param string $fichier le lien du fichier des instance de dolibarr.
+	 * @return void
      */
-	function ajoutURL($url, $fichier) {
+	function ajoutURL($url, $fichier) : void {
     	// Ouvre le fichier en mode append (ajout à la fin)
     	$handle = fopen($fichier, 'a');
     
@@ -44,8 +45,9 @@ class UserModele
 	
 	/**
      * Regarde si un url existe deja dans lefichier des instance de dolibarr.
-     * @param url l'url a vérifier aux fichier des instance de dolibarr.
-	 * @param fichier le lien du fichier des instance de dolibarr.
+     * @param string $url l'url a vérifier aux fichier des instance de dolibarr.
+	 * @param string $fichier le lien du fichier des instance de dolibarr.
+	 * @return boolean false si l'url existe pas 
      */
 	public function urlExiste($url, $fichier) {
 		// Vérifie si le fichier existe
@@ -65,7 +67,8 @@ class UserModele
 	
 	/**
      * Lis le fichier des instance de dolibarr.
-	 * @param fichier le lien du fichier des instance de dolibarr.
+	 * @param string $fichier le lien du fichier des instance de dolibarr.
+	 * @return array<int,string>|false $url
      */
 	function listeUrl($fichier) {
 		// Lit le contenu du fichier 
@@ -75,8 +78,9 @@ class UserModele
 
 	/**
      * Supprime un url aux fichier des instance de dolibarr.
-     * @param urlASupprimer l'url a supprimé aux fichier des instance de dolibarr.
-	 * @param fichier le lien du fichier des instance de dolibarr.
+     * @param string $urlASupprimer l'url a supprimé aux fichier des instance de dolibarr.
+	 * @param string $fichier le lien du fichier des instance de dolibarr.
+	 * @return boolean true si l'url est supprimée
      */
 	function supprimerURL($urlASupprimer, $fichier) {
 		// Vérifie si l'URL existe
@@ -97,13 +101,14 @@ class UserModele
 			
 			return true; // Suppression réussie
 		}
+		return false;
 	}	
 
 	/**
      * Regarde si un utilisateur a les droits des stocks
-     * @param url l'url de l'instance de dolibarr utilisé par l'utilisateur.
-     * @param apikey La clé api du compte de l'utilisateur.
-	 * @return true si l'utilisateur a les droits
+     * @param string $url l'url de l'instance de dolibarr utilisé par l'utilisateur.
+     * @param string $apiKey La clé api du compte de l'utilisateur.
+	 * @return boolean si l'utilisateur a les droits
      */
 	function voirDroitStock($url, $apiKey) {
 		$urlStock = $url.'api/index.php/supplierinvoices?sortfield=t.rowid&sortorder=ASC&limit=100';
@@ -118,9 +123,9 @@ class UserModele
 
 	/**
      * Regarde si un utilisateur a les droits des banques.
-     * @param url l'url de l'instance de dolibarr utilisé par l'utilisateur.
-     * @param apikey La clé api du compte de l'utilisateur.
-	 * @return true si l'utilisateur a les droits
+     * @param string $url l'url de l'instance de dolibarr utilisé par l'utilisateur.
+     * @param string $apiKey La clé api du compte de l'utilisateur.
+	 * @return boolean si l'utilisateur a les droits
      */
 	function voirDroitBanque($url, $apiKey) {
 		$urlBanque = $url.'api/index.php/bankaccounts?sortfield=t.rowid&sortorder=ASC&limit=100';

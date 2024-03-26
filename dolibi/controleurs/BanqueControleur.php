@@ -57,7 +57,9 @@ class BanqueControleur {
         // Recupere la liste des banques pour la réafficher
         $listeBanques = $this->banqueModele->listeBanques($url,$apiKey);
         // Initialise le résultat
-        $listeEcritures[] = array();
+        $listeEcritures = array();
+        //Récupère les banques sélectionnées
+        $banquesCoches = null;
 
         foreach($banques as $banque) { 
             // Demande au modele de trouver le compte bancaire coché
@@ -98,6 +100,8 @@ class BanqueControleur {
         // Recupere les variables de sessions utiles
         $apiKey = $_SESSION['apiKey'];
         $url = $_SESSION['url'];
+        $nomBanques = []; // Initialisation des tableau
+        $idBanques = [];
         // Recupere la liste des banques 
         $listeBanques = $this->banqueModele->listeBanques($url,$apiKey);
         $vue = new View("vues/vue_graphique_solde_bancaire");
@@ -108,6 +112,7 @@ class BanqueControleur {
         $vue->setVar("mois", null);
         $vue->setVar("listeValeurs", null);
         $vue->setVar("nomBanques", $nomBanques);
+        $vue->setVar("idBanques", $idBanques);
         $vue->setVar("dates", null);
         return $vue;
     }
@@ -131,11 +136,14 @@ class BanqueControleur {
             $listeValeurs[$banque] = $this->banqueModele->graphiqueSoldeBancaire($url,$apiKey,$banque,$listeValeurs,$annee,$mois);
         }
         // Met dans un tableaux les noms des banques cochés
+        $nomBanques = []; // Initialisation du tableau du nom des banques
+        $idBanques = []; // Initialisation du tableau de l'id des banques
         if ($banques != null) {
-            $nomBanques = []; // Initialisation du tableau
+            // parcoure la liste des banques pour trouver le nom de celle coch
             foreach ($listeBanques as $banque) {
                 if (in_array($banque['id_banque'], $banques)) {
                     $nomBanques[] = $banque['nom']; // Ajout du nom de la banque directement
+                    $idBanques[] = $banque['id_banque']; // Ajout de l'id de la banque directement
                 }
             }
         }
@@ -167,6 +175,7 @@ class BanqueControleur {
         $vue->setVar("histoOuCourbe", $histoOuCourbe);
         $vue->setVar("an", $annee);
         $vue->setVar("nomBanques", $nomBanques);
+        $vue->setVar("idBanques", $idBanques);
         $vue->setVar("listeValeurs", $listeValeurs);
         $vue->setVar("an", $annee);
         $vue->setVar("mois", $mois);

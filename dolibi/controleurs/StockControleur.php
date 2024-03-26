@@ -150,6 +150,9 @@ class StockControleur {
         $dateDebut = HttpHelper::getParam('dateDebut');
         $dateFin = HttpHelper::getParam('dateFin');
         $moisOuJour = HttpHelper::getParam('moisOuJour');
+        // Initialise les résultat
+        $quantiteAchetes = null;
+        $quantiteVendues = null;
         // Demande au modele de trouver la liste des articles correspondant au nom
         $listeArticles = $this->stockModele->listeArticlesLike($url,$apiKey,$rechercheArticle);
         // Si les dates sont valides
@@ -174,7 +177,11 @@ class StockControleur {
     }
     
     public function voirEvolutionStockArticle() : View 
-    {
+    {   
+        session_start();
+        // Recupere les variables de sessions utiles
+        $apiKey = $_SESSION['apiKey'];
+        $url = $_SESSION['url'];
         $rechercheArticle ="";
         $verifDate = true;
         // Demande au modele de trouver la liste des articles correspondant au nom
@@ -197,6 +204,10 @@ class StockControleur {
         $verifDate = true;
         $vue = new View("vues/vue_palmares_fournisseurs");
         $vue->setVar("verifDate", $verifDate);
+        $vue->setVar("top", null);
+        $vue->setVar("palmares", null);
+        $vue->setVar("dateDebut", null);
+        $vue->setVar("dateFin", null);
         return $vue;
     }
 

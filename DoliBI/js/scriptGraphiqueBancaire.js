@@ -5,24 +5,21 @@ var choix = selectElement.value;
 // Extrais les données JSON et les stocker dans une variable JavaScript
 var donnees = JSON.parse(document.getElementById('donnees').textContent);
 var nomBanques = JSON.parse(document.getElementById('donneesBanques').textContent);
+var idBanques = JSON.parse(document.getElementById('donneesIdBanques').textContent);
 var dates = JSON.parse(document.getElementById('donneesDates').textContent);
 
 // Tableaux pour stocker les dates et les montants par indice
-var datesParIndice = {};
+
 var montantsParIndice = {};
 
 
 // Parcourir toutes les données
 for (var indice in donnees) {
     if (donnees.hasOwnProperty(indice)) {
-        datesParIndice[indice] = [];
         montantsParIndice[indice] = [];
-
         var innerObject = donnees[indice];
         for (var key in innerObject) {
             if (innerObject.hasOwnProperty(key)) {
-                // Ajouter la date au tableau correspondant à l'indice
-                datesParIndice[indice].push(innerObject[key].date);
                 // Ajouter le montant au tableau correspondant à l'indice
                 montantsParIndice[indice].push(innerObject[key].montant);
             }
@@ -37,7 +34,7 @@ var datasets = [];
 for (var i = 0; i < nomBanques.length; i++) {
     datasets.push({
         label: nomBanques[i],
-        data: montantsParIndice[i + 1], // Vous pouvez ajuster l'indice si nécessaire
+        data: montantsParIndice[idBanques[i]], 
         borderColor: getRandomColor(), // Génère une couleur aléatoire
         borderWidth: 1
     });
@@ -61,7 +58,7 @@ if (choix === 'histo') {
           labels: dates,
           datasets: datasets
         }
-      });
+    });
 }
 
 

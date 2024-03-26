@@ -41,32 +41,27 @@ class BanqueControleurTest extends TestCase
 
     public function testIndex(): void
     {
-        // When
+        // When on appelle la fonction index
         $view = $this->banqueControleur->index();
-        // Then
-        $this->assertEquals("vues/vue_dashboard_stock", $view->getRelativePath());
+        // Then on vérifie que la fonction index renvoie bien la vue spécifié dans le contrôleur
+        $this->assertEquals("vues/vue_dashboard", $view->getRelativePath());
     }
 
     public function testVoirListeSoldesBancaireProgressif() 
     {
-        // Given des paramètres de session
-        $_SESSION['apiKey'] = 'example_api_key';
-        $_SESSION['url'] = 'example_url';
-
-        // Given des paramètres de requête
+        // Given des paramètres
+        $_SESSION['apiKey'] = '816w91HKCO0gAg580ycDyezS5SCQIwpw';
+        $_SESSION['url'] = 'http://dolibarr.iut-rodez.fr/G2023-42/htdocs/';
         $_POST['dateDebut'] = null;
         $_POST['dateFin'] = null;
-
-        // Given des données de palmarès fictives
-        $palmaresFournisseursAttendu = [
-        ];
+        $palmaresFournisseursAttendu = [];
 
         // Stub pour la méthode listeBanques du modèle
         $this->banqueModele->method('listeBanques')
         ->willReturn($palmaresFournisseursAttendu);
     
 
-        // When appel de la méthode palmaresFournisseurs
+        // When appel de la méthode voirListeSoldesBancaireProgressif
         $vue = $this->banqueControleur->voirListeSoldesBancaireProgressif();
 
         // Then vérification des variables de la vue
@@ -81,8 +76,8 @@ class BanqueControleurTest extends TestCase
     {
         // Given
         // Définir les valeurs de session pour simuler l'authentification
-        $_SESSION['apiKey'] = "VotreCléAPI";
-        $_SESSION['url'] = "VotreURL";
+        $_SESSION['apiKey'] = "816w91HKCO0gAg580ycDyezS5SCQIwpw";
+        $_SESSION['url'] = "http://dolibarr.iut-rodez.fr/G2023-42/htdocs/";
 
         // Simuler les paramètres de formulaire
         $_POST['dateDebut'] = "2024-01-01";
@@ -117,10 +112,10 @@ class BanqueControleurTest extends TestCase
 
     public function testListeSoldesBancaireProgressifSansBanque(): void 
     {
-                // Given
+        // Given
         // Définir les valeurs de session pour simuler l'authentification
-        $_SESSION['apiKey'] = "VotreCléAPI";
-        $_SESSION['url'] = "VotreURL";
+        $_SESSION['apiKey'] = "816w91HKCO0gAg580ycDyezS5SCQIwpw";
+        $_SESSION['url'] = "http://dolibarr.iut-rodez.fr/G2023-42/htdocs/";
 
         // Simuler les paramètres de formulaire
         $_POST['dateDebut'] = "2024-01-01";
@@ -158,8 +153,8 @@ class BanqueControleurTest extends TestCase
     {
         // Given
         // Définir les valeurs de session pour simuler l'authentification
-        $_SESSION['apiKey'] = "VotreCléAPI";
-        $_SESSION['url'] = "VotreURL";
+        $_SESSION['apiKey'] = "816w91HKCO0gAg580ycDyezS5SCQIwpw";
+        $_SESSION['url'] = "http://dolibarr.iut-rodez.fr/G2023-42/htdocs/";
 
         // Stub pour la méthode listeBanques du modèle
         $listeBanques = [['id_banque' => 'id_banque_1'], ['id_banque' => 'id_banque_2']];
@@ -190,8 +185,8 @@ class BanqueControleurTest extends TestCase
     {
         // Given
         // Définir les valeurs de session pour simuler l'authentification
-        $_SESSION['apiKey'] = "VotreCléAPI";
-        $_SESSION['url'] = "VotreURL";
+        $_SESSION['apiKey'] = "816w91HKCO0gAg580ycDyezS5SCQIwpw";
+        $_SESSION['url'] = "http://dolibarr.iut-rodez.fr/G2023-42/htdocs/";
 
         // Simuler les paramètres de requête
         $_POST['an'] = "2024";
@@ -230,8 +225,8 @@ class BanqueControleurTest extends TestCase
     {
         // Given
         // Définir les valeurs de session pour simuler l'authentification
-        $_SESSION['apiKey'] = "VotreCléAPI";
-        $_SESSION['url'] = "VotreURL";
+        $_SESSION['apiKey'] = "816w91HKCO0gAg580ycDyezS5SCQIwpw";
+        $_SESSION['url'] = "http://dolibarr.iut-rodez.fr/G2023-42/htdocs/";
 
         // Simuler les paramètres de requête
         $_POST['an'] = "2024";
@@ -267,8 +262,8 @@ class BanqueControleurTest extends TestCase
     {
         // Given
         // Définir les valeurs de session pour simuler l'authentification
-        $_SESSION['apiKey'] = "VotreCléAPI";
-        $_SESSION['url'] = "VotreURL";
+        $_SESSION['apiKey'] = "816w91HKCO0gAg580ycDyezS5SCQIwpw";
+        $_SESSION['url'] = "http://dolibarr.iut-rodez.fr/G2023-42/htdocs/";
 
         // Stub pour la méthode listeBanques du modèle
         $listeBanques = [['id_banque' => 'id_banque_1', 'nom' => 'Banque 1'], ['id_banque' => 'id_banque_2', 'nom' => 'Banque 2']];
