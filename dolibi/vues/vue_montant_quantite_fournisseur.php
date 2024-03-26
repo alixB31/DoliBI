@@ -1,4 +1,8 @@
-<?php session_start();?>
+<?php session_start();
+if (!isset($_SESSION['droitStock']) || $_SESSION['droitStock'] == false) {
+    header("Location: ../dolibi/index.php");
+}
+?>
 <!DOCTYPE html>
 <html lang="fr">
     <head>
@@ -112,9 +116,10 @@
                     
                     
                 ?>
-
-                        <canvas id="myChart"></canvas>
-                        <span id="donnees" class="invisible"><?php echo $donneesJSON; ?></span>
+                <div class="chart-container" id="graphique">
+                    <canvas id="myChart"></canvas>
+                </div>
+                <span id="donnees" class="invisible"><?php echo $donneesJSON; ?></span>
                 <?php
                     } else if($verifDate) {
                         echo "<h3>Il n'y a aucune données pour les dates choisis</h3>";

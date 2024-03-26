@@ -179,3 +179,7 @@ body {
 .perte {
     color: rgb(245, 0, 0);
 }
+
+#graphique {
+    position: relative; height:80vh; width:80vw
+}

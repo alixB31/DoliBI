@@ -162,7 +162,6 @@ class BanqueModele
                 'banque' => $banque['nom'],
                 'solde' => $solde,
             );
-            var_dump($repartition);
         }
         return $repartition;
     }
