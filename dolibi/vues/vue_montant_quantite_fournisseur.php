@@ -25,8 +25,7 @@
             </div>
             <div class="col-3">
                 <button name="deconnexion" class="btn-deco-rond d-md-none d-sm-none">
-                    <i class="fa-solid fa-power-off"></i>
-                    <a href="?controller=UtilisateurCompte&action=deconnexion"></a>
+                    <a href="?controller=UtilisateurCompte&action=deconnexion"><i class="fa-solid fa-power-off"></i></a>
                 </button>
             </div>
         </div>
