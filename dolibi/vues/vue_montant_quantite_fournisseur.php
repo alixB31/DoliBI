@@ -1,4 +1,14 @@
-<?php session_start();
+<?php 
+/** @var mixed $rechercheFournisseur */
+/** @var mixed $listeFournisseurs */
+/** @var mixed $idChoisis */
+/** @var mixed $dateDebut */
+/** @var mixed $dateFin */
+/** @var mixed $moisOuJour */
+/** @var mixed $verifDate */
+/** @var mixed $montantEtQuantite */
+/** @var mixed $dateFin */
+session_start();
 if (!isset($_SESSION['droitStock']) || $_SESSION['droitStock'] == false) {
     header("Location: ../dolibi/index.php");
 }
@@ -69,7 +79,7 @@ if (!isset($_SESSION['droitStock']) || $_SESSION['droitStock'] == false) {
                     <input type="hidden" name="controller" value="Stock">
                     <input type="hidden" name="action" value="listeFournisseursLike">
                     Nom du Fournisseur
-                    <input name="nom" class="espacementDroite form-control"type="texte"  value="<?php if($rechercheFournisseur !=null){echo $rechercheFournisseur;}?>">
+                    <input name="nom" class="espacementDroite form-control"type="texte" placeholder="Pas obligatoire" value="<?php if($rechercheFournisseur !=null){echo $rechercheFournisseur;}?>">
                     <br/>
                     <button class=" espacementDroite form-control" type="submit">Rechercher fournisseur</button>
                     <br/>
@@ -122,7 +132,7 @@ if (!isset($_SESSION['droitStock']) || $_SESSION['droitStock'] == false) {
                 <span id="donnees" class="invisible"><?php echo $donneesJSON; ?></span>
                 <?php
                     } else if($verifDate) {
-                        echo "<h3>Il n'y a aucune données pour les dates choisis</h3>";
+                        echo "<h3>Il n'y a aucune données pour les dates choisies</h3>";
                     }
                 ?>
                 <script src="js/scriptFournisseur.js"></script>

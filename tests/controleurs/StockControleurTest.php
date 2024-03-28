@@ -41,33 +41,33 @@ class StockControleurTest extends TestCase
 
     public function testIndex(): void
     {
-        // When
+        // When on appelle la fonction index
         $view = $this->stockControleur->index();
-        // Then
-        $this->assertEquals("vues/vue_dashboard_stock", $view->getRelativePath());
+        // Then on vérife que la vue retournée est bien la vue_dasboard
+        $this->assertEquals("vues/vue_dashboard", $view->getRelativePath());
     }
 
     public function testVoirDashboard(): void
     {
-        // When
+        // When on appelle la fonction voirDashboard
         $view = $this->stockControleur->voirDashboard();
-        // Then
-        $this->assertEquals("vues/vue_dashboard_stock", $view->getRelativePath());
+        // Then on vérife que la vue retournée est bien la vue_dasboard
+        $this->assertEquals("vues/vue_dashboard", $view->getRelativePath());
     }
 
     public function testVoirPalmaresFournisseurs(): void
     {
-        // When
+        // When on appelle la fonction voirPalmaresFournisseurs
         $view = $this->stockControleur->voirPalmaresFournisseurs();
-        // Then
+        // Then on vérife que la vue retournée est bien la vue_palmares_fournisseurs
         $this->assertEquals("vues/vue_palmares_fournisseurs", $view->getRelativePath());
     }
 
     public function testPalmaresFournisseurs(): void
     {
         // Given des paramètres de session
-        $_SESSION['apiKey'] = 'example_api_key';
-        $_SESSION['url'] = 'example_url';
+        $_SESSION['apiKey'] = '816w91HKCO0gAg580ycDyezS5SCQIwpw';
+        $_SESSION['url'] = 'http://dolibarr.iut-rodez.fr/G2023-42/htdocs/';
 
         // Given des paramètres de requête
         $_POST['dateDebut'] = '2023-01-01';
@@ -101,8 +101,8 @@ class StockControleurTest extends TestCase
     public function testPalmaresFournisseursDateIncorrecte(): void
     {
         // Given des paramètres de session
-        $_SESSION['apiKey'] = 'example_api_key';
-        $_SESSION['url'] = 'example_url';
+        $_SESSION['apiKey'] = '816w91HKCO0gAg580ycDyezS5SCQIwpw';
+        $_SESSION['url'] = 'http://dolibarr.iut-rodez.fr/G2023-42/htdocs/';
 
         // Given des paramètres de requête
         $_POST['dateDebut'] = '2023-03-01';
@@ -132,8 +132,8 @@ class StockControleurTest extends TestCase
     public function testListeFournisseursLike(): void
     {
         // Given des paramètres de session
-        $_SESSION['apiKey'] = 'example_api_key';
-        $_SESSION['url'] = 'example_url';
+        $_SESSION['apiKey'] = '816w91HKCO0gAg580ycDyezS5SCQIwpw';
+        $_SESSION['url'] = 'http://dolibarr.iut-rodez.fr/G2023-42/htdocs/';
 
         // Given un nom de fournisseur fictif
         $_POST['nom'] = 'Fournisseur A';
@@ -165,8 +165,8 @@ class StockControleurTest extends TestCase
     public function testMontantEtQuantiteFournisseur(): void
     {
         // Given des paramètres de session
-        $_SESSION['apiKey'] = 'example_api_key';
-        $_SESSION['url'] = 'example_url';
+        $_SESSION['apiKey'] = '816w91HKCO0gAg580ycDyezS5SCQIwpw';
+        $_SESSION['url'] = 'http://dolibarr.iut-rodez.fr/G2023-42/htdocs/';
 
         // Given des paramètres de requête
         $_POST['rechercheFournisseur'] = 'Fournisseur A';
@@ -213,8 +213,8 @@ class StockControleurTest extends TestCase
     public function testMontantEtQuantiteFournisseurDateInvalide(): void
     {
         // Given des paramètres de session
-        $_SESSION['apiKey'] = 'example_api_key';
-        $_SESSION['url'] = 'example_url';
+        $_SESSION['apiKey'] = '816w91HKCO0gAg580ycDyezS5SCQIwpw';
+        $_SESSION['url'] = 'http://dolibarr.iut-rodez.fr/G2023-42/htdocs/';
 
         // Given des paramètres de requête
         $_POST['rechercheFournisseur'] = 'Fournisseur A';
@@ -259,8 +259,8 @@ class StockControleurTest extends TestCase
     public function testListeArticlesLike(): void
     {
         // Given des paramètres de session
-        $_SESSION['apiKey'] = 'example_api_key';
-        $_SESSION['url'] = 'example_url';
+        $_SESSION['apiKey'] = '816w91HKCO0gAg580ycDyezS5SCQIwpw';
+        $_SESSION['url'] = 'http://dolibarr.iut-rodez.fr/G2023-42/htdocs/';
 
         // Given des paramètres de requête
         $_POST['nom'] = 'Article A';
@@ -294,8 +294,8 @@ class StockControleurTest extends TestCase
     public function testEvolutionStockArticle(): void
     {
         // Given des paramètres de session
-        $_SESSION['apiKey'] = 'example_api_key';
-        $_SESSION['url'] = 'example_url';
+        $_SESSION['apiKey'] = '816w91HKCO0gAg580ycDyezS5SCQIwpw';
+        $_SESSION['url'] = 'http://dolibarr.iut-rodez.fr/G2023-42/htdocs/';
 
         // Given des paramètres de requête
         $_POST['rechercheArticle'] = 'Article A';
@@ -341,8 +341,8 @@ class StockControleurTest extends TestCase
     public function testEvolutionStockArticleDateIncorrecte(): void
     {
         // Given des paramètres de session
-        $_SESSION['apiKey'] = 'example_api_key';
-        $_SESSION['url'] = 'example_url';
+        $_SESSION['apiKey'] = '816w91HKCO0gAg580ycDyezS5SCQIwpw';
+        $_SESSION['url'] = 'http://dolibarr.iut-rodez.fr/G2023-42/htdocs/';
 
         // Given des paramètres de requête
         $_POST['rechercheArticle'] = 'Article A';

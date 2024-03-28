@@ -1,4 +1,12 @@
-<?php session_start();
+<?php 
+/** @var mixed $listeBanques */
+/** @var mixed $banques */
+/** @var mixed $dateDebut */
+/** @var mixed $dateFin */
+/** @var mixed $moisOuJour */
+/** @var mixed $banquesCoches */
+/** @var mixed $listeEcritures */
+session_start();
 if (!isset($_SESSION['droitBanque']) || $_SESSION['droitBanque'] == false) {
     header("Location: ../dolibi/index.php");
 }
@@ -105,6 +113,7 @@ if (!isset($_SESSION['droitBanque']) || $_SESSION['droitBanque'] == false) {
                 </form>
             </div>
             <?php
+            
                 foreach ($banquesCoches as $banque) {
                     echo '<h3 class="row-gauche">'.$banque['nom'].'</h3>';
             ?>

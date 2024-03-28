@@ -4,6 +4,12 @@ namespace outils;
 
 class fonctions
 {
+	/**
+     * Récupere l'apiKey d'un utilisateur qui se connecte (Si ses identifiants existe).
+     * @param string $apiUrl l'url de l'instance de dolibarr utilisé par l'utilisateur.
+	 * @param string|null $apiKey l'apiKey de l'utilisateur
+     * @return array le resultat renvoyer par l'api
+     */
     static function appelAPI($apiUrl,$apiKey) {
 		// Interrogation de l'API
 		// Retourne le résultat en format JSON
@@ -39,11 +45,21 @@ class fonctions
 		}
 	}
 
+	/**
+     * Convertit une date unix au format y-m-d.
+     * @param boolean $unixTimestamp la date au format unix.
+     * @return string la date au format date
+     */
     static function convertUnixToDate($unixTimestamp) {
 		return date('Y-m-d', $unixTimestamp);
 	}
 
-
+	/**
+     * Regarde le montant de plus éléves.
+     * @param array<string> $a les données de a.
+	 * @param array<string> $b les données de b.
+     * @return int
+     */
 	static function comparerPrixHT($a, $b) {
 		if ($a['prixHT_Facture'] == $b['prixHT_Facture']) {
 			return 0;
@@ -51,19 +67,30 @@ class fonctions
 		return ($a['prixHT_Facture'] > $b['prixHT_Facture']) ? -1 : 1;
 	}
 
+	/**
+     * Regarde la date la plus vieille.
+     * @param array<string> $a les données de a.
+	 * @param array<string> $b les données de b.
+     * @return int
+     */
 	static function comparerDates($a, $b) {
 		return strtotime($a['date']) - strtotime($b['date']);
 	}
 
-
+	/**
+     * Regarde la date la plus vieille.
+     * @param array<string> $timestamp les données de a.
+	 * @param string $format les données de b.
+     * @return string
+     */
 	static function convertirDateUnix($timestamp, $format = 'Y-m-d H:i:s') {
 		return date($format, $timestamp);
 	}
 
-	  /**
-     * Ajout a YASMF
-     * @param string $name the name of the param
-     * @return string|null the value of the param if defined, null otherwise
+	/**
+     * Recupere les donnees d'une array
+     * @param string $name les données de a.
+     * @return array|null
      */
     public static function getParamArray(string $name): ?array {
         if (isset($_GET[$name])) return $_GET[$name];
@@ -71,6 +98,11 @@ class fonctions
         return null;
     }
 
+	/**
+     * Recupere l'années d'une date
+     * @param string $date une date.
+     * @return string l'année d'une date
+     */
 	public static function extraireAnnee($date) {
 		// Utilisation de la fonction date_parse pour analyser la date
 		$date_info = date_parse($date);
@@ -81,6 +113,11 @@ class fonctions
 		return $annee;
 	}
 	
+	/**
+     * Recupere le mois d'une date
+     * @param string $date une date.
+     * @return string le mois de la date
+     */
 	public static function extraireAnneeMois($date) {
 		// Utilisation de la fonction date_parse pour analyser la date
 		$date_info = date_parse($date);

@@ -11,38 +11,40 @@ class StockModele
 {
 	/**
      * Récupere la liste des fournisseurs ainsi que son nom, son code et le montant Ht des commandes et des factures entre 2 dates.
-     * @param url l'url de l'instance de dolibarr utilisé par l'utilisateur.
-     * @param apikey La clé api du compte de l'utilisateur.
-     * @param dateDebut La date de debut pour récuperer les données.
-     * @param dateFin La date de fin pour récuperer les données.
-     * @return palmares un tableaux contenant les données voulu pour chaque fournisseurs.
+     * @param string $url l'url de l'instance de dolibarr utilisé par l'utilisateur.
+     * @param string $apiKey La clé api du compte de l'utilisateur.
+     * @param string $dateDebut La date de debut pour récuperer les données.
+     * @param string $dateFin La date de fin pour récuperer les données.
+     * @return array<int,array<string,mixed>>|null $palmares un tableaux contenant les données voulu pour chaque fournisseurs.
      */
-    function palmaresFournisseurs($url,$apikey,$dateDebut,$dateFin) {		
+    function palmaresFournisseurs($url,$apiKey,$dateDebut,$dateFin) {		
 		$urlThirdParties = $url.'api/index.php/thirdparties?fields=id&sqlfilters=(t.fournisseur:LIKE:1)';
 		// Recupere la liste des fournisseurs
-		$listeFournisseurs = fonctions::appelAPI($urlThirdParties,$apikey);
+		$listeFournisseurs = fonctions::appelAPI($urlThirdParties,$apiKey);
+		// Initialise le palmares
+		$palmares = null;
 		// Parcoure tout les fournisseurs
-		// Initialise le palmares:
 		foreach($listeFournisseurs as $liste) {
 			
 			$urlPalmares  = $url."api/index.php/supplierorders?sortfield=t.rowid&sortorder=ASC&limit=100&sqlfilters=(t.fk_soc%3A%3D%3A".$liste['id'].")";
-			$listeCommandefournisseur = fonctions::appelAPI($urlPalmares,$apikey);
-			// Parcoure toutes les commandes effectués a ce fournisseurs et calcule le prix total
+			$listeCommandefournisseur = fonctions::appelAPI($urlPalmares,$apiKey);
+			// Initialise le prix
 			$prixHT = 0;
+			// Parcoure toutes les commandes effectués a ce fournisseurs et calcule le prix total
 			foreach($listeCommandefournisseur as $listeCommande) {
 				// Regarde si la commande a était éffectué entre les dates voulus
-				if (($dateDebut==null && $dateFin=null) || (fonctions::convertUnixToDate($listeCommande['date'])>=$dateDebut && fonctions::convertUnixToDate($listeCommande['date']<=$dateFin))) {
+				if (($dateDebut == null && $dateFin == null) || (fonctions::convertUnixToDate($listeCommande['date']) >= $dateDebut && fonctions::convertUnixToDate($listeCommande['date'] <= $dateFin))) {
 					$prixHT+= intval($listeCommande['total_ht']);
 				}
 			}
 
 			$urlPalmaresFacture  = $url."api/index.php/supplierinvoices?sortfield=t.rowid&sortorder=ASC&limit=100&sqlfilters=(t.fk_soc%3A%3D%3A".$liste['id'].")";
-			$listeFacturefournisseur = fonctions::appelAPI($urlPalmaresFacture,$apikey);
+			$listeFacturefournisseur = fonctions::appelAPI($urlPalmaresFacture,$apiKey);
 			// Parcoure toutes les commandes effectués a ce fournisseurs et calcule le prix total
 			$prixHTFacture = 0;
 			foreach($listeFacturefournisseur as $listeFacture) {
 				// Regarde si la commande a était éffectué entre les dates voulus
-				if (($dateDebut==null && $dateFin=null) || (fonctions::convertUnixToDate($listeFacture['date'])>=$dateDebut && fonctions::convertUnixToDate($listeFacture['date']<=$dateFin))) {
+				if (($dateDebut == null && $dateFin == null) || (fonctions::convertUnixToDate($listeFacture['date']) >= $dateDebut && fonctions::convertUnixToDate($listeFacture['date'] <= $dateFin))) {
 					$prixHTFacture+= intval($listeFacture['total_ht']);
 				}
 			}
@@ -67,15 +69,17 @@ class StockModele
 
 	/**
      * Récupere la liste des fournisseurs correspondant au nom choisis par l'utilisateur
-     * @param url l'url de l'instance de dolibarr utilisé par l'utilisateur.
-     * @param apikey La clé api du compte de l'utilisateur.
-	 * @param nom le nom des fournisseurs.
-     * @return listeFournisseur un tableaux contenant l'ensemble des fournisseurs correspondant au nom.
+     * @param string $url l'url de l'instance de dolibarr utilisé par l'utilisateur.
+     * @param string $apiKey La clé api du compte de l'utilisateur.
+	 * @param string $nom le nom des fournisseurs.
+     * @return array<int,array<string,mixed>>|null $listeFournisseur un tableaux contenant l'ensemble des fournisseurs correspondant au nom.
      */
-	function listeFournisseursLike($url,$apikey,$nom) {
+	function listeFournisseursLike($url,$apiKey,$nom) {
 		$urlThirdParties = $url.'api/index.php/thirdparties?fields=id&sqlfilters=&sqlfilters=(t.fournisseur:LIKE:1)%20and%20(t.nom:like:%'.$nom.'%)';
 		// Recupere la liste des fournisseurs
-		$listeFournisseurs = fonctions::appelAPI($urlThirdParties,$apikey);
+		$listeFournisseurs = fonctions::appelAPI($urlThirdParties,$apiKey);
+		// Initialisation du résultat
+		$listeFournisseur = null;
 		foreach($listeFournisseurs as $liste) {
 			$listeFournisseur[] = array(
 				'id_fournisseur' => $liste['id'],
@@ -87,18 +91,18 @@ class StockModele
 
 	/**
      * Récupere le montant et les quantites de l'ensemble des factures éffectué a un fournisseurs précis
-     * @param url l'url de l'instance de dolibarr utilisé par l'utilisateur.
-     * @param apikey La clé api du compte de l'utilisateur.
-	 * @param id l'id du fournisseur.
-	 * @param dateDebut La date de debut pour récuperer les données.
-     * @param dateFin La date de fin pour récuperer les données.
-	 * @param moisOuJour Si l'utilisateur veut regrouper les données par mois ou par jour.
-     * @return bonFormat le tableaux des données au bon format.
+     * @param string $url l'url de l'instance de dolibarr utilisé par l'utilisateur.
+     * @param string $apiKey La clé api du compte de l'utilisateur.
+	 * @param string $id l'id du fournisseur.
+	 * @param string $dateDebut La date de debut pour récuperer les données.
+     * @param string $dateFin La date de fin pour récuperer les données.
+	 * @param string $moisOuJour Si l'utilisateur veut regrouper les données par mois ou par jour.
+     * @return array<int,array<string,mixed>>|null Le tableau des données au bon format, ou null si les données ne sont pas valides.
      */
-	function montantEtQuantite($url,$apikey,$id,$dateDebut,$dateFin,$moisOuJour) {
+	function montantEtQuantite($url,$apiKey,$id,$dateDebut,$dateFin,$moisOuJour) {
 		$urlCommande = $url."api/index.php/supplierinvoices?sortfield=t.rowid&sortorder=ASC&limit=100&sqlfilters=(t.fk_soc%3A%3D%3A".$id.")";
 		// Recupere la liste des fournisseurs
-		$commandes = fonctions::appelAPI($urlCommande,$apikey);
+		$commandes = fonctions::appelAPI($urlCommande,$apiKey);
 		// Initialisation
 		foreach($commandes as $commande) {
 			// Regarde si la commande a était fais dans l'intervalle voulus
@@ -218,15 +222,18 @@ class StockModele
 
 	/**
      * Récupere la liste des articles correspondant au nom choisis par l'utilisateur
-     * @param url l'url de l'instance de dolibarr utilisé par l'utilisateur.
-     * @param apikey La clé api du compte de l'utilisateur.
-	 * @param nom le nom de l'article.
-     * @return listeFournisseur un tableaux contenant l'ensemble des articles correspondant au nom.
+     * @param string $url l'url de l'instance de dolibarr utilisé par l'utilisateur.
+     * @param string $apiKey La clé api du compte de l'utilisateur.
+	 * @param string $nom le nom de l'article.
+     * @return array<int,array<string,mixed>>|null $listeFournisseur un tableaux contenant l'ensemble des articles correspondant au nom.
      */
-	function listeArticlesLike($url,$apikey,$nom) {
+	function listeArticlesLike($url,$apiKey,$nom) {
 		$urlProduct = $url.'api/index.php/products?sortfield=t.ref&sortorder=ASC&limit=100&sqlfilters=(t.label:LIKE:%'.$nom.'%)';
 		// Recupere la liste des Articles
-		$listeArticles = fonctions::appelAPI($urlProduct,$apikey);
+		$listeArticles = fonctions::appelAPI($urlProduct,$apiKey);
+		// Initialisation du résultat
+		$listeArticle = null;
+
 		foreach($listeArticles as $liste) {
 			$listeArticle[] = array(
 				'id' => $liste['id'],
@@ -238,17 +245,17 @@ class StockModele
 
 	/**
      * Récupere la quantite achetés pour un article précis.
-     * @param url l'url de l'instance de dolibarr utilisé par l'utilisateur.
-     * @param apikey La clé api du compte de l'utilisateur.
-	 * @param idArticle l'id de l'article.
-	 * @param dateDebut La date de debut pour récuperer les données.
-     * @param dateFin La date de fin pour récuperer les données.
-	 * @param moisOuJour Si l'utilisateur veut regrouper les données par mois ou par jour.
-     * @return quantiteArticle le tableaux des quantités achetés.
+     * @param string $url l'url de l'instance de dolibarr utilisé par l'utilisateur.
+     * @param string $apiKey La clé api du compte de l'utilisateur.
+	 * @param string $idArticle l'id de l'article.
+	 * @param string $dateDebut La date de debut pour récuperer les données.
+     * @param string $dateFin La date de fin pour récuperer les données.
+	 * @param string $moisOuJour Si l'utilisateur veut regrouper les données par mois ou par jour.
+     * @return array<int,array<string,float|int|string>>|null $quantiteArticle le tableaux des quantités achetés.
      */
-	function quantiteAchetesArticle($url,$apikey,$idArticle,$dateDebut,$dateFin,$moisOuJour) {
+	function quantiteAchetesArticle($url,$apiKey,$idArticle,$dateDebut,$dateFin,$moisOuJour) {
 		$urlAchetes = $url.'api/index.php/supplierorders?sortfield=t.rowid&sortorder=ASC&limit=100&product_ids='.$idArticle;
-		$commandesArticle = fonctions::appelAPI($urlAchetes,$apikey);
+		$commandesArticle = fonctions::appelAPI($urlAchetes,$apiKey);
 		// Recherche les quantites par date de l'article choisis
 		$quantiteArticles = self::quantiteArticle($commandesArticle,$idArticle,$dateDebut,$dateFin,$moisOuJour);
 		return $quantiteArticles;
@@ -256,17 +263,17 @@ class StockModele
 
 	/**
      * Récupere la quantite vendues pour un article précis.
-     * @param url l'url de l'instance de dolibarr utilisé par l'utilisateur.
-     * @param apikey La clé api du compte de l'utilisateur.
-	 * @param idArticle l'id de l'article.
-	 * @param dateDebut La date de debut pour récuperer les données.
-     * @param dateFin La date de fin pour récuperer les données.
-	 * @param moisOuJour Si l'utilisateur veut regrouper les données par mois ou par jour.
-     * @return quantiteArticle le tableaux des quantités vendues.
+     * @param string $url l'url de l'instance de dolibarr utilisé par l'utilisateur.
+     * @param string $apiKey La clé api du compte de l'utilisateur.
+	 * @param string $idArticle l'id de l'article.
+	 * @param string $dateDebut La date de debut pour récuperer les données.
+     * @param string $dateFin La date de fin pour récuperer les données.
+	 * @param string $moisOuJour Si l'utilisateur veut regrouper les données par mois ou par jour.
+     * @return array<int,array<string,float|int|string>>|null le tableaux des quantités vendues.
      */
-	function quantiteVenduesArticle($url,$apikey,$idArticle,$dateDebut,$dateFin,$moisOuJour) {
+	function quantiteVenduesArticle($url,$apiKey,$idArticle,$dateDebut,$dateFin,$moisOuJour) {
 		$urlVendues = $url.'api/index.php/orders?sortfield=t.rowid&sortorder=ASC&limit=100';
-		$commandesArticle = fonctions::appelAPI($urlVendues,$apikey);
+		$commandesArticle = fonctions::appelAPI($urlVendues,$apiKey);
 		// Recherche les quantites par date de l'article choisis
 		$quantiteArticle = self::quantiteArticle($commandesArticle,$idArticle,$dateDebut,$dateFin,$moisOuJour);
 		return $quantiteArticle;
@@ -275,12 +282,12 @@ class StockModele
 
 	/**
      * Récupere la quantite de l'ensemble des factures éffectué pour un article précis.
-     * @param commandesArticle la liste des commandes contenant l'article.
-	 * @param idArticle l'id de l'article.
-	 * @param dateDebut La date de debut pour récuperer les données.
-     * @param dateFin La date de fin pour récuperer les données.
-	 * @param moisOuJour Si l'utilisateur veut regrouper les données par mois ou par jour.
-     * @return bonFormat le tableaux des données au bon format.
+     * @param array $commandesArticle la liste des commandes contenant l'article.
+	 * @param string $idArticle l'id de l'article.
+	 * @param string $dateDebut La date de debut pour récuperer les données.
+     * @param string $dateFin La date de fin pour récuperer les données.
+	 * @param string $moisOuJour Si l'utilisateur veut regrouper les données par mois ou par jour.
+     * @return array<int,array<string,float|int|string>>|null Le tableau des données au bon format, ou null si les données ne sont pas valides.
      */
 	function quantiteArticle($commandesArticle,$idArticle,$dateDebut,$dateFin,$moisOuJour) {
 		// Regarde toute les commandes de l'articles

@@ -12,46 +12,44 @@ class BanqueModele
 
     /**
      * Récupere la liste des banques de l'entreprise.
-     * @param url l'url de l'instance de dolibarr utilisé par l'utilisateur.
-     * @param apikey La clé api du compte de l'utilisateur.
-     * @return banques le tableaux des banques.
+     * @param string $url l'url de l'instance de dolibarr utilisé par l'utilisateur.
+     * @param string $apiKey La clé api du compte de l'utilisateur.
+     * @return array<int,array<string,mixed>>|null le tableaux des banques.
      */
     function listeBanques($url,$apiKey) {
         $urlBankAccount = $url.'api/index.php/bankaccounts?sortfield=t.rowid&sortorder=ASC&limit=100';
         // Recupere la liste des banques
 		$listeBanques = fonctions::appelAPI($urlBankAccount,$apiKey);
-        
+        $banques = null;
         foreach($listeBanques as $banque) {
             $banques[] = array(
                 'id_banque' => $banque['id'],
                 'nom' => $banque['label'],
             );
         }
-        // Si il ya au moins 1 banque renvoie le tableau des banques
-		if(isset($banques)) {
-            return $banques;
-		}
-		// Sinon renvoie rien
-        return null;
+        return $banques;
     }
 
     /**
      * Récupere l'ensemble des écriture pour entre des dates données pour une banque donnée.
-     * @param url l'url de l'instance de dolibarr utilisé par l'utilisateur.
-     * @param apikey La clé api du compte de l'utilisateur.
-     * @param dateDebut La date de debut pour récuperer les données.
-     * @param dateFin La date de fin pour récuperer les données.
-     * @param banque La banque choisis par l'utilisateur.
-     * @param listeValeur la liste des valeurs des autres banques choisis par l'utilisateur.
-     * @param moisOuJour La temporalite du tri que veux l'utilisateur.
-     * @return ensembleEcriture l'ensemble des ecriture pour la banque choisis.
+     * @param string $url l'url de l'instance de dolibarr utilisé par l'utilisateur.
+     * @param string $apiKey La clé api du compte de l'utilisateur.
+     * @param string $dateDebut La date de debut pour récuperer les données.
+     * @param string $dateFin La date de fin pour récuperer les données.
+     * @param string $banque La banque choisis par l'utilisateur.
+     * @param array<int|string,array<int,array<string,mixed>>|null> $listeValeur la liste des valeurs des autres banques choisis par l'utilisateur.
+     * @param string $moisOuJour La temporalite du tri que veux l'utilisateur.
+     * @return array<int,array<string,mixed>>|array<string,array<string,mixed>>|null l'ensemble des ecriture pour la banque choisis par jour.
      */
     function listeSoldeBancaireProgressif($url,$apiKey,$dateDebut,$dateFin,$banque,$listeValeur,$moisOuJour)  {
+        $ensembleEcriture = null;
         $urlBankAccount = $url.'api/index.php/bankaccounts/'.$banque.'/lines';
         // Recupere la liste des ecritures de la banque choisis
+        // Initialise
+        $sommeParMois = null;
 		$ecrituresBanque = fonctions::appelAPI($urlBankAccount,$apiKey);
         foreach($ecrituresBanque as $ecriture) {
-            if (($dateDebut==null && $dateFin=null) || ($ecriture['dateo']>=$dateDebut && $ecriture['dateo']<=$dateFin)) {
+            if (($dateDebut == null && $dateFin == null) || ($ecriture['dateo'] >= $dateDebut && $ecriture['dateo'] <= $dateFin)) {
                 $ensembleEcriture[] = array(
                     'date' => $ecriture['dateo'],
                     'montant' => $ecriture['amount'],
@@ -87,15 +85,16 @@ class BanqueModele
 
     /**
      * Récupere la quantite achetés pour un article précis.
-     * @param url l'url de l'instance de dolibarr utilisé par l'utilisateur.
-     * @param apikey La clé api du compte de l'utilisateur.
-     * @param banque La banque choisis par l'utilisateur.
-     * @param listeValeurs la liste des valeurs des autres banques choisis par l'utilisateur.
-     * @param anOuMois La temporalite du tri que veux l'utilisateur.
-     * @param temporalite la valeur de la temporalité (janvier, 2024 ...)
-     * @return quantiteArticle le tableaux des quantités achetés.
+     * @param string $url l'url de l'instance de dolibarr utilisé par l'utilisateur.
+     * @param string $apiKey La clé api du compte de l'utilisateur.
+     * @param string $banque La banque choisis par l'utilisateur.
+     * @param array<int|string,array<int,array<string,float|int|string>>|null>|null $listeValeurs la liste des valeurs des autres banques choisis par l'utilisateur.
+     * @param string $annee La temporalite du tri que veux l'utilisateur.
+     * @param string $mois la valeur du mois.
+     * @return array<int,array<string,float|int|string>>|null le tableaux des quantités achetés.
      */
     function graphiqueSoldeBancaire($url,$apiKey,$banque,$listeValeurs,$annee,$mois)  {
+        $somme = null;
         $urlBankAccount = $url.'api/index.php/bankaccounts/'.$banque.'/lines';
         // Recupere la liste des ecritures de la banque choisis
 		$ecrituresBanque = fonctions::appelAPI($urlBankAccount,$apiKey);
@@ -119,7 +118,7 @@ class BanqueModele
 
             } else {
                 // Utilisation de la fonction cal_days_in_month pour obtenir le nombre de jours dans le mois donné
-                $joursDansLeMois = cal_days_in_month(CAL_GREGORIAN, $mois, $annee);
+                $joursDansLeMois = cal_days_in_month(CAL_GREGORIAN, (int)$mois, (int)$annee);
                 // Parcoure tout les jousr du mois voulus
                 for ($jour  = 1; $jour  <= $joursDansLeMois ; $jour++) { 
                     // Concatene la date complete
@@ -140,11 +139,11 @@ class BanqueModele
     
     /**
      * Récupere le montant actuelle du solde dans une banque a la date actuelle
-     * @param url l'url de l'instance de dolibarr utilisé par l'utilisateur.
-     * @param apikey La clé api du compte de l'utilisateur.
-     * @param banque La banque choisis par l'utilisateur.
-     * @param listeValeurs la liste des valeurs des autres banques choisis par l'utilisateur.
-     * @return quantiteArticle le tableaux des quantités achetés.
+     * @param string $url l'url de l'instance de dolibarr utilisé par l'utilisateur.
+     * @param string $apiKey La clé api du compte de l'utilisateur.
+     * @param array<string> $banque La banque choisis par l'utilisateur.
+     * @param array<string> $repartition la liste des repartitions des autres banques choisis par l'utilisateur.
+     * @return array<string> le tableaux des quantités achetés.
      */
     function diagrammeRepartition ($url,$apiKey,$banque,$repartition)  {
         $urlBankAccount = $url.'api/index.php/bankaccounts/'.$banque['id_banque'].'/lines';

@@ -19,7 +19,7 @@ class StockModeleTest extends TestCase
 
     public function testQuantiteAchetesArticleJour(): void
     {
-        // Given des données de test 
+        // Given des données pour faire un appel à l'api
         $url = "http://dolibarr.iut-rodez.fr/G2023-42/htdocs/api/index.php/supplierorders?sortfield=t.rowid&sortorder=ASC&limit=100&product_ids=".$idArticle;
         $apiKey = "816w91HKCO0gAg580ycDyezS5SCQIwpw";
         $idArticle = 2; // ID de l'article pour le test
@@ -45,7 +45,7 @@ class StockModeleTest extends TestCase
 
     public function testQuantiteVenduesArticleJour(): void
     {
-        // Given des données de test 
+        // Given des données pour faire un appel à l'api
         $url = "http://dolibarr.iut-rodez.fr/G2023-42/htdocs/api/index.php/supplierorders?sortfield=t.rowid&sortorder=ASC&limit=100";
         $apiKey = "816w91HKCO0gAg580ycDyezS5SCQIwpw";
         $idArticle = 1; // ID de l'article pour le test
@@ -53,7 +53,7 @@ class StockModeleTest extends TestCase
         $dateFin = "2024-03-15";
         $moisOuJour = "jour"; // ou "jour" selon votre besoin
 
-        // Given une réponse fictive de l'API
+        // Given une réponse de l'API
         $reponseAPI = [
             ['date' => '2024-03-15', 'quantite' => 1],
         ];
@@ -71,7 +71,7 @@ class StockModeleTest extends TestCase
 
     public function testQuantiteVenduesArticleMois(): void
     {
-        // Given des données de test 
+        // Given des des données pour faire un appel à l'api
         $url = "http://dolibarr.iut-rodez.fr/G2023-42/htdocs/api/index.php/supplierorders?sortfield=t.rowid&sortorder=ASC&limit=100";
         $apiKey = "816w91HKCO0gAg580ycDyezS5SCQIwpw";
         $idArticle = 2; // ID de l'article pour le test
@@ -79,7 +79,7 @@ class StockModeleTest extends TestCase
         $dateFin = "2024-03-31";
         $moisOuJour = "mois"; // ou "jour" selon votre besoin
 
-        // Given une réponse fictive de l'API
+        // Given une réponse de l'API
         $reponseAPI = [
             ['date' => '2024-03', 'quantite' => 2],
         ];
@@ -97,7 +97,7 @@ class StockModeleTest extends TestCase
 
     public function testQuantiteArticleRetourneNull(): void
     {
-        // Given des données de test vides
+        // Given des des données pour faire un appel à l'api
         $commandesArticle = [];
         $idArticle = 2; // ID de l'article pour le test
         $dateDebut = "2024-01-01";
@@ -113,7 +113,7 @@ class StockModeleTest extends TestCase
 
     public function testListeArticlesLike(): void
     {
-        // Given des données de test 
+        // Given des données pour faire un appel à l'api
         $url = "http://dolibarr.iut-rodez.fr/G2023-42/htdocs/api/index.php/products?sortfield=t.ref&sortorder=ASC&limit=100&sqlfilters=(t.label:LIKE:%".$nom."%)";
         $apiKey = "816w91HKCO0gAg580ycDyezS5SCQIwpw";
         $nom = "fourchette";
@@ -135,7 +135,7 @@ class StockModeleTest extends TestCase
 
     public function testPalmaresFournisseurs(): void
     {
-        // Given des données de test 
+        // Given des des données pour faire un appel à l'api
         $url = "http://dolibarr.iut-rodez.fr/G2023-42/htdocs/";
         $apiKey = "816w91HKCO0gAg580ycDyezS5SCQIwpw";
         $dateDebut = "2024-03-13";
@@ -146,12 +146,12 @@ class StockModeleTest extends TestCase
             ['id' => 1, 'name' => 'fournisseur test', 'code_fournisseur' => 'SU2402-00001'],
         ];
 
-        // Given une réponse fictive de l'API pour les commandes fournisseurs
+        // Given une réponse de l'API pour les commandes fournisseurs
         $reponseCommandes = [
             ['date' => '2024-03-13', 'total_ht' => 55],
         ];
 
-        // Given une réponse fictive de l'API pour les factures fournisseurs
+        // Given une réponse de l'API pour les factures fournisseurs
         $reponseFactures = [
             ['date' => '2024-03-13', 'total_ht' => 3249],
         ];
@@ -159,14 +159,10 @@ class StockModeleTest extends TestCase
         // Configuration de l'objet mock pour la méthode appelAPI pour les fournisseurs
         $this->fonctionsMock->method('appelAPI')->willReturnOnConsecutiveCalls($reponseFournisseurs, $reponseCommandes, $reponseFactures);
 
-        // Initialisation de StockModele avec l'objet mock
-        $this->stockModele = new StockModele($this->fonctionsMock); 
-
         // When appel de la méthode palmaresFournisseurs
         $resultat = $this->stockModele->palmaresFournisseurs($url, $apiKey, $dateDebut, $dateFin);
 
         // Then vérification que le résultat est conforme à ce que vous attendez
-
         $this->assertEquals('SU2402-00001', $resultat[0]['code_fournisseur']);
         $this->assertEquals('fournisseur test', $resultat[0]['nom']);
         $this->assertEquals(55, $resultat[0]['prixHT_Commande']); 
@@ -175,7 +171,7 @@ class StockModeleTest extends TestCase
 
     public function testMontantEtQuantiteJour(): void
     {
-        // Given des données de test 
+        // Given des des données pour faire un appel à l'api
         $url = "http://dolibarr.iut-rodez.fr/G2023-42/htdocs/api/index.php/supplierinvoices?sortfield=t.rowid&sortorder=ASC&limit=100&sqlfilters=(t.fk_soc%3A%3D%3A".$id.")";
         $apiKey = "816w91HKCO0gAg580ycDyezS5SCQIwpw";
         $id = 2; // ID du fournisseur pour le test
@@ -191,9 +187,6 @@ class StockModeleTest extends TestCase
         // Configuration de l'objet mock pour la méthode appelAPI
         $this->fonctionsMock->method('appelAPI')->willReturn($reponseCommandes);
 
-        // Initialisation de StockModele avec l'objet mock
-        $this->stockModele = new StockModele($this->fonctionsMock); 
-
         // When appel de la méthode montantEtQuantite
         $resultat = $this->stockModele->montantEtQuantite($url, $apiKey, $id, $dateDebut, $dateFin, $moisOuJour);
 
@@ -205,7 +198,7 @@ class StockModeleTest extends TestCase
 
     public function testMontantEtQuantitePlusieursFactureJour(): void
     {
-        // Given des données de test 
+        // Given des des des données pour faire un appel à l'api
         $url = "http://dolibarr.iut-rodez.fr/G2023-42/htdocs/api/index.php/supplierinvoices?sortfield=t.rowid&sortorder=ASC&limit=100&sqlfilters=(t.fk_soc%3A%3D%3A".$id.")";
         $apiKey = "816w91HKCO0gAg580ycDyezS5SCQIwpw";
         $id = 2; // ID du fournisseur pour le test
@@ -213,7 +206,7 @@ class StockModeleTest extends TestCase
         $dateFin = "2024-03-31";
         $moisOuJour = "jour"; // ou "jour" selon votre besoin
 
-        // Given une réponse fictive de l'API pour les commandes du fournisseur
+        // Given une réponse de l'API pour les commandes du fournisseur
         $reponseCommandes = [
             ['date' => '2024-03-13', 'montant' => 800.0, 'quantite' => 1],
             ['date' => '2024-03-13', 'montant' => 800.0, 'quantite' => 1],
@@ -221,9 +214,6 @@ class StockModeleTest extends TestCase
 
         // Configuration de l'objet mock pour la méthode appelAPI
         $this->fonctionsMock->method('appelAPI')->willReturn($reponseCommandes);
-
-        // Initialisation de StockModele avec l'objet mock
-        $this->stockModele = new StockModele($this->fonctionsMock); 
 
         // When appel de la méthode montantEtQuantite
         $resultat = $this->stockModele->montantEtQuantite($url, $apiKey, $id, $dateDebut, $dateFin, $moisOuJour);
@@ -236,7 +226,7 @@ class StockModeleTest extends TestCase
 
     public function testMontantEtQuantiteMois(): void
     {
-        // Given des données de test 
+        // Given des données pour faire un appel à l'api
         $url = "http://dolibarr.iut-rodez.fr/G2023-42/htdocs/api/index.php/supplierinvoices?sortfield=t.rowid&sortorder=ASC&limit=100&sqlfilters=(t.fk_soc%3A%3D%3A".$id.")";
         $apiKey = "816w91HKCO0gAg580ycDyezS5SCQIwpw";
         $id = 2; // ID du fournisseur pour le test
@@ -244,16 +234,13 @@ class StockModeleTest extends TestCase
         $dateFin = "2024-03-31";
         $moisOuJour = "mois"; // ou "jour" selon votre besoin
 
-        // Given une réponse fictive de l'API pour les commandes du fournisseur
+        // Given une réponse de l'API pour les commandes du fournisseur
         $reponseCommandes = [
             ['date' => '2024-03', 'montant' => 2402.0 , 'quantite' => 4],
         ];
 
         // Configuration de l'objet mock pour la méthode appelAPI
         $this->fonctionsMock->method('appelAPI')->willReturn($reponseCommandes);
-
-        // Initialisation de StockModele avec l'objet mock
-        $this->stockModele = new StockModele($this->fonctionsMock); 
 
         // When appel de la méthode montantEtQuantite
         $resultat = $this->stockModele->montantEtQuantite($url, $apiKey, $id, $dateDebut, $dateFin, $moisOuJour);
@@ -266,7 +253,7 @@ class StockModeleTest extends TestCase
 
     public function testMontantEtQuantiteRetourneNullSiAucuneDonneeDisponible(): void
     {
-        // Given des données de test 
+        // Given des données pour faire un appel à l'api
         $url = "http://dolibarr.iut-rodez.fr/G2023-42/htdocs/api/index.php/supplierinvoices?sortfield=t.rowid&sortorder=ASC&limit=100&sqlfilters=(t.fk_soc%3A%3D%3A".$id.")";
         $apiKey = "816w91HKCO0gAg580ycDyezS5SCQIwpw";
         $id = 3; // ID du fournisseur pour le test
@@ -274,14 +261,11 @@ class StockModeleTest extends TestCase
         $dateFin = "2024-03-31";
         $moisOuJour = "jour"; // ou "jour" selon votre besoin
 
-        // Given une réponse fictive de l'API pour les commandes du fournisseur
+        // Given une réponse de l'API pour les commandes du fournisseur
         $reponseCommandes = NULL;
 
         // Configuration de l'objet mock pour la méthode appelAPI
         $this->fonctionsMock->method('appelAPI')->willReturn($reponseCommandes);
-
-        // Initialisation de StockModele avec l'objet mock
-        $this->stockModele = new StockModele($this->fonctionsMock); 
 
         // When appel de la méthode montantEtQuantite
         $resultat = $this->stockModele->montantEtQuantite($url, $apiKey, $id, $dateDebut, $dateFin, $moisOuJour);
@@ -292,12 +276,12 @@ class StockModeleTest extends TestCase
 
     public function testListeFournisseursLike(): void
 {
-    // Given
+    // Given des données pour faire un appel à l'api
     $url = "http://dolibarr.iut-rodez.fr/G2023-42/htdocs/api/index.php/thirdparties?fields=id&sqlfilters=&sqlfilters=(t.fournisseur:LIKE:1)%20and%20(t.nom:like:%".$nom."%)";
     $apiKey = "816w91HKCO0gAg580ycDyezS5SCQIwpw";
     $nom = "test";
 
-    // Given une réponse fictive de l'API pour les fournisseurs
+    // Given une réponse de l'API pour les fournisseurs
     $reponseFournisseurs = [
         ['id' => 2, 'name' => 'fournisseur test'],
         ['id' => 3, 'name' => 'fournisseur 2 test'],
@@ -306,10 +290,7 @@ class StockModeleTest extends TestCase
     // Configuration de l'objet mock pour la méthode appelAPI
     $this->fonctionsMock->method('appelAPI')->willReturn($reponseFournisseurs);
 
-    // Initialisation de StockModele avec l'objet mock
-    $this->stockModele = new StockModele($this->fonctionsMock); 
-
-    // When
+    // When on appelle la méthode listeFournisseursLike
     $resultat = $this->stockModele->listeFournisseursLike($url, $apiKey, $nom);
 
     // Then vérification que le résultat est conforme à ce que vous attendez

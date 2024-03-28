@@ -1,4 +1,12 @@
-<?php session_start();
+<?php 
+/** @var mixed $verifDate */
+/** @var mixed $rechercheArticle */
+/** @var mixed $listeArticles */
+/** @var mixed $idChoisis */
+/** @var mixed $dateDebut */
+/** @var mixed $dateFin */
+/** @var mixed $moisOuJour */
+session_start();
 if (!isset($_SESSION['droitStock']) || $_SESSION['droitStock'] == false) {
     header("Location: ../dolibi/index.php");
 }
@@ -109,6 +117,8 @@ if (!isset($_SESSION['droitStock']) || $_SESSION['droitStock'] == false) {
                     </select>
                     <button class="form-control" type="submit">Valider</button>
                     <?php
+                    $achetesJSON = null;
+                    $venduesJSON = null;
                     if (isset($quantiteAchetes) && isset($quantiteVendues)) {
                         $achetesJSON = json_encode($quantiteAchetes);
                         $venduesJSON = json_encode($quantiteVendues);
@@ -118,7 +128,9 @@ if (!isset($_SESSION['droitStock']) || $_SESSION['droitStock'] == false) {
                         }
                     }
                     ?>
-                    <canvas id="myChart"></canvas>
+                     <div class="chart-container" id="graphique">
+                        <canvas id="myChart"></canvas>
+                    </div>
                     <span id="achetes" class="invisible"><?php echo $achetesJSON; ?></span>
                     <span id="vendues" class="invisible"><?php echo $venduesJSON; ?></span>
                     <script src="js/scriptEvolution.js"></script> 

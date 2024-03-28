@@ -1,4 +1,16 @@
-<?php session_start();
+<?php 
+/** @var mixed $listeBanques */
+/** @var mixed $banques */
+/** @var mixed $histoOuCourbe */
+/** @var mixed $an */
+/** @var mixed $mois*/
+/** @var mixed $listeVValeurs */
+/** @var mixed $nomBanques */
+/** @var mixed $dates */
+/** @var mixed $listeValeurs */
+/** @var mixed $idBanques */
+
+session_start();
 if (!isset($_SESSION['droitBanque']) || $_SESSION['droitBanque'] == false) {
     header("Location: ../dolibi/index.php");
 }
@@ -121,11 +133,13 @@ if (!isset($_SESSION['droitBanque']) || $_SESSION['droitBanque'] == false) {
                 
                 <?php 
                     $donneesJSON = json_encode($listeValeurs); 
-                    $donneesBanques = json_encode($nomBanques); 
+                    $donneesBanques = json_encode($nomBanques);
+                    $donnesIdBanques = json_encode($idBanques);
                     $donneesDates = json_encode($dates); 
                 ?>
                 <span id="donnees" class="invisible"><?php echo $donneesJSON; ?></span>
                 <span id="donneesBanques" class="invisible"><?php echo $donneesBanques; ?></span>
+                <span id="donneesIdBanques" class="invisible"><?php echo $donnesIdBanques; ?></span>
                 <span id="donneesDates" class="invisible"><?php echo $donneesDates; ?></span>
                 <script src="js/scriptGraphiqueBancaire.js"></script>
             </div>

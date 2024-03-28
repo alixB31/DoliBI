@@ -46,7 +46,7 @@ class UtilisateurCompteControleur
             $vue->setVar("listeUrl", $listeUrl);
             $vue->setVar("loginOuMdpOk", $verifLoginOuMdp);
             $vue->setVar("login", $identifiant);
-            $vue->setVar("Url", $Url);
+            $vue->setVar("Url", $url);
         } else {
             session_start();
             $_SESSION['url'] = $url;
@@ -99,7 +99,9 @@ class UtilisateurCompteControleur
         return $vue;
         
     }
-
+    /**
+     * @return View $vue renvoie la vue connexion
+     */
     public function deconnexion() {
         session_start();
         session_destroy();

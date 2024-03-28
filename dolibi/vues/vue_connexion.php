@@ -1,3 +1,8 @@
+<?php
+/** @var mixed $loginOuMdpOk */
+/** @var mixed $listeUrl */
+/** @var mixed $login */
+?>
 <!DOCTYPE html>
 <html lang="fr">
     <head>

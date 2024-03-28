@@ -1,4 +1,7 @@
-<?php session_start();
+<?php 
+/** @var mixed $repartition */
+/** @var mixed $soldeTotal */
+session_start();
 if (!isset($_SESSION['droitBanque']) || $_SESSION['droitBanque'] == false) {
     header("Location: ../dolibi/index.php");
 }
@@ -66,6 +69,7 @@ if (!isset($_SESSION['droitBanque']) || $_SESSION['droitBanque'] == false) {
             </div>
             <div class="row row-gauche">
                 <?php
+                    $donneesJSON = null;
                     if($repartition != []) {
                         $donneesJSON = json_encode($repartition);
                     }
