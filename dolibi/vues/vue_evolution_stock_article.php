@@ -12,7 +12,7 @@ if (!isset($_SESSION['droitStock']) || $_SESSION['droitStock'] == false) {
         <link rel="stylesheet" href="static\fontawesome-free-6.2.1-web/css/all.css">
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <title>Gestion Stock</title>
-    </head>
+    </head> 
     <header>
         <div class ="row">
             <div class ="offset-md-3 offset-sm-4 col-4 d-none d-md-block d-sm-block">
@@ -70,9 +70,9 @@ if (!isset($_SESSION['droitStock']) || $_SESSION['droitStock'] == false) {
                 ?>
                 <form action="index.php" method= "post">
                     <input type="hidden" name="controller" value="Stock">
-                    <input type="hidden" name="action" value="listeArticlesLike">
+                    <input type="hidden" class="form-control" name="action" value="listeArticlesLike">
                     Nom de l'article
-                    <input name="nom" type="texte" value="<?php if($rechercheArticle !=null){echo $rechercheArticle;}?>">
+                    <input name="nom" class="form-control" type="texte" value="<?php if($rechercheArticle !=null){echo $rechercheArticle;}?>">
                     <br>
                     <button type="submit">Rechercher article</button>
                 </form>
@@ -81,10 +81,10 @@ if (!isset($_SESSION['droitStock']) || $_SESSION['droitStock'] == false) {
                 <form action="index.php" method= "post">
                     <input type="hidden" name="controller" value="Stock">
                     <input type="hidden" name="action" value="evolutionStockArticle">
-                    <input type="hidden" name="rechercheArticle" value="<?php if($rechercheArticle !=null){echo $rechercheArticle;}?>">
+                    <input type="hidden" class="form-control" name="rechercheArticle" value="<?php if($rechercheArticle !=null){echo $rechercheArticle;}?>">
                     <br/>
                     Article
-                    <select id="idArticle" name="idArticle">
+                    <select id="idArticle" class="form-control" name="idArticle">
                         <?php
                             foreach ($listeArticles as $liste) {
                                 if($liste["id"]==$idChoisis) {
@@ -97,17 +97,17 @@ if (!isset($_SESSION['droitStock']) || $_SESSION['droitStock'] == false) {
                     </select>
                     <br>
                     Date début
-                    <input name="dateDebut" type="date" value="<?php if($dateDebut !=null){echo $dateDebut;}?>" required>
+                    <input name="dateDebut" class="form-control" type="date" value="<?php if($dateDebut !=null){echo $dateDebut;}?>" required>
                     <br>
                     Date fin
-                    <input name="dateFin" type="date" value="<?php if($dateFin !=null){echo $dateFin;}?>" required>
+                    <input name="dateFin" class="form-control" type="date" value="<?php if($dateFin !=null){echo $dateFin;}?>" required>
                     <br>
                     Par 
-                    <select id="moisOuJour" name="moisOuJour">
+                    <select id="moisOuJour" class="form-control" name="moisOuJour">
                         <option value="mois" <?php if($moisOuJour == "mois") {echo "selected";}?>>mois</option>
                         <option value="jour" <?php if($moisOuJour == "jour") {echo "selected";}?>>jour</option>
                     </select>
-                    <button type="submit">Valider</button>
+                    <button class="form-control" type="submit">Valider</button>
                     <?php
                     if (isset($quantiteAchetes) && isset($quantiteVendues)) {
                         $achetesJSON = json_encode($quantiteAchetes);

@@ -65,13 +65,13 @@ if (!isset($_SESSION['droitStock']) || $_SESSION['droitStock'] == false) {
                 </div>
             </div>
             <div class="row row-gauche">
-                <form action="index.php" method= "post" id="first-form">
+                <form action="index.php" class="espacementDroite" method= "post" id="first-form">
                     <input type="hidden" name="controller" value="Stock">
                     <input type="hidden" name="action" value="listeFournisseursLike">
                     Nom du Fournisseur
-                    <input name="nom" type="texte"  value="<?php if($rechercheFournisseur !=null){echo $rechercheFournisseur;}?>">
+                    <input name="nom" class="espacementDroite form-control"type="texte"  value="<?php if($rechercheFournisseur !=null){echo $rechercheFournisseur;}?>">
                     <br/>
-                    <button type="submit">Rechercher fournisseur</button>
+                    <button class=" espacementDroite form-control" type="submit">Rechercher fournisseur</button>
                     <br/>
                     <br/>
                 </form>
@@ -81,7 +81,7 @@ if (!isset($_SESSION['droitStock']) || $_SESSION['droitStock'] == false) {
                     <input type="hidden" name="action" value="montantEtQuantiteFournisseur">
                     <input type="hidden" name="rechercheFournisseur" value="<?php if($rechercheFournisseur !=null){echo $rechercheFournisseur;}?>">
                     Fournisseur
-                    <select id="idFournisseur" name="idFournisseur">
+                    <select id="idFournisseur" class="form-control" name="idFournisseur">
                         <?php
                             foreach ($listeFournisseurs as $liste) {
                                 if($liste["id_fournisseur"]==$idChoisis) {
@@ -95,19 +95,19 @@ if (!isset($_SESSION['droitStock']) || $_SESSION['droitStock'] == false) {
                     </select>
                     <br>
                     Date début
-                    <input name="dateDebut" type="date" value="<?php if($dateDebut !=null){echo $dateDebut;}?>" required>
+                    <input name="dateDebut" class="form-control" type="date" value="<?php if($dateDebut !=null){echo $dateDebut;}?>" required>
                     <br>
                     Date fin
-                    <input name="dateFin" type="date" value="<?php if($dateFin !=null){echo $dateFin;}?>" required>
+                    <input name="dateFin" class="form-control" type="date" value="<?php if($dateFin !=null){echo $dateFin;}?>" required>
                     <br>
                     Par 
-                    <select id="moisOuJour" name="moisOuJour">
+                    <select id="moisOuJour" class="form-control" name="moisOuJour">
                         <option value="mois" <?php if($moisOuJour == "mois") {echo "selected";}?>>mois</option>
                         <option value="jour" <?php if($moisOuJour == "jour") {echo "selected";}?>>jour</option>
                     </select>
                     <br/>
                     <br/>
-                    <button type="submit">Valider</button> 
+                    <button class="form-control" type="submit">Valider</button> 
                 </form>
                 <?php
                     echo (!$verifDate) ? "<p id='invalide'>Erreur : Les dates ne sont pas cohérentes ou l'écart entre les deux dates est trop éleves.</p>" : "";

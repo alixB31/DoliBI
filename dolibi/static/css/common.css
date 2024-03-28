@@ -168,6 +168,11 @@ body {
     color: yellow; /* Couleur de texte jaune */
 }
 
+.espacementDroite{
+    margin-right: 10px;
+}
+
+
 #formulaireAjoutURL {
     display: none
 }

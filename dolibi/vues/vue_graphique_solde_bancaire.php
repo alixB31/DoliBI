@@ -87,15 +87,15 @@ if (!isset($_SESSION['droitBanque']) || $_SESSION['droitBanque'] == false) {
                         }
                     ?>
                     <br>
-                    <select id="histoOuCourbe" name="histoOuCourbe">
+                    <select id="histoOuCourbe" class="form-control" name="histoOuCourbe">
                         <option value="histo" <?php if($histoOuCourbe == "histo") {echo "selected";}?>>histogramme</option>
                         <option value="courbe" <?php if($histoOuCourbe == "courbe") {echo "selected";}?>>courbe</option>
                     </select>
                     <br>
                     Saissisez une année :
-                    <input type="number" name="an" value="<?php if($an !=null){echo $an;}?>" required/>
-                    <br>
-                    <select name="mois" id="mois">
+                    <input type="number" class="form-control" name="an" value="<?php if($an !=null){echo $an;}?>" required/>
+                    <br> 
+                    <select name="mois" class="form-control" id="mois">
                         <option value="tous" <?php if($mois == "tous") {echo "selected";}?> >Tous les mois</option>
                         <option value="1" <?php if($mois == "1") {echo "selected";}?>>Janvier</option>
                         <option value="2" <?php if($mois == "2") {echo "selected";}?>>Février</option>
@@ -112,7 +112,7 @@ if (!isset($_SESSION['droitBanque']) || $_SESSION['droitBanque'] == false) {
                     </select>
                     <br>
                     <br>
-                    <button type="submit">Rechercher</button>
+                    <button class="form-control" type="submit">Rechercher</button>
                     <br>
                 </form>
                 <canvas id="myChart"></canvas>

@@ -69,16 +69,16 @@ if (!isset($_SESSION['droitStock']) || $_SESSION['droitStock'] == false) {
                     echo (!$verifDate) ? '<p id="invalide">Erreur : Les dates ne sont pas cohérentes.</p>' : '';
                 ?>
                 <form action="index.php" method= "post">
-                    <input type="hidden" name="controller" value="Stock">
+                    <input type="hidden" class="form-control" name="controller" value="Stock">
                     <input type="hidden" name="action" value="palmaresFournisseurs">
                     Date début
-                    <input name="dateDebut" type="date" value="<?php if($dateDebut !=null){echo $dateDebut;}?>" required>
+                    <input name="dateDebut" class="form-control" type="date" value="<?php if($dateDebut !=null){echo $dateDebut;}?>" required>
                     <br>
                     Date fin
-                    <input name="dateFin" type="date" value="<?php if($dateFin !=null){echo $dateFin;}?>" required>
+                    <input name="dateFin" class="form-control" type="date" value="<?php if($dateFin !=null){echo $dateFin;}?>" required>
                     <br>
                     TOP :
-                    <select id="TopX" name="TopX">
+                    <select id="TopX" class="form-control"  name="TopX">
                         <option value="5" <?php if($top == "5"){echo "selected";}?> >5</option>
                         <option value="10" <?php if($top == "10"){echo "selected";}?> >10</option>
                         <option value="20" <?php if($top == "20"){echo "selected";}?> >20</option>

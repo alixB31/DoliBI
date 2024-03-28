@@ -88,19 +88,19 @@ if (!isset($_SESSION['droitBanque']) || $_SESSION['droitBanque'] == false) {
                     ?>
                     <br>
                     Date début
-                    <input name="dateDebut" type="date" value="<?php if($dateDebut !=null){echo $dateDebut;}?>" required>
+                    <input name="dateDebut" class="form-control" type="date" value="<?php if($dateDebut !=null){echo $dateDebut;}?>" required>
                     <br>
                     Date fin
-                    <input name="dateFin" type="date" value="<?php if($dateFin !=null){echo $dateFin;}?>" required>
+                    <input name="dateFin" class="form-control" type="date" value="<?php if($dateFin !=null){echo $dateFin;}?>" required>
                     <br>
                     Total par
-                    <select id="moisOuJour" name="moisOuJour">
+                    <select id="moisOuJour" class="form-control" name="moisOuJour">
                         <option value="mois" <?php if($moisOuJour == "mois") {echo "selected";}?>>mois</option>
                         <option value="jour" <?php if($moisOuJour == "jour") {echo "selected";}?>>jour</option>
                     </select>
                     <br>
                     <br>
-                    <button type="submit">Rechercher</button>
+                    <button class="form-control" type="submit">Rechercher</button>
                     <br>
                 </form>
             </div>
