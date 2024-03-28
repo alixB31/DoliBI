@@ -49,8 +49,8 @@ class BanqueControleur {
         $apiKey = $_SESSION['apiKey'];
         $url = $_SESSION['url'];
         // Recupere les parametres choisis par l'utilisateur
-        $dateDebut = HttpHelper::getParam('dateDebut');
-        $dateFin = HttpHelper::getParam('dateFin');
+        $dateDebut = htmlspecialchars(HttpHelper::getParam('dateDebut'));
+        $dateFin = htmlspecialchars(HttpHelper::getParam('dateFin'));
         $moisOuJour = HttpHelper::getParam('moisOuJour');
         // Récupere tout les banques checks
         $banques = fonctions::getParamArray('Banque');
@@ -123,7 +123,7 @@ class BanqueControleur {
         // Recupere les variables de sessions utiles
         $apiKey = $_SESSION['apiKey'];
         $url = $_SESSION['url'];
-        $annee = HttpHelper::getParam('an');
+        $annee = htmlspecialchars(HttpHelper::getParam('an'));
         $mois = HttpHelper::getParam('mois');
         $histoOuCourbe = HttpHelper::getParam('histoOuCourbe');
         // Récupere tout les banques checks

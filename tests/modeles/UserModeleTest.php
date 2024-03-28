@@ -24,6 +24,7 @@ class UserModeleTest extends TestCase
 
     public function testConnexionAvecIdentifiantsValides(): void
     {
+        //Cas nominal
         // Given des données de connexion valides
         $login = "G42";
         $mdp = "3iFJWj26z";
@@ -43,6 +44,7 @@ class UserModeleTest extends TestCase
 
     public function testConnexionAvecIdentifiantsInvalides(): void
     {
+        // Cas d'erreur
         // Given des données de connexion invalides
         $login = "utilisateur_inexistant";
         $mdp = "mot_de_passe_incorrect";

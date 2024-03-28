@@ -30,8 +30,8 @@ class StockControleur {
         $apiKey = $_SESSION['apiKey'];
         $url = $_SESSION['url'];
         // Recupere les parametres choisis par l'utilisateur
-        $dateDebut = HttpHelper::getParam('dateDebut');
-        $dateFin = HttpHelper::getParam('dateFin');
+        $dateDebut = htmlspecialchars(HttpHelper::getParam('dateDebut'));
+        $dateFin = htmlspecialchars(HttpHelper::getParam('dateFin'));
         $top = HttpHelper::getParam('TopX');
         if ($dateFin >= $dateDebut) {
             $verifDate = true;
@@ -57,7 +57,7 @@ class StockControleur {
         $apiKey = $_SESSION['apiKey'];
         $url = $_SESSION['url'];
         // Recupere les parametres choisis par l'utilisateur
-        $nom = HttpHelper::getParam('nom');
+        $nom = htmlspecialchars(HttpHelper::getParam('nom'));
         // Demande au modele de trouver la liste des fournisseurs correspondant au nom
         $listeFournisseurs = $this->stockModele->listeFournisseursLike($url,$apiKey,$nom);
         $vue = new View("vues/vue_montant_quantite_fournisseur");
@@ -83,8 +83,8 @@ class StockControleur {
         $listeFournisseurs = HttpHelper::getParam('listeFournisseurs');
         // Recupere les parametres choisis par l'utilisateur
         $idFournisseur = HttpHelper::getParam('idFournisseur');
-        $dateDebut = HttpHelper::getParam('dateDebut');
-        $dateFin = HttpHelper::getParam('dateFin');
+        $dateDebut = htmlspecialchars(HttpHelper::getParam('dateDebut'));
+        $dateFin = htmlspecialchars(HttpHelper::getParam('dateFin'));
         $moisOuJour = HttpHelper::getParam('moisOuJour');
         $montantEtQuantite = null;
         // Delande au modele de retrouver la liste des fournisseurs correspondant au nom
@@ -121,7 +121,7 @@ class StockControleur {
         $apiKey = $_SESSION['apiKey'];
         $url = $_SESSION['url'];
         // Recupere les parametres choisis par l'utilisateur
-        $nom = HttpHelper::getParam('nom');
+        $nom = htmlspecialchars(HttpHelper::getParam('nom'));
         $verifDate = true;
         // Demande au modele de trouver la liste des articles correspondant au nom
         $listeArticles = $this->stockModele->listeArticlesLike($url,$apiKey,$nom);
@@ -147,8 +147,8 @@ class StockControleur {
         // Recupere les parametres choisis par l'utilisateur
         $rechercheArticle = HttpHelper::getParam('rechercheArticle');
         $idArticle = HttpHelper::getParam('idArticle');
-        $dateDebut = HttpHelper::getParam('dateDebut');
-        $dateFin = HttpHelper::getParam('dateFin');
+        $dateDebut = htmlspecialchars(HttpHelper::getParam('dateDebut'));
+        $dateFin = htmlspecialchars(HttpHelper::getParam('dateFin'));
         $moisOuJour = HttpHelper::getParam('moisOuJour');
         // Initialise les résultat
         $quantiteAchetes = null;
@@ -218,7 +218,7 @@ class StockControleur {
         $apiKey = $_SESSION['apiKey'];
         $url = $_SESSION['url'];
         // Recupere les parametres choisis par l'utilisateur
-        $nom = HttpHelper::getParam('nom');
+        $nom = htmlspecialchars(HttpHelper::getParam('nom'));
         // Demande au modele de trouver la liste des fournisseurs correspondant au nom
         $listeFournisseurs = $this->stockModele->listeFournisseursLike($url,$apiKey,$nom);
         $vue = new View("vues/vue_montant_quantite_fournisseur");

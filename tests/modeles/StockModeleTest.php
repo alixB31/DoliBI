@@ -181,7 +181,7 @@ class StockModeleTest extends TestCase
 
         // Given une réponse fictive de l'API pour les commandes du fournisseur
         $reponseCommandes = [
-            ['date' => '2024-03-05', 'montant' => 250.00000000, 'quantite' => 1],
+            ['date' => '2024-03-06', 'montant' => 250.00000000, 'quantite' => 1],
         ];
 
         // Configuration de l'objet mock pour la méthode appelAPI
@@ -191,9 +191,9 @@ class StockModeleTest extends TestCase
         $resultat = $this->stockModele->montantEtQuantite($url, $apiKey, $id, $dateDebut, $dateFin, $moisOuJour);
 
         // Then vérification que le résultat est conforme à ce que vous attendez
-        $this->assertEquals('2024-03-05', $resultat[4]['date']);
-        $this->assertEquals(250.00000000, $resultat[4]['montant']);
-        $this->assertEquals(1, $resultat[4]['quantite']);
+        $this->assertEquals('2024-03-06', $resultat[5]['date']);
+        $this->assertEquals(250.00000000, $resultat[5]['montant']);
+        $this->assertEquals(1, $resultat[5]['quantite']);
     }
 
     public function testMontantEtQuantitePlusieursFactureJour(): void
@@ -208,8 +208,8 @@ class StockModeleTest extends TestCase
 
         // Given une réponse de l'API pour les commandes du fournisseur
         $reponseCommandes = [
-            ['date' => '2024-03-13', 'montant' => 800.0, 'quantite' => 1],
-            ['date' => '2024-03-13', 'montant' => 800.0, 'quantite' => 1],
+            ['date' => '2024-03-14', 'montant' => 800.0, 'quantite' => 1],
+            ['date' => '2024-03-14', 'montant' => 800.0, 'quantite' => 1],
         ];
 
         // Configuration de l'objet mock pour la méthode appelAPI
@@ -219,9 +219,9 @@ class StockModeleTest extends TestCase
         $resultat = $this->stockModele->montantEtQuantite($url, $apiKey, $id, $dateDebut, $dateFin, $moisOuJour);
 
         // Then vérification que le résultat est conforme à ce que vous attendez
-        $this->assertEquals('2024-03-13', $resultat[12]['date']);
-        $this->assertEquals(1600.0, $resultat[12]['montant']);
-        $this->assertEquals(2, $resultat[12]['quantite']);
+        $this->assertEquals('2024-03-14', $resultat[13]['date']);
+        $this->assertEquals(1600.0, $resultat[13]['montant']);
+        $this->assertEquals(2, $resultat[13]['quantite']);
     }
 
     public function testMontantEtQuantiteMois(): void

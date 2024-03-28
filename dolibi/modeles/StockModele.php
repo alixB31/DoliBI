@@ -254,7 +254,7 @@ class StockModele
      * @return array<int,array<string,float|int|string>>|null $quantiteArticle le tableaux des quantités achetés.
      */
 	function quantiteAchetesArticle($url,$apiKey,$idArticle,$dateDebut,$dateFin,$moisOuJour) {
-		$urlAchetes = $url.'api/index.php/supplierorders?sortfield=t.rowid&sortorder=ASC&limit=100&product_ids='.$idArticle;
+		$urlAchetes = $url.'api/index.php/supplierinvoices?sortfield=t.rowid&sortorder=ASC&limit=100&product_ids='.$idArticle;
 		$commandesArticle = fonctions::appelAPI($urlAchetes,$apiKey);
 		// Recherche les quantites par date de l'article choisis
 		$quantiteArticles = self::quantiteArticle($commandesArticle,$idArticle,$dateDebut,$dateFin,$moisOuJour);
@@ -272,7 +272,7 @@ class StockModele
      * @return array<int,array<string,float|int|string>>|null le tableaux des quantités vendues.
      */
 	function quantiteVenduesArticle($url,$apiKey,$idArticle,$dateDebut,$dateFin,$moisOuJour) {
-		$urlVendues = $url.'api/index.php/orders?sortfield=t.rowid&sortorder=ASC&limit=100';
+		$urlVendues = $url.'api/index.php/invoices?sortfield=t.rowid&sortorder=ASC&limit=100';
 		$commandesArticle = fonctions::appelAPI($urlVendues,$apiKey);
 		// Recherche les quantites par date de l'article choisis
 		$quantiteArticle = self::quantiteArticle($commandesArticle,$idArticle,$dateDebut,$dateFin,$moisOuJour);

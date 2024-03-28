@@ -51,6 +51,8 @@ class fonctions
      * @return string la date au format date
      */
     static function convertUnixToDate($unixTimestamp) {
+		// Définir le fuseau horaire sur GMT+1
+		date_default_timezone_set('Europe/Paris');
 		return date('Y-m-d', $unixTimestamp);
 	}
 
