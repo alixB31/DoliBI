@@ -70,7 +70,7 @@ class fonctions
 	}
 
 	/**
-     * Regarde la date la plus vieille.
+     * Regarde la date la plus ancienne.
      * @param array<string> $a les données de a.
 	 * @param array<string> $b les données de b.
      * @return int
@@ -80,7 +80,7 @@ class fonctions
 	}
 
 	/**
-     * Regarde la date la plus vieille.
+     * Convertit une date en date au format unix.
      * @param array<string> $timestamp les données de a.
 	 * @param string $format les données de b.
      * @return string
@@ -101,7 +101,7 @@ class fonctions
     }
 
 	/**
-     * Recupere l'années d'une date
+     * Recupere l'année d'une date
      * @param string $date une date.
      * @return string l'année d'une date
      */
@@ -116,7 +116,7 @@ class fonctions
 	}
 	
 	/**
-     * Recupere le mois d'une date
+     * Recupere l'annee et le mois d'une date
      * @param string $date une date.
      * @return string le mois de la date
      */
