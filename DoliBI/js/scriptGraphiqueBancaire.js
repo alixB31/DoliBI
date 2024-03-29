@@ -1,3 +1,5 @@
+// Tableau des couleurs prédéfinies
+const colors = ['#FF5733', '#33FF57', '#5733FF', '#FFFF33', '#33FFFF', '#FF33FF', '#FF5733', '#33FF57', '#5733FF', '#FFFF33']; // Ajoutez autant de couleurs que nécessaire
 
 const ctx = document.getElementById('myChart');
 var selectElement = document.getElementById('histoOuCourbe');
@@ -11,17 +13,20 @@ var dates = JSON.parse(document.getElementById('donneesDates').textContent);
 // Tableaux pour stocker les dates et les montants par indice
 
 var montantsParIndice = {};
-
+var couleursParIndide = {};
 
 // Parcourir toutes les données
 for (var indice in donnees) {
     if (donnees.hasOwnProperty(indice)) {
         montantsParIndice[indice] = [];
+        couleursParIndide[indice] = [];
+        couleursParIndide[indice].push(colors[indice]);
         var innerObject = donnees[indice];
         for (var key in innerObject) {
             if (innerObject.hasOwnProperty(key)) {
                 // Ajouter le montant au tableau correspondant à l'indice
                 montantsParIndice[indice].push(innerObject[key].montant);
+                
             }
         }
     }
@@ -35,7 +40,7 @@ for (var i = 0; i < nomBanques.length; i++) {
     datasets.push({
         label: nomBanques[i],
         data: montantsParIndice[idBanques[i]], 
-        borderColor: getRandomColor(), // Génère une couleur aléatoire
+        borderColor: couleursParIndide[idBanques[i]], // Génère une couleur aléatoire
         borderWidth: 1
     });
 }
@@ -44,11 +49,11 @@ for (var i = 0; i < nomBanques.length; i++) {
 // Vous pouvez maintenant utiliser la variable choix pour décider quelle action effectuer
 if (choix === 'courbe') {
     new Chart(ctx, {
-    type: 'line',
-    data: {
-        labels: dates,
-        datasets: datasets
-    }
+        type: 'line',
+        data: {
+            labels: dates,
+            datasets: datasets
+        }
     });
 } 
 if (choix === 'histo') {

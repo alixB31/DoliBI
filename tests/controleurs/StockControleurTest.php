@@ -39,22 +39,6 @@ class StockControleurTest extends TestCase
         $this->stockControleur = new StockControleur($this->stockModele);
     }
 
-    public function testIndex(): void
-    {
-        // When on appelle la fonction index
-        $view = $this->stockControleur->index();
-        // Then on vérife que la vue retournée est bien la vue_dasboard
-        $this->assertEquals("vues/vue_dashboard", $view->getRelativePath());
-    }
-
-    public function testVoirDashboard(): void
-    {
-        // When on appelle la fonction voirDashboard
-        $view = $this->stockControleur->voirDashboard();
-        // Then on vérife que la vue retournée est bien la vue_dasboard
-        $this->assertEquals("vues/vue_dashboard", $view->getRelativePath());
-    }
-
     public function testVoirPalmaresFournisseurs(): void
     {
         // When on appelle la fonction voirPalmaresFournisseurs

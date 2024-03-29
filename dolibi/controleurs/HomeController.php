@@ -22,6 +22,7 @@ class HomeController {
         $listeUrl = $this->userModele->listeUrl($fichier_urls);
         $vue = new View("vues/vue_connexion");
         $vue->setVar("listeUrl", $listeUrl);
+        $vue->setVar("login", null);
         $vue->setVar("loginOuMdpOk", $verifLoginOuMdp);
         return $vue;
     }

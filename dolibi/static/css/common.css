@@ -168,10 +168,9 @@ body {
     color: yellow; /* Couleur de texte jaune */
 }
 
-.espacementDroite{
-    margin-right: 10px;
+.jaune{
+    color: yellow; /* Couleur de texte jaune */
 }
-
 
 #formulaireAjoutURL {
     display: none
@@ -187,4 +186,12 @@ body {
 
 #graphique {
     position: relative; height:80vh; width:80vw
+}
+
+.texte-droite {
+    text-align: right !important;
+}
+
+.espacementDroite{
+    margin-right: 10px;
 }

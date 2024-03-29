@@ -17,13 +17,6 @@ class BanqueControleur {
         $this->banqueModele = $banqueModele;
     }
 
-    public function index() : View
-    {
-        $vue = new View("vues/vue_dashboard");
-        return $vue;
-    }
-
-
     public function voirListeSoldesBancaireProgressif() : View 
     {   
         session_start();
@@ -35,9 +28,11 @@ class BanqueControleur {
         $vue = new View("vues/vue_liste_soldes_bancaire");
         $vue->setVar("listeBanques", $listeBanques);
         $vue->setVar("banques", []);
+        $vue->setVar("banquesCoches", []);
         $vue->setVar("dateDebut", null);
         $vue->setVar("dateFin", null);
         $vue->setVar("moisOuJour", null);
+        $vue->setVar("verifDate", true);
         return $vue;
     }
 
@@ -59,11 +54,16 @@ class BanqueControleur {
         // Initialise le résultat
         $listeEcritures = array();
         //Récupère les banques sélectionnées
-        $banquesCoches = null;
-
-        foreach($banques as $banque) { 
-            // Demande au modele de trouver le compte bancaire coché
-            $listeEcritures[$banque] = $this->banqueModele->listeSoldeBancaireProgressif($url,$apiKey,$dateDebut,$dateFin,$banque,$listeEcritures,$moisOuJour);
+        $banquesCoches = [];
+        $verifDate = false;
+        if ($dateFin >= $dateDebut) {
+            $verifDate = true;
+        } 
+        if ($banques != null) {
+            foreach($banques as $banque) { 
+                // Demande au modele de trouver le compte bancaire coché
+                $listeEcritures[$banque] = $this->banqueModele->listeSoldeBancaireProgressif($url,$apiKey,$dateDebut,$dateFin,$banque,$listeEcritures,$moisOuJour);
+            }
         }
 
         // Met dans un tableaux les infos des banques cochés
@@ -91,6 +91,7 @@ class BanqueControleur {
         $vue->setVar("dateDebut", $dateDebut);
         $vue->setVar("dateFin", $dateFin);
         $vue->setVar("moisOuJour", $moisOuJour);
+        $vue->setVar("verifDate", $verifDate);
         return $vue;
     }
 
@@ -130,10 +131,11 @@ class BanqueControleur {
         $banques = fonctions::getParamArray('Banque');
         $listeBanques = $this->banqueModele->listeBanques($url,$apiKey);
         $listeValeurs = null;
-        // Initialise le résultat
-        foreach($banques as $banque) { 
-            // Demande au modele de trouver le compte bancaire coché
-            $listeValeurs[$banque] = $this->banqueModele->graphiqueSoldeBancaire($url,$apiKey,$banque,$listeValeurs,$annee,$mois);
+        if ($banques != null) {
+            foreach($banques as $banque) { 
+                // Demande au modele de trouver le compte bancaire coché
+                $listeValeurs[$banque] = $this->banqueModele->graphiqueSoldeBancaire($url,$apiKey,$banque,$listeValeurs,$annee,$mois);
+            }
         }
         // Met dans un tableaux les noms des banques cochés
         $nomBanques = []; // Initialisation du tableau du nom des banques
@@ -153,13 +155,15 @@ class BanqueControleur {
         // Initialiser un tableau temporaire pour suivre les dates déjà ajoutées
         $datesDejaAjoute = array();
         // Parcourir le tableau $donnees pour rechercher les données
-        foreach ($listeValeurs as $data) {
-            foreach ($data as $element) {
-                $date = $element["date"];
-                // Vérifier si la date n'a pas déjà été ajoutée
-                if (!in_array($date, $datesDejaAjoute)) {
-                    $dates[] = $date;
-                    $datesDejaAjoute[] = $date; // Ajouter la date au tableau temporaire
+        if ($listeValeurs != null) {
+            foreach ($listeValeurs as $data) {
+                foreach ($data as $element) {
+                    $date = $element["date"];
+                    // Vérifier si la date n'a pas déjà été ajoutée
+                    if (!in_array($date, $datesDejaAjoute)) {
+                        $dates[] = $date;
+                        $datesDejaAjoute[] = $date; // Ajouter la date au tableau temporaire
+                    }
                 }
             }
         }

@@ -39,14 +39,6 @@ class BanqueControleurTest extends TestCase
         $this->banqueControleur = new BanqueControleur($this->banqueModele);
     }
 
-    public function testIndex(): void
-    {
-        // When on appelle la fonction index
-        $view = $this->banqueControleur->index();
-        // Then on vérifie que la fonction index renvoie bien la vue spécifié dans le contrôleur
-        $this->assertEquals("vues/vue_dashboard", $view->getRelativePath());
-    }
-
     public function testVoirListeSoldesBancaireProgressif() 
     {
         // Given des paramètres

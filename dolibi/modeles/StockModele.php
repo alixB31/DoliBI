@@ -22,7 +22,7 @@ class StockModele
 		// Recupere la liste des fournisseurs
 		$listeFournisseurs = fonctions::appelAPI($urlThirdParties,$apiKey);
 		// Initialise le palmares
-		$palmares = null;
+		$palmares = [];
 		// Parcoure tout les fournisseurs
 		foreach($listeFournisseurs as $liste) {
 			
@@ -60,7 +60,7 @@ class StockModele
 			}
     	}
 		// Si il ya au moins 1 fournisseur correspondant aux parametres tri le tableau
-		if(isset($palmares)) {
+		if($palmares !=[]) {
 			usort($palmares, 'outils\fonctions::comparerPrixHT');
 		}
 		return $palmares;
@@ -232,7 +232,7 @@ class StockModele
 		// Recupere la liste des Articles
 		$listeArticles = fonctions::appelAPI($urlProduct,$apiKey);
 		// Initialisation du résultat
-		$listeArticle = null;
+		$listeArticle = [];
 
 		foreach($listeArticles as $liste) {
 			$listeArticle[] = array(
@@ -240,6 +240,7 @@ class StockModele
 				'label' => $liste['label']
 			);
 		}
+		
 		return $listeArticle;
 	}
 
@@ -257,8 +258,8 @@ class StockModele
 		$urlAchetes = $url.'api/index.php/supplierinvoices?sortfield=t.rowid&sortorder=ASC&limit=100&product_ids='.$idArticle;
 		$commandesArticle = fonctions::appelAPI($urlAchetes,$apiKey);
 		// Recherche les quantites par date de l'article choisis
-		$quantiteArticles = self::quantiteArticle($commandesArticle,$idArticle,$dateDebut,$dateFin,$moisOuJour);
-		return $quantiteArticles;
+		$quantiteArticle = self::quantiteArticle($commandesArticle,$idArticle,$dateDebut,$dateFin,$moisOuJour);
+		return $quantiteArticle;
 	}
 
 	/**

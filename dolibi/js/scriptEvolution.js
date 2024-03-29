@@ -45,6 +45,12 @@ new Chart(ctx, {
         scaleLabel: {
           display: true,
           labelString: 'Quantités'
+        },
+        grid: {
+          tickColor: 'blue' //couleur de l'axe Y
+        },
+        ticks: {
+          color: 'blue', //couleur de l'axe Y
         }
       }, 
       quantiteVendues: {
@@ -54,6 +60,12 @@ new Chart(ctx, {
         scaleLabel: {
           display: true,
           labelString: 'Montants'
+        },
+        grid: {
+          tickColor: 'red' //couleur de l'axe Y
+        },
+        ticks: {
+          color: 'red', //couleur de l'axe Y
         }
       }
     }

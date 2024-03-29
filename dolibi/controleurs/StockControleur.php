@@ -17,12 +17,6 @@ class StockControleur {
         $this->stockModele = $stockModele;
     }
 
-    public function index() : View
-    {
-        $vue = new View("vues/vue_dashboard");
-        return $vue;
-    }
-
     public function palmaresFournisseurs() : View
     {
         session_start();
@@ -42,6 +36,7 @@ class StockControleur {
         } else {
             $verifDate = false;
             $vue = new View("vues/vue_palmares_fournisseurs");
+            $vue->setVar("palmares", []);
         }
         $vue->setVar("top", $top);
         $vue->setVar("dateDebut", $dateDebut);
@@ -66,6 +61,7 @@ class StockControleur {
         $vue->setVar("idChoisis",null);
         $vue->setVar("dateDebut", null);
         $vue->setVar("dateFin", null);
+        $vue->setVar("moisOuJour", null);
         $vue->setVar("montantEtQuantite", null);
         $vue->setVar("verifDate", true);
         return $vue;
@@ -201,11 +197,12 @@ class StockControleur {
     
     public function voirPalmaresFournisseurs() : View 
     {
+        session_start();
         $verifDate = true;
         $vue = new View("vues/vue_palmares_fournisseurs");
         $vue->setVar("verifDate", $verifDate);
         $vue->setVar("top", null);
-        $vue->setVar("palmares", null);
+        $vue->setVar("palmares", []);
         $vue->setVar("dateDebut", null);
         $vue->setVar("dateFin", null);
         return $vue;
@@ -227,15 +224,11 @@ class StockControleur {
         $vue->setVar("idChoisis",null);
         $vue->setVar("dateDebut", null);
         $vue->setVar("dateFin", null);
+        $vue->setVar("moisOuJour", "mois");
         $vue->setVar("montantEtQuantite", null);
         $vue->setVar("verifDate", true);
         return $vue;
     }
 
-    public function voirDashboard() : View
-    {
-        $vue = new View("vues/vue_dashboard");
-        return $vue;
-    }
 }
 

@@ -6,7 +6,7 @@
 /** @var mixed $moisOuJour */
 /** @var mixed $banquesCoches */
 /** @var mixed $listeEcritures */
-session_start();
+/** @var mixed $verifDate */
 if (!isset($_SESSION['droitBanque']) || $_SESSION['droitBanque'] == false) {
     header("Location: ../dolibi/index.php");
 }
@@ -30,15 +30,19 @@ if (!isset($_SESSION['droitBanque']) || $_SESSION['droitBanque'] == false) {
                 <hspan class="titre">Doli-BI</hspan>
             </div> 
             <div class="offset-md-2 offset-sm-1 col-md-2 col-sm-2 d-none d-md-block d-sm-block  ">
-                <button name="deconnexion" class="btn btn-deco d-none d-md-block d-sm-block">
-                    <i class="fa-solid fa-power-off"></i>
-                    <a href="?controller=UtilisateurCompte&action=deconnexion">Déconnexion</a>
-                </button>
+                <a href="?controller=UtilisateurCompte&action=deconnexion">
+                    <button name="deconnexion" class="btn btn-deco d-none d-md-block d-sm-block">
+                        <i class="fa-solid fa-power-off"></i>
+                        Déconnexion
+                    </button>
+                </a>
             </div>
             <div class="col-3">
-                <button name="deconnexion" class="btn-deco-rond d-md-none d-sm-none">
-                    <a href="?controller=UtilisateurCompte&action=deconnexion"><i class="fa-solid fa-power-off"></i></a>
-                </button>
+                <a href="?controller=UtilisateurCompte&action=deconnexion">
+                    <button name="deconnexion" class="btn-deco-rond d-md-none d-sm-none">
+                        <i class="fa-solid fa-power-off"></i>
+                    </button>
+                </a>
             </div>
         </div>
     </header>
@@ -61,7 +65,7 @@ if (!isset($_SESSION['droitBanque']) || $_SESSION['droitBanque'] == false) {
                         <button class="menu-button">Banque</button>
                         <ul class="menu-list">
                         <?php if ($_SESSION['droitBanque']){ ?>
-                            <li class="rotate-text <?php if ($_GET['action'] == 'voirListeSoldesBancaireProgressif' || ($_SERVER['REQUEST_METHOD'] == 'POST')) echo 'active'; ?>"><a href="?controller=Banque&action=voirListeSoldesBancaireProgressif">Liste des soldes progressifs d'un ou plusieurs comptes bancaires</a></li>
+                            <li class="rotate-text <?php if (isset($_GET['action']) && $_GET['action'] == 'voirListeSoldesBancaireProgressif' || ($_SERVER['REQUEST_METHOD'] == 'POST')) echo 'active'; ?>"><a href="?controller=Banque&action=voirListeSoldesBancaireProgressif">Liste des soldes progressifs d'un ou plusieurs comptes bancaires</a></li>
                             <li class="rotate-text"><a href="?controller=Banque&action=voirGraphiqueSoldeBancaire" class="active">Graphique d'évolution des soldes des comptes bancaires</a></li>
                             <li class="rotate-text"><a href="?controller=Banque&action=voirDiagrammeRepartition">Diagramme sectoriel des comptes bancaires</a></li>
                         <?php }else { ?>
@@ -81,7 +85,7 @@ if (!isset($_SESSION['droitBanque']) || $_SESSION['droitBanque'] == false) {
                         foreach($listeBanques as $banque) {
                     ?>
                         <div>
-                            <input type="checkbox" class="checkBoxs" name="Banque[]" value="<?php echo $banque["id_banque"]; ?>" <?php
+                            <input type="checkbox" class="checkBoxs" class="form-control" name="Banque[]" value="<?php echo $banque["id_banque"]; ?>" <?php
                             // Vérifier si l'utilisateur est dans la liste des organisateurs
                             if (in_array($banque['id_banque'], $banques)) {
                                 echo 'checked';
@@ -108,50 +112,54 @@ if (!isset($_SESSION['droitBanque']) || $_SESSION['droitBanque'] == false) {
                     </select>
                     <br>
                     <br>
-                    <button class="form-control" type="submit">Rechercher</button>
+                    <button class="form-control btn btn-primary" type="submit">Rechercher</button>
                     <br>
                 </form>
             </div>
             <?php
-            
-                foreach ($banquesCoches as $banque) {
-                    echo '<h3 class="row-gauche">'.$banque['nom'].'</h3>';
+                if($verifDate) {
+                    foreach ($banquesCoches as $banque) {
+                        echo '<h3 class="row-gauche">'.$banque['nom'].'</h3>';
             ?>
-                    <div class="row row-gauche">
-                        <table class="table table-striped table-bordered table-responsive">
-                            <tr>
-                                <th>Date</th>
-                                <th>Total</th>
-                            </tr>
-                            <?php
-                                foreach ($listeEcritures[$banque['id_banque']] as $ecriture) {
+                        <div class="row row-gauche">
+                            <table class="table table-striped table-bordered table-responsive">
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Solde</th>
+                                </tr>
+                                <?php
+                                    foreach ($listeEcritures[$banque['id_banque']] as $ecriture) {
+                                        
+                                        // Affiche le nombre de fournisseurs choisis par l'utilisateur
+                                        
+                                        echo "<tr>
+                                                <td>".$ecriture['date']."</td>";
+                                        ?>
+                                                <td 
+                                                <?php 
+                                                    if($ecriture['montant']>0) { 
+                                                        echo "class='benef texte-droite'";
+                                                    } else if($ecriture['montant']<0) {
+                                                        echo "class='perte texte-droite'";
+                                                    } 
+                                                ?>
+                                                    >
+                                                <?php
+                                                    echo number_format(floatval($ecriture['montant']),2);
+                                                ?>
+                                                </td>
+                                            </tr>
+                                <?php
+                                    }
                                     
-                                    // Affiche le nombre de fournisseurs choisis par l'utilisateur
-                                    
-                                    echo "<tr>
-                                            <td>".$ecriture['date']."</td>";
-                                    ?>
-                                            <td 
-                                            <?php 
-                                                if($ecriture['montant']>0) { 
-                                                    echo "class='benef'";
-                                                } else if($ecriture['montant']<0) {
-                                                    echo "class='perte'";
-                                                } 
-                                            ?>
-                                                >
-                                            <?php
-                                                echo $ecriture['montant'];
-                                            ?>
-                                            </td>
-                                        </tr>
-                            <?php
-                                }
-                            ?>
-                        </table>
-                    </div>
+                                ?>
+                            </table>
+                        </div>
             <?php
-                }
+                    }
+                } else {
+                    echo '<p id="invalide">Erreur : Les dates ne sont pas cohérentes.</p>';
+                }       
             ?>
         </div>
     </body>

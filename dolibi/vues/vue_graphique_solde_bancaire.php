@@ -10,7 +10,6 @@
 /** @var mixed $listeValeurs */
 /** @var mixed $idBanques */
 
-session_start();
 if (!isset($_SESSION['droitBanque']) || $_SESSION['droitBanque'] == false) {
     header("Location: ../dolibi/index.php");
 }
@@ -34,15 +33,19 @@ if (!isset($_SESSION['droitBanque']) || $_SESSION['droitBanque'] == false) {
                 <hspan class="titre">Doli-BI</hspan>
             </div> 
             <div class="offset-md-2 offset-sm-1 col-md-2 col-sm-2 d-none d-md-block d-sm-block  ">
-                <button name="deconnexion" class="btn btn-deco d-none d-md-block d-sm-block">
-                    <i class="fa-solid fa-power-off"></i>
-                    <a href="?controller=UtilisateurCompte&action=deconnexion">Déconnexion</a>
-                </button>
+                <a href="?controller=UtilisateurCompte&action=deconnexion">
+                    <button name="deconnexion" class="btn btn-deco d-none d-md-block d-sm-block">
+                        <i class="fa-solid fa-power-off"></i>
+                        Déconnexion
+                    </button>
+                </a>
             </div>
             <div class="col-3">
-                <button name="deconnexion" class="btn-deco-rond d-md-none d-sm-none">
-                    <a href="?controller=UtilisateurCompte&action=deconnexion"><i class="fa-solid fa-power-off"></i></a>
-                </button>
+                <a href="?controller=UtilisateurCompte&action=deconnexion">
+                    <button name="deconnexion" class="btn-deco-rond d-md-none d-sm-none">
+                        <i class="fa-solid fa-power-off"></i>
+                    </button>
+                </a>
             </div>
         </div>
     </header>
@@ -66,7 +69,7 @@ if (!isset($_SESSION['droitBanque']) || $_SESSION['droitBanque'] == false) {
                         <ul class="menu-list">
                         <?php if ($_SESSION['droitBanque']){ ?>
                             <li class="rotate-text"><a href="?controller=Banque&action=voirListeSoldesBancaireProgressif" class="active">Liste des soldes progressifs d'un ou plusieurs comptes bancaires</a></li>
-                            <li class="rotate-text <?php if ($_GET['action'] == 'voirGraphiqueSoldeBancaire' || ($_SERVER['REQUEST_METHOD'] == 'POST')) echo 'active'; ?>"><a href="?controller=Banque&action=voirGraphiqueSoldeBancaire">Graphique d'évolution des soldes des comptes bancaires</a></li>
+                            <li class="rotate-text <?php if (isset($_GET['action']) && $_GET['action'] == 'voirGraphiqueSoldeBancaire' || ($_SERVER['REQUEST_METHOD'] == 'POST')) echo 'active'; ?>"><a href="?controller=Banque&action=voirGraphiqueSoldeBancaire">Graphique d'évolution des soldes des comptes bancaires</a></li>
                             <li class="rotate-text"><a href="?controller=Banque&action=voirDiagrammeRepartition">Diagramme sectoriel des comptes bancaires</a></li>
                         <?php }else { ?>
                             <li class="rotate-text">Liste des soldes progressifs d'un ou plusieurs comptes bancaires</li>
@@ -105,8 +108,8 @@ if (!isset($_SESSION['droitBanque']) || $_SESSION['droitBanque'] == false) {
                     </select>
                     <br>
                     Saissisez une année :
-                    <input type="number" class="form-control" name="an" value="<?php if($an !=null){echo $an;}?>" required/>
-                    <br> 
+                    <input type="number" name="an" class="form-control" value="<?php if($an !=null){echo $an;}?>" required/>
+                    <br>
                     <select name="mois" class="form-control" id="mois">
                         <option value="tous" <?php if($mois == "tous") {echo "selected";}?> >Tous les mois</option>
                         <option value="1" <?php if($mois == "1") {echo "selected";}?>>Janvier</option>
@@ -124,10 +127,12 @@ if (!isset($_SESSION['droitBanque']) || $_SESSION['droitBanque'] == false) {
                     </select>
                     <br>
                     <br>
-                    <button class="form-control" type="submit">Rechercher</button>
+                    <button class="form-control btn btn-primary" type="submit">Rechercher</button>
                     <br>
                 </form>
-                <canvas id="myChart"></canvas>
+                <div class="chart-container" id="graphique">
+                    <canvas id="myChart"></canvas>
+                </div>
             </div>
             <div>
                 

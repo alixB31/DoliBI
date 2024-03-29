@@ -51,7 +51,7 @@ class DefaultComponentFactory implements ComponentFactory
 
     private function buildUtilisateurCompteController(): UtilisateurCompteControleur
     {
-        return new UtilisateurCompteControleur($this->buildServiceByName("User"));
+        return new UtilisateurCompteControleur($this->buildServiceByName("User"),$this->buildServiceByName("Banque"));
     }
 
     private function buildUserModele() : UserModele

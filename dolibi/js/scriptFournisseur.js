@@ -1,42 +1,19 @@
-// document.addEventListener('DOMContentLoaded', function() {
-//   var firstForm = document.getElementById('first-form');
-//   var secondForm = document.getElementById('second-form');
+// Récupérer le canvas pour le graphique
+const ctx = document.getElementById('myChart');
 
-//   // Masquer le deuxième formulaire au chargement de la page
-//   secondForm.style.display = 'none';
+// Extraire les données JSON et les stocker dans une variable JavaScript
+var donnees = JSON.parse(document.getElementById('donnees').textContent);
 
-//   // Écouter la soumission du premier formulaire
-//   firstForm.addEventListener('submit', function(event) {
-//       event.preventDefault(); // Empêcher l'envoi du formulaire
+// Extraire les données
+var dates = [];
+var quantites = [];
+var montants = [];
 
-//       // Vérifier si le champ de saisie du nom du fournisseur est rempli
-//       var nomFournisseurInput = document.getElementById('test');
-//       if (nomFournisseurInput.value.trim() !== '') {
-//           // Si c'est le cas, afficher le deuxième formulaire
-//           secondForm.style.display = 'block';
-//           //window.location.href = '?controller=Stock&action=listeFournisseursLike';
-//       } else {
-//           // Sinon, afficher un message d'erreur ou effectuer une autre action
-//           alert('Veuillez saisir un nom de fournisseur.');
-//       }
-//   });
-
-  // Récupérer le canvas pour le graphique
-  const ctx = document.getElementById('myChart');
-
-  // Extraire les données JSON et les stocker dans une variable JavaScript
-  var donnees = JSON.parse(document.getElementById('donnees').textContent);
-
-  // Extraire les données
-  var dates = [];
-  var quantites = [];
-  var montants = [];
-  
-  for (var i = 0; i < donnees.length; i++) {
-    dates.push(donnees[i].date);
-    quantites.push(donnees[i].quantite);
-    montants.push(donnees[i].montant);
-  }
+for (var i = 0; i < donnees.length; i++) {
+  dates.push(donnees[i].date);
+  quantites.push(donnees[i].quantite);
+  montants.push(donnees[i].montant);
+}
 
   // Créer le graphique une fois que toutes les données sont prêtes
 new Chart(ctx, {
@@ -58,11 +35,6 @@ new Chart(ctx, {
       }],
     },
     options: {
-      responsive: true,
-      interaction: {
-      mode: 'index',
-      intersect: false,
-      },
       scales: {
         quantites: {
           id: 'quantites',
@@ -71,6 +43,12 @@ new Chart(ctx, {
           scaleLabel: {
             display: true,
             labelString: 'Quantités'
+          },
+          grid: {
+            tickColor: 'blue' //couleur de l'axe Y
+          },
+          ticks: {
+            color: 'blue', //couleur de l'axe Y
           }
         }, 
         montant: {
@@ -80,9 +58,14 @@ new Chart(ctx, {
           scaleLabel: {
             display: true,
             labelString: 'Montants'
+          },
+          grid: {
+            tickColor: 'red' //couleur de l'axe Y
+          },
+          ticks: {
+            color: 'red', //couleur de l'axe Y
           }
         }
       }
     }
-  });
-//});
+});

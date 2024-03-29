@@ -42,7 +42,7 @@ class BanqueModele
      * @return array<int,array<string,mixed>>|array<string,array<string,mixed>>|null l'ensemble des ecriture pour la banque choisis par jour.
      */
     function listeSoldeBancaireProgressif($url,$apiKey,$dateDebut,$dateFin,$banque,$listeValeur,$moisOuJour)  {
-        $ensembleEcriture = null;
+        $ensembleEcriture = [];
         $urlBankAccount = $url.'api/index.php/bankaccounts/'.$banque.'/lines';
         // Recupere la liste des ecritures de la banque choisis
         // Initialise
@@ -156,12 +156,10 @@ class BanqueModele
                 $solde += $ecriture['amount'];
             }
         }
-        if($solde>0) {
-            $repartition[] = array(
-                'banque' => $banque['nom'],
-                'solde' => $solde,
-            );
-        }
+        $repartition[] = array(
+            'banque' => $banque['nom'],
+            'solde' => $solde,
+        );
         return $repartition;
-    }
+    } 
 }

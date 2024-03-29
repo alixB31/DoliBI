@@ -6,7 +6,6 @@
 /** @var mixed $dateDebut */
 /** @var mixed $dateFin */
 /** @var mixed $moisOuJour */
-session_start();
 if (!isset($_SESSION['droitStock']) || $_SESSION['droitStock'] == false) {
     header("Location: ../dolibi/index.php");
 }
@@ -20,7 +19,7 @@ if (!isset($_SESSION['droitStock']) || $_SESSION['droitStock'] == false) {
         <link rel="stylesheet" href="static\fontawesome-free-6.2.1-web/css/all.css">
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <title>Gestion Stock</title>
-    </head> 
+    </head>
     <header>
         <div class ="row">
             <div class ="offset-md-3 offset-sm-4 col-4 d-none d-md-block d-sm-block">
@@ -30,15 +29,19 @@ if (!isset($_SESSION['droitStock']) || $_SESSION['droitStock'] == false) {
                 <hspan class="titre">Doli-BI</hspan>
             </div> 
             <div class="offset-md-2 offset-sm-1 col-md-2 col-sm-2 d-none d-md-block d-sm-block  ">
-                <button name="deconnexion" class="btn btn-deco d-none d-md-block d-sm-block">
-                    <i class="fa-solid fa-power-off"></i>
-                    <a href="?controller=UtilisateurCompte&action=deconnexion">Déconnexion</a>
-                </button>
+                <a href="?controller=UtilisateurCompte&action=deconnexion">
+                    <button name="deconnexion" class="btn btn-deco d-none d-md-block d-sm-block">
+                        <i class="fa-solid fa-power-off"></i>
+                        Déconnexion
+                    </button>
+                </a>
             </div>
             <div class="col-3">
-                <button name="deconnexion" class="btn-deco-rond d-md-none d-sm-none">
-                    <a href="?controller=UtilisateurCompte&action=deconnexion"><i class="fa-solid fa-power-off"></i></a>
-                </button>
+                <a href="?controller=UtilisateurCompte&action=deconnexion">
+                    <button name="deconnexion" class="btn-deco-rond d-md-none d-sm-none">
+                        <i class="fa-solid fa-power-off"></i>
+                    </button>
+                </a>
             </div>
         </div>
     </header>
@@ -51,7 +54,7 @@ if (!isset($_SESSION['droitStock']) || $_SESSION['droitStock'] == false) {
                             <?php if ($_SESSION['droitStock']){ ?>
                                 <li class="rotate-text"><a href="?controller=Stock&action=voirPalmaresFournisseurs" class="active">Palmarès fournisseur</a></li>
                                 <li class="rotate-text"><a href="?controller=Stock&action=voirMontantEtQuantiteFournisseurs" class="active">Montant et quantité fournisseur</a></li>
-                                <li class="rotate-text <?php if ($_GET['action'] == 'voirEvolutionStockArticle' || ($_SERVER['REQUEST_METHOD'] == 'POST')) echo 'active'; ?>"><a href="?controller=Stock&action=voirEvolutionStockArticle">Évolution stock article</a></li>
+                                <li class="rotate-text <?php if (isset($_GET['action']) && $_GET['action'] == 'voirEvolutionStockArticle' || ($_SERVER['REQUEST_METHOD'] == 'POST')) echo 'active'; ?>"><a href="?controller=Stock&action=voirEvolutionStockArticle">Évolution stock article</a></li>
                             <?php }else { ?>
                                 <li class="rotate-text">Palmarès fournisseur</li>
                                 <li class="rotate-text">Montant et quantité fournisseur</li>
@@ -78,18 +81,18 @@ if (!isset($_SESSION['droitStock']) || $_SESSION['droitStock'] == false) {
                 ?>
                 <form action="index.php" method= "post">
                     <input type="hidden" name="controller" value="Stock">
-                    <input type="hidden" class="form-control" name="action" value="listeArticlesLike">
+                    <input type="hidden" name="action" value="listeArticlesLike">   
                     Nom de l'article
-                    <input name="nom" class="form-control" type="texte" value="<?php if($rechercheArticle !=null){echo $rechercheArticle;}?>">
+                    <input name="nom" type="texte" placeholder="Pas obligatoire" class="form-control" value="<?php if($rechercheArticle !=null){echo $rechercheArticle;}?>">
                     <br>
-                    <button type="submit">Rechercher article</button>
+                    <button class="form-control btn btn-primary" type="submit">Rechercher article</button>
                 </form>
             </div>
             <div class="row row-gauche">
                 <form action="index.php" method= "post">
                     <input type="hidden" name="controller" value="Stock">
                     <input type="hidden" name="action" value="evolutionStockArticle">
-                    <input type="hidden" class="form-control" name="rechercheArticle" value="<?php if($rechercheArticle !=null){echo $rechercheArticle;}?>">
+                    <input type="hidden" name="rechercheArticle" class="form-control" value="<?php if($rechercheArticle !=null){echo $rechercheArticle;}?>">
                     <br/>
                     Article
                     <select id="idArticle" class="form-control" name="idArticle">
@@ -105,17 +108,17 @@ if (!isset($_SESSION['droitStock']) || $_SESSION['droitStock'] == false) {
                     </select>
                     <br>
                     Date début
-                    <input name="dateDebut" class="form-control" type="date" value="<?php if($dateDebut !=null){echo $dateDebut;}?>" required>
+                    <input name="dateDebut" type="date" class="form-control" value="<?php if($dateDebut !=null){echo $dateDebut;}?>" required>
                     <br>
                     Date fin
-                    <input name="dateFin" class="form-control" type="date" value="<?php if($dateFin !=null){echo $dateFin;}?>" required>
+                    <input name="dateFin" type="date" class="form-control" value="<?php if($dateFin !=null){echo $dateFin;}?>" required>
                     <br>
                     Par 
                     <select id="moisOuJour" class="form-control" name="moisOuJour">
                         <option value="mois" <?php if($moisOuJour == "mois") {echo "selected";}?>>mois</option>
                         <option value="jour" <?php if($moisOuJour == "jour") {echo "selected";}?>>jour</option>
                     </select>
-                    <button class="form-control" type="submit">Valider</button>
+                    <button class="form-control btn btn-primary" type="submit">Valider</button>
                     <?php
                     $achetesJSON = null;
                     $venduesJSON = null;

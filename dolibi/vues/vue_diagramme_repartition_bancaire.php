@@ -1,15 +1,14 @@
 <?php 
 /** @var mixed $repartition */
 /** @var mixed $soldeTotal */
-session_start();
 if (!isset($_SESSION['droitBanque']) || $_SESSION['droitBanque'] == false) {
     header("Location: ../dolibi/index.php");
-}
+    }
 ?>
 <!DOCTYPE html>
 <html lang="fr">
     <head>
-        <meta charset="utf-8">
+        <meta charset="utf-8">  
         <link rel="stylesheet" href="static\bootstrap-4.6.2-dist\css\bootstrap.css">
         <link rel="stylesheet" href="static\css\common.css">
         <link rel="stylesheet" href="static\fontawesome-free-6.2.1-web/css/all.css">
@@ -25,15 +24,19 @@ if (!isset($_SESSION['droitBanque']) || $_SESSION['droitBanque'] == false) {
                 <hspan class="titre">Doli-BI</hspan>
             </div> 
             <div class="offset-md-2 offset-sm-1 col-md-2 col-sm-2 d-none d-md-block d-sm-block  ">
-                <button name="deconnexion" class="btn btn-deco d-none d-md-block d-sm-block">
-                    <i class="fa-solid fa-power-off"></i>
-                    <a href="?controller=UtilisateurCompte&action=deconnexion">Déconnexion</a>
-                </button>
+                <a href="?controller=UtilisateurCompte&action=deconnexion">
+                    <button name="deconnexion" class="btn btn-deco d-none d-md-block d-sm-block">
+                        <i class="fa-solid fa-power-off"></i>
+                        Déconnexion
+                    </button>
+                </a>
             </div>
             <div class="col-3">
-                <button name="deconnexion" class="btn-deco-rond d-md-none d-sm-none">
-                    <a href="?controller=UtilisateurCompte&action=deconnexion"><i class="fa-solid fa-power-off"></i></a>
-                </button>
+                <a href="?controller=UtilisateurCompte&action=deconnexion">
+                    <button name="deconnexion" class="btn-deco-rond d-md-none d-sm-none">
+                        <i class="fa-solid fa-power-off"></i>
+                    </button>
+                </a>
             </div>
         </div>
     </header>
@@ -58,7 +61,7 @@ if (!isset($_SESSION['droitBanque']) || $_SESSION['droitBanque'] == false) {
                     <?php if ($_SESSION['droitBanque']){ ?>
                         <li class="rotate-text"><a href="?controller=Banque&action=voirListeSoldesBancaireProgressif" class="active">Liste des soldes progressifs d'un ou plusieurs comptes bancaires</a></li>
                         <li class="rotate-text"><a href="?controller=Banque&action=voirGraphiqueSoldeBancaire" class="active">Graphique d'évolution des soldes des comptes bancaires</a></li>
-                        <li class="rotate-text <?php if ($_GET['action'] == 'voirDiagrammeRepartition' || ($_SERVER['REQUEST_METHOD'] == 'POST')) echo 'active'; ?>"><a href="?controller=Banque&action=voirDiagrammeRepartition">Diagramme sectoriel des comptes bancaires</a></li>
+                        <li class="rotate-text <?php if (isset($_GET['action']) && $_GET['action'] == 'voirDiagrammeRepartition' || ($_SERVER['REQUEST_METHOD'] == 'POST')) echo 'active'; ?>"><a href="?controller=Banque&action=voirDiagrammeRepartition">Diagramme sectoriel des comptes bancaires</a></li>
                     <?php }else { ?>
                         <li class="rotate-text">Liste des soldes progressifs d'un ou plusieurs comptes bancaires</li>
                         <li class="rotate-text">Graphique d'évolution des soldes des comptes bancaires</li>
@@ -85,22 +88,33 @@ if (!isset($_SESSION['droitBanque']) || $_SESSION['droitBanque'] == false) {
                                 <th>Pourcentage sur le solde total</th>
                             </tr>
                             <?php
+                                $soldeTotal = 0;
                                 // Calcul du solde total de toutes les banques
                                 foreach ($repartition as $element) {
+                                    // Ne prend pas en compte les banques avec un solde négatif ou nul
+                                    if ($element['solde'] > 0) {
                                     $soldeTotal += $element['solde'];
+                                    $soldeTotal += $element['solde'];
+                                            $soldeTotal += $element['solde'];
+                                    }
                                 }
+                                // Calcule du pourcentage de chaque banque
                                 foreach ($repartition as $element) {
-                                    $pourcentage = ($element['solde'] / $soldeTotal) * 100;
+                                    // Ne prend pas en compte les banques avec un solde négatif ou nul
+                                    if ($element['solde'] > 0) {
+                                        $pourcentage = ($element['solde'] / $soldeTotal) * 100;
+                                    } else {
+                                        $pourcentage = 0;
+                                    }
                                     echo "<tr>
-                                            <td>".$element['banque']."</td>
-                                            <td>".$element['solde']."</td>
-                                            <td>".number_format($pourcentage, 2)." %</td>
+                                            <td>".$element['banque'].'</td>
+                                            <td class="texte-droite">'.number_format(floatval($element['solde']), 2).'</td>
+                                            <td class="texte-droite">'.number_format($pourcentage, 2)." %</td>
                                         </tr>";
                                 }
                             ?>
                     </table>
                 </div>
-                
             <span id="donnees" class="invisible"><?php echo $donneesJSON; ?></span>
             </div>
         </div>

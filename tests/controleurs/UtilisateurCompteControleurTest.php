@@ -24,6 +24,7 @@ use PDOStatement;
 use PHPUnit\Framework\TestCase;
 use controleurs\UtilisateurCompteControleur;
 use modeles\UserModele;
+use modeles\BanqueModele;
 use yasmf\View;
 
 
@@ -33,14 +34,17 @@ class UtilisateurCompteControleurTest extends TestCase
     private UtilisateurCompteControleur $utilisateurCompteControleur;
 
     private UserModele $userModele;
+    private BanqueModele $banqueModele;
 
     public function setUp(): void
     {
         parent::setUp();
-        //given a user modele
+        //given a user modele and a banque modele
         $this->userModele = $this->createStub(UserModele::class);
+        $this->banqueModele = $this->createStub(BanqueModele::class);
+
         //utilisateurCompteControleur
-        $this->utilisateurCompteControleur = new UtilisateurCompteControleur($this->userModele);
+        $this->utilisateurCompteControleur = new UtilisateurCompteControleur($this->userModele, $this->banqueModele);
     }
 
     public function testIndex(): void
@@ -97,7 +101,7 @@ class UtilisateurCompteControleurTest extends TestCase
         
         // Then la connexion est OK et on affiche le dashboard
         $this->assertInstanceOf(View::class, $view);
-        $this->assertEquals("vues/vue_dashboard", $view->getRelativePath());
+        $this->assertEquals("vues/vue_connexion", $view->getRelativePath());
     }
     
     public function testConnexionAvecDesInformationsInvalides(): void

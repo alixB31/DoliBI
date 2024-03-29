@@ -16,14 +16,17 @@ class UserModele
 	 * @param string $login le login de l'utilisateur.
 	 * @param string $mdp le mot de passe de l'utilisateur
      * @param string $url l'url de l'instance de dolibarr utilisé par l'utilisateur.
-     * @return string la clé api du compte de l'utilisateur.
+     * @return string|array<string> la clé api du compte de l'utilisateur.
      */
     function connexion($login,$mdp,$url) {
 		$urlConnexion = $url."api/index.php/login?login=".$login."&password=".$mdp;
 		// récupere l'apiKey de l'utilisateur qui se connecte
 		// Si récupere [] alors les identifiants sont mauvais
 		$apiKey = fonctions::appelAPI($urlConnexion,null);
-		return $apiKey['success']['token'];
+		if ($apiKey != null) {
+			return $apiKey['success']['token'];
+		}
+		return [];
     }
 
 	/**

@@ -22,7 +22,7 @@
                 <h2>Veuillez vous identifier pour continuer</h2>
             </div>
             <?php
-                    echo (!$loginOuMdpOk) ? '<p id="invalide">Erreur : Identifiant ou mot de passe invalide.</p>' : '';
+                    echo (!$loginOuMdpOk) ? '<p id="invalide">Erreur : Identifiant, mot de passe ou url invalide.</p>' : '';
                 ?>
             <div class="corps-principal">    
                 <form action="index.php" method="post" id="formulaireAjoutURL">
@@ -53,7 +53,7 @@
                         Mot de passe :
                         <br/>
                         <input type="password" class="form-control" name="mdp" placeholder="Entrez votre mot de passe"/>
-                        <input class="btn-blanc btn-modif" type="submit" value="Se connecter">
+                        <input class="form-control btn btn-primary" type="submit" value="Se connecter">
                     </div>
                     <br/>
                 </form>
