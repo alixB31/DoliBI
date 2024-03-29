@@ -215,7 +215,7 @@ class StockControleur {
         $apiKey = $_SESSION['apiKey'];
         $url = $_SESSION['url'];
         // Recupere les parametres choisis par l'utilisateur
-        $nom = htmlspecialchars(HttpHelper::getParam('nom'));
+        $nom = null;
         // Demande au modele de trouver la liste des fournisseurs correspondant au nom
         $listeFournisseurs = $this->stockModele->listeFournisseursLike($url,$apiKey,$nom);
         $vue = new View("vues/vue_montant_quantite_fournisseur");
