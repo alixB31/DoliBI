@@ -110,7 +110,7 @@ if (!isset($_SESSION['droitStock']) || $_SESSION['droitStock'] == false) {
                             $compteur = 0;
                             foreach ($palmares as $element) {
                                 // Affiche le nombre de fournisseurs choisis par l'utilisateur
-                                if ($compteur <= $top) {
+                                if ($compteur < $top) {
                                     echo '<tr>
                                             <td>'.$element['code_fournisseur'].'</td>
                                             <td>'.$element['nom'].'</td>
