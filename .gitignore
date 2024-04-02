@@ -4,8 +4,6 @@ Bin
 .project
 .settings
 .DS_Store
-/dolibi/static/bootstrap-4.6.2-dist/
-/dolibi/static/fontawesome-free-6.2.1-web/
 /bin/
 vendor
 .phpunit.result.cache
