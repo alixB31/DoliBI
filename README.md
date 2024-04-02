@@ -34,15 +34,18 @@ Scrum Master : BRUGIER Alix
 Equipe de developpement : Nael Briot, Alix Brugier, Rayan Ibrahime  
 
 ## Liens : 
+Lien site web : dolibi.alwaysdata.net
 Lien github : https://github.com/alixB31/SAE_S4_DoliBI.git
 Lien Google Drive : https://drive.google.com/drive/u/1/folders/0ADwnN94XsF_3Uk9PVA
 
-## Commandes Docker
+## Installation de l'application en local avec Docker
 docker-compose up -d
 docker-compose exec SAE_S4_DoliBI composer update
 
-## Liens du site
+## Liens du site en local
 http://localhost:8080/dolibi/
+
+## Commande pour réaliser les tests
 
 docker-compose exec SAE_S4_DoliBI bash
 
